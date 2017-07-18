@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.system.service.IUserService">
+	<resultMap id="BaseResultMap" type="com.huike.app.system.model.TUser">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="password" jdbcType="VARCHAR" property="password" />
+		<result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+		<result column="xiang_id" jdbcType="BIGINT" property="xiangId" />
+		<result column="cun_id" jdbcType="BIGINT" property="cunId" />
+		<result column="depart_id" jdbcType="BIGINT" property="departId" />
+		<result column="level" jdbcType="INTEGER" property="level" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, username, password, user_phone, xiang_id, cun_id,
+		depart_id, level,
+		create_time, update_time,
+		is_delete
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultType="hashmap">
+		select id, username, password, user_phone phone, xiang_id
+		xiangId, cun_id cunId,
+		depart_id departId, level
+		from t_user
+		where id =
+		#{id,jdbcType=BIGINT}
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		update t_user set
+		is_delete = 1
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insert" parameterType="com.huike.app.system.model.TUser">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="password != null">
+				password,
+			</if>
+			<if test="userPhone != null">
+				user_phone,
+			</if>
+			<if test="xiangId != null and xiangId != ''">
+				xiang_id,
+			</if>
+			<if test="cunId != null and cunId != ''">
+				cun_id,
+			</if>
+			<if test="departId != null and departId != ''">
+				depart_id,
+			</if>
+			<if test="level != null  and level != ''">
+				level,
+			</if>
+			create_time,
+			update_time,
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				#{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="xiangId != null and xiangId != ''">
+				#{xiangId},
+			</if>
+			<if test="cunId != null and cunId != ''">
+				#{cunId},
+			</if>
+			<if test="departId != null and departId != ''">
+				#{departId},
+			</if>
+			<if test="level != null  and level != ''">
+				#{level},
+			</if>
+			now(),
+			now(),
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.system.model.TUser">
+		update t_user
+		<set>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				user_phone = #{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="xiangId != null and xiangId != ''">
+				xiang_id = #{xiangId},
+			</if>
+			<if test="cunId != null and cunId != ''">
+				cun_id = #{cunId},
+			</if>
+			<if test="departId != null and departId != ''">
+				depart_id = #{departId,jdbcType=BIGINT},
+			</if>
+			<if test="level != null and level !=''">
+				level = #{level,jdbcType=INTEGER},
+			</if>
+			update_time = now(),
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, username, user_phone
+		userPhone,
+		(select IFNULL(village_name,"") from
+		t_village where id = cun_id) as cunName,
+		(select village_name from
+		t_village where id = xiang_id) as xiangName,
+		IFNULL(xiang_id,"")
+		xiangId,
+		IFNULL(cun_id,"") cunId,
+		IFNULL(depart_id,"") departId, case level when 0 then '县' when
+		1 then
+		'乡' when 2 then '村' else '部门' end as level from t_user where is_delete=0
+		<if test="isReport != null and isReport != ''">
+		and is_report = #{isReport,jdbcType=INTEGER}
+		</if>
+		order by
+		create_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_user where is_delete=0
+		<if test="isReport != null and isReport != ''">
+		and is_report = #{isReport,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="selectUserListByCun" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, username from t_user where is_delete=0 and is_report = 1
+		<if test="cunId != null">
+			and cun_id = #{cunId}
+		</if>
+		order by create_time desc
+	</select>
+	
+	<select id="selectUserList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, username from t_user where is_delete=0
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id = #{xiangId}
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id = #{cunId}
+		</if>
+		<if test="departId != null and departId != ''">
+			and depart_id = #{departId}
+		</if>
+		<if test="departId == '' and cunId == null">
+			and level = 1
+		</if>
+		order by create_time desc
+	</select>
+
+	<!-- 查询出所有上传报表用户用于发送短信 -->
+	<select id="selectAllReportUserListForSMS" parameterType="java.util.Map"
+		resultType="hashmap">
+		select username, user_phone from t_user where is_delete=0
+		and is_report = 0
+		order by create_time desc
+	</select>
+
+	<!-- 查询出所有上传报表用户用于发送归档 -->
+	<select id="selectAllReportUserListForManage" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id as userId, username, user_phone as phone,
+		cun_id
+		cunId, xiang_id xiangId, '1' as isUpload,
+		(select village_name from
+		t_village where id = cun_id) as cunName,
+		(select village_name from
+		t_village where id = xiang_id) as xiangName
+		from t_user where
+		is_delete=0 and is_report = 0
+		order by create_time desc
+	</select>
+
+	<select id="querySingleUser" parameterType="hashmap" resultType="hashmap">
+		select id, username, user_phone userPhone, xiang_id xiangId, (select
+		village_name from t_village v where v.id = xiang_id) xiangName,
+		cun_id cunId , (select village_name from t_village v where v.id = cun_id)
+		cunName, depart_id departId, level from t_user where is_delete = 0 and password =
+		#{password} and username =
+		#{username}
+	</select>
+
+	<!-- 添加上传报表用户 -->
+	<update id="addReportUser" parameterType="hashmap">
+		update t_user
+		<set>
+			is_report = #{isReport},
+			update_time = now(),
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and is_delete = 0
+	</update>
+
+	<!-- 删除上传报表用户 -->
+	<update id="deleteReportUser" parameterType="hashmap">
+		update t_user
+		<set>
+			is_report = #{isReport},
+			update_time = now(),
+		</set>
+		where id in
+		<foreach item="item" index="index" collection="ids" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+		and is_delete = 0
+	</update>
+
+	<!-- 根据级别获取所有人员 -->
+	<select id="queryUsersByLevel" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, username from t_user where is_delete=0 and level
+		= #{level}
+		<if test="xiangId != null and xiangId != ''"> and xiang_id = #{xiangId}</if>
+		<if test="departId != null and departId != ''"> and depart_id = #{departId}</if>
+		order by create_time desc
+	</select>
+	
+	<select id="existUser" parameterType="String" resultType="int">
+		select
+		count(1) from t_user where is_delete = 0 and username = #{_parameter}
+	</select>
+</mapper>

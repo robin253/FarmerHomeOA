@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.report.service.IReportExamService">
+	<resultMap id="BaseResultMap" type="com.huike.app.report.model.TReportExam">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="report_id" jdbcType="INTEGER" property="reportId" />
+		<result column="report_name" jdbcType="VARCHAR" property="reportName" />
+		<result column="report_type" jdbcType="INTEGER" property="reportType" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="xiang_name" jdbcType="VARCHAR" property="xiangName" />
+		<result column="xiang_id" jdbcType="INTEGER" property="xiangId" />
+		<result column="cun_name" jdbcType="VARCHAR" property="cunName" />
+		<result column="cun_id" jdbcType="INTEGER" property="cunId" />
+		<result column="user_id" jdbcType="INTEGER" property="userId" />
+		<result column="username" jdbcType="VARCHAR" property="username" />
+		<result column="update_request" jdbcType="VARCHAR" property="updateRequest" />
+		<result column="create_time" jdbcType="DATE" property="createTime" />
+		<result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, report_id, report_name, report_type, status, xiang_name, xiang_id, cun_name,
+		cun_id, user_id,
+		username, update_request, create_time, update_time
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_report_eaxm
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_report_eaxm
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<insert id="insert" parameterType="com.huike.app.report.model.TReportExam">
+		insert into t_report_eaxm
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="reportId != null">
+				report_id,
+			</if>
+			<if test="reportName != null">
+				report_name,
+			</if>
+			<if test="reportType != null">
+				report_type,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="xiangName != null">
+				xiang_name,
+			</if>
+			<if test="xiangId != null">
+				xiang_id,
+			</if>
+			<if test="cunName != null">
+				cun_name,
+			</if>
+			<if test="cunId != null">
+				cun_id,
+			</if>
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="username != null">
+				username,
+			</if>
+			<if test="updateRequest != null">
+				update_request,
+			</if>
+			create_time,
+			update_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="reportId != null">
+				#{reportId,jdbcType=INTEGER},
+			</if>
+			<if test="reportName != null">
+				#{reportName,jdbcType=VARCHAR},
+			</if>
+			<if test="reportType != null">
+				#{reportType,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="xiangName != null">
+				#{xiangName,jdbcType=VARCHAR},
+			</if>
+			<if test="xiangId != null">
+				#{xiangId,jdbcType=INTEGER},
+			</if>
+			<if test="cunName != null">
+				#{cunName,jdbcType=VARCHAR},
+			</if>
+			<if test="cunId != null">
+				#{cunId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				#{userId,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				#{username,jdbcType=VARCHAR},
+			</if>
+			<if test="updateRequest != null">
+				#{updateRequest,jdbcType=VARCHAR},
+			</if>
+			now(),
+			now(),
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.report.model.TReportExam">
+		update t_report_eaxm
+		<set>
+			<if test="reportId != null">
+				report_id = #{reportId,jdbcType=INTEGER},
+			</if>
+			<if test="reportName != null">
+				report_name = #{reportName,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="xiangName != null">
+				xiang_name = #{xiangName,jdbcType=VARCHAR},
+			</if>
+			<if test="xiangId != null">
+				xiang_id = #{xiangId,jdbcType=INTEGER},
+			</if>
+			<if test="cunName != null">
+				cun_name = #{cunName,jdbcType=VARCHAR},
+			</if>
+			<if test="cunId != null">
+				cun_id = #{cunId,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null">
+				user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="username != null">
+				username = #{username,jdbcType=VARCHAR},
+			</if>
+			<if test="updateRequest != null">
+				update_request = #{updateRequest,jdbcType=VARCHAR},
+			</if>
+			update_time = now(),
+		</set>
+		where 1 = 1
+		<if test="id != null and id != ''"> and id = #{id,jdbcType=INTEGER}</if>
+		<if test="reportId != null and reportId != ''"> and report_id = #{reportId}</if>
+		<if test="reportType != null and reportType != ''"> and report_Type = #{reportType}</if>
+	</update>
+
+	<!-- 后台列表分页咨询 -->
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, report_id reportId, report_name reportName,
+		case report_type when 1 then '财务报表' else
+		'服务报表' end as reportTypeValue, report_type reportType,
+		case status 
+		when 0 then '未提交'
+		when 1 then '审核中'
+		when 2 then '审核中' 
+		when 3 then '成功' 
+		else '未成功' end as statusValue, status,
+		xiang_name xiangName, cun_name cunName, create_time createTime, update_time updateTime, update_request updateRequest
+		from t_report_eaxm
+		where 1 = 1
+		<if test="startTime != null and startTime != ''">and create_time &gt; #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt; #{endTime}</if>
+		<if test="xiangId != null and xiangId != ''">and xiang_id = #{xiangId}</if>
+		<if test="cunId != null and cunId != ''">and cun_id = #{cunId}</if>
+		<if test="status != null and status != ''">and status in
+			<foreach item="item" index="index" collection="status" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+		<if test="reportType != null and reportType != ''">and report_type = #{reportType}</if>
+		order by update_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_report_eaxm where 1 = 1
+		<if test="startTime != null and startTime != ''">and create_time &gt; #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt; #{endTime}</if>
+		<if test="xiangId != null and xiangId != ''">and xiang_id = #{xiangId}</if>
+		<if test="cunId != null and cunId != ''">and cun_id = #{cunId}</if>
+		<if test="status != null and status != ''">
+		and status in
+			<foreach item="item" index="index" collection="status" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="userId != null and userId != ''">and user_id = #{userId}</if>
+		<if test="reportType != null and reportType != ''">and report_type = #{reportType}</if>
+	</select>
+	
+	<!-- 根据记录ID查询修改要求 -->
+	<select id="queryUpdateRequest" parameterType="hashmap" resultType="string">
+		select ifnull(update_request,"") updateRequest from t_report_eaxm where 1=1
+		and id = #{id}
+	</select>
+
+</mapper>

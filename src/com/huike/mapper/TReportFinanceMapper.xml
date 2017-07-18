@@ -1,0 +1,944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.report.service.IReportFinanceService">
+  <resultMap id="BaseResultMap" type="com.huike.app.report.model.TReportFinance">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="hbzj_begin" jdbcType="VARCHAR" property="hbzjBegin" />
+    <result column="hbzj_end" jdbcType="VARCHAR" property="hbzjEnd" />
+    <result column="dqtz_begin" jdbcType="VARCHAR" property="dqtzBegin" />
+    <result column="dqtz_end" jdbcType="VARCHAR" property="dqtzEnd" />
+    <result column="yskx_begin" jdbcType="VARCHAR" property="yskxBegin" />
+    <result column="yskx_end" jdbcType="VARCHAR" property="yskxEnd" />
+    <result column="yfzk_begin" jdbcType="VARCHAR" property="yfzkBegin" />
+    <result column="yfzk_end" jdbcType="VARCHAR" property="yfzkEnd" />
+    <result column="ch_begin" jdbcType="VARCHAR" property="chBegin" />
+    <result column="ch_end" jdbcType="VARCHAR" property="chEnd" />
+    <result column="dtfy_begin" jdbcType="VARCHAR" property="dtfyBegin" />
+    <result column="dtfy_end" jdbcType="VARCHAR" property="dtfyEnd" />
+    <result column="ynndqdcqzqtz_begin" jdbcType="VARCHAR" property="ynndqdcqzqtzBegin" />
+    <result column="ynndqdcqzqtz_end" jdbcType="VARCHAR" property="ynndqdcqzqtzEnd" />
+    <result column="qtldzc_begin" jdbcType="VARCHAR" property="qtldzcBegin" />
+    <result column="qtldzc_end" jdbcType="VARCHAR" property="qtldzcEnd" />
+    <result column="ldzchj_begin" jdbcType="VARCHAR" property="ldzchjBegin" />
+    <result column="ldzchj_end" jdbcType="VARCHAR" property="ldzchjEnd" />
+    <result column="cqgqtz_begin" jdbcType="VARCHAR" property="cqgqtzBegin" />
+    <result column="cqgqtz_end" jdbcType="VARCHAR" property="cqgqtzEnd" />
+    <result column="cqzqtz_begin" jdbcType="VARCHAR" property="cqzqtzBegin" />
+    <result column="cqzqtz_end" jdbcType="VARCHAR" property="cqzqtzEnd" />
+    <result column="cqtzhj_begin" jdbcType="VARCHAR" property="cqtzhjBegin" />
+    <result column="cqtzhj_end" jdbcType="VARCHAR" property="cqtzhjEnd" />
+    <result column="gdzcyj_begin" jdbcType="VARCHAR" property="gdzcyjBegin" />
+    <result column="gdzcyj_end" jdbcType="VARCHAR" property="gdzcyjEnd" />
+    <result column="ljzj_begin" jdbcType="VARCHAR" property="ljzjBegin" />
+    <result column="ljzj_end" jdbcType="VARCHAR" property="ljzjEnd" />
+    <result column="gdzcjz_begin" jdbcType="VARCHAR" property="gdzcjzBegin" />
+    <result column="gdzcjz_end" jdbcType="VARCHAR" property="gdzcjzEnd" />
+    <result column="zjgc_begin" jdbcType="VARCHAR" property="zjgcBegin" />
+    <result column="zjgc_end" jdbcType="VARCHAR" property="zjgcEnd" />
+    <result column="wwwhzc_begin" jdbcType="VARCHAR" property="wwwhzcBegin" />
+    <result column="wwwhzc_end" jdbcType="VARCHAR" property="wwwhzcEnd" />
+    <result column="gdzcql_begin" jdbcType="VARCHAR" property="gdzcqlBegin" />
+    <result column="gdzcql_end" jdbcType="VARCHAR" property="gdzcqlEnd" />
+    <result column="gdzchj_begin" jdbcType="VARCHAR" property="gdzchjBegin" />
+    <result column="gdzchj_end" jdbcType="VARCHAR" property="gdzchjEnd" />
+    <result column="wxzc_begin" jdbcType="VARCHAR" property="wxzcBegin" />
+    <result column="wxzc_end" jdbcType="VARCHAR" property="wxzcEnd" />
+    <result column="stdlzc_begin" jdbcType="VARCHAR" property="stdlzcBegin" />
+    <result column="stdlzc_end" jdbcType="VARCHAR" property="stdlzcEnd" />
+    <result column="zczj_begin" jdbcType="VARCHAR" property="zczjBegin" />
+    <result column="zczj_end" jdbcType="VARCHAR" property="zczjEnd" />
+    <result column="dqjd_begin" jdbcType="VARCHAR" property="dqjdBegin" />
+    <result column="dqjd_end" jdbcType="VARCHAR" property="dqjdEnd" />
+    <result column="yfkx_begin" jdbcType="VARCHAR" property="yfkxBegin" />
+    <result column="yfkx_end" jdbcType="VARCHAR" property="yfkxEnd" />
+    <result column="yfgz_begin" jdbcType="VARCHAR" property="yfgzBegin" />
+    <result column="yfgz_end" jdbcType="VARCHAR" property="yfgzEnd" />
+    <result column="yjsj_begin" jdbcType="VARCHAR" property="yjsjBegin" />
+    <result column="yjsj_end" jdbcType="VARCHAR" property="yjsjEnd" />
+    <result column="yszk_begin" jdbcType="VARCHAR" property="yszkBegin" />
+    <result column="yszk_end" jdbcType="VARCHAR" property="yszkEnd" />
+    <result column="ytfy_begin" jdbcType="VARCHAR" property="ytfyBegin" />
+    <result column="ytfy_end" jdbcType="VARCHAR" property="ytfyEnd" />
+    <result column="yjfz_begin" jdbcType="VARCHAR" property="yjfzBegin" />
+    <result column="yjfz_end" jdbcType="VARCHAR" property="yjfzEnd" />
+    <result column="ynndqdcqfz_begin" jdbcType="VARCHAR" property="ynndqdcqfzBegin" />
+    <result column="ynndqdcqfz_end" jdbcType="VARCHAR" property="ynndqdcqfzEnd" />
+    <result column="qtldfz_begin" jdbcType="VARCHAR" property="qtldfzBegin" />
+    <result column="qtldfz_end" jdbcType="VARCHAR" property="qtldfzEnd" />
+    <result column="ldfzhj_begin" jdbcType="VARCHAR" property="ldfzhjBegin" />
+    <result column="ldfzhj_end" jdbcType="VARCHAR" property="ldfzhjEnd" />
+    <result column="cqjd_begin" jdbcType="VARCHAR" property="cqjdBegin" />
+    <result column="cqjd_end" jdbcType="VARCHAR" property="cqjdEnd" />
+    <result column="cqyfk_begin" jdbcType="VARCHAR" property="cqyfkBegin" />
+    <result column="cqyfk_end" jdbcType="VARCHAR" property="cqyfkEnd" />
+    <result column="qtcqfz_begin" jdbcType="VARCHAR" property="qtcqfzBegin" />
+    <result column="qtcqfz_end" jdbcType="VARCHAR" property="qtcqfzEnd" />
+    <result column="cqfzhj_begin" jdbcType="VARCHAR" property="cqfzhjBegin" />
+    <result column="cqfzhj_end" jdbcType="VARCHAR" property="cqfzhjEnd" />
+    <result column="stdlfz_begin" jdbcType="VARCHAR" property="stdlfzBegin" />
+    <result column="stdlfz_end" jdbcType="VARCHAR" property="stdlfzEnd" />
+    <result column="fzhj_begin" jdbcType="VARCHAR" property="fzhjBegin" />
+    <result column="fzhj_end" jdbcType="VARCHAR" property="fzhjEnd" />
+    <result column="fxdxjzc_begin" jdbcType="VARCHAR" property="fxdxjzcBegin" />
+    <result column="fxdxjzc_end" jdbcType="VARCHAR" property="fxdxjzcEnd" />
+    <result column="xdxjzc_begin" jdbcType="VARCHAR" property="xdxjzcBegin" />
+    <result column="xdxjzc_end" jdbcType="VARCHAR" property="xdxjzcEnd" />
+    <result column="jzchj_begin" jdbcType="VARCHAR" property="jzchjBegin" />
+    <result column="jzchj_end" jdbcType="VARCHAR" property="jzchjEnd" />
+    <result column="fzhjzchj_begin" jdbcType="VARCHAR" property="fzhjzchjBegin" />
+    <result column="fzhjzchj_end" jdbcType="VARCHAR" property="fzhjzchjEnd" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, title, hbzj_begin, hbzj_end, dqtz_begin, dqtz_end, yskx_begin, yskx_end, yfzk_begin, 
+    yfzk_end, ch_begin, ch_end, dtfy_begin, dtfy_end, ynndqdcqzqtz_begin, ynndqdcqzqtz_end, 
+    qtldzc_begin, qtldzc_end, ldzchj_begin, ldzchj_end, cqgqtz_begin, cqgqtz_end, cqzqtz_begin, 
+    cqzqtz_end, cqtzhj_begin, cqtzhj_end, gdzcyj_begin, gdzcyj_end, ljzj_begin, ljzj_end, 
+    gdzcjz_begin, gdzcjz_end, zjgc_begin, zjgc_end, wwwhzc_begin, wwwhzc_end, gdzcql_begin, 
+    gdzcql_end, gdzchj_begin, gdzchj_end, wxzc_begin, wxzc_end, stdlzc_begin, stdlzc_end, 
+    zczj_begin, zczj_end, dqjd_begin, dqjd_end, yfkx_begin, yfkx_end, yfgz_begin, yfgz_end, yjsj_begin, yjsj_end, 
+    yszk_begin, yszk_end, ytfy_begin, ytfy_end, yjfz_begin, yjfz_end, ynndqdcqfz_begin, 
+    ynndqdcqfz_end, qtldfz_begin, qtldfz_end, ldfzhj_begin, ldfzhj_end, cqjd_begin, cqjd_end, 
+    cqyfk_begin, cqyfk_end, qtcqfz_begin, qtcqfz_end, cqfzhj_begin, cqfzhj_end, stdlfz_begin, 
+    stdlfz_end, fzhj_begin, fzhj_end, fxdxjzc_begin, fxdxjzc_end, xdxjzc_begin, xdxjzc_end, 
+    jzchj_begin, jzchj_end, fzhjzchj_begin, fzhjzchj_end
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="hashmap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_report_finance
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_report_finance
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.huike.app.report.model.TReportFinance">
+    insert into t_report_finance (title, hbzj_begin, 
+      hbzj_end, dqtz_begin, dqtz_end, 
+      yskx_begin, yskx_end, yfzk_begin, 
+      yfzk_end, ch_begin, ch_end, 
+      dtfy_begin, dtfy_end, ynndqdcqzqtz_begin, 
+      ynndqdcqzqtz_end, qtldzc_begin, qtldzc_end, 
+      ldzchj_begin, ldzchj_end, cqgqtz_begin, 
+      cqgqtz_end, cqzqtz_begin, cqzqtz_end, 
+      cqtzhj_begin, cqtzhj_end, gdzcyj_begin, 
+      gdzcyj_end, ljzj_begin, ljzj_end, 
+      gdzcjz_begin, gdzcjz_end, zjgc_begin, 
+      zjgc_end, wwwhzc_begin, wwwhzc_end, 
+      gdzcql_begin, gdzcql_end, gdzchj_begin, 
+      gdzchj_end, wxzc_begin, wxzc_end, 
+      stdlzc_begin, stdlzc_end, zczj_begin, 
+      zczj_end, dqjd_begin, dqjd_end, 
+      yfkx_begin, yfkx_end, yfgz_begin, yfgz_end, yjsj_begin, 
+      yjsj_end, yszk_begin, yszk_end, 
+      ytfy_begin, ytfy_end, yjfz_begin, 
+      yjfz_end, ynndqdcqfz_begin, ynndqdcqfz_end, 
+      qtldfz_begin, qtldfz_end, ldfzhj_begin, 
+      ldfzhj_end, cqjd_begin, cqjd_end, 
+      cqyfk_begin, cqyfk_end, qtcqfz_begin, 
+      qtcqfz_end, cqfzhj_begin, cqfzhj_end, 
+      stdlfz_begin, stdlfz_end, fzhj_begin, 
+      fzhj_end, fxdxjzc_begin, fxdxjzc_end, 
+      xdxjzc_begin, xdxjzc_end, jzchj_begin, 
+      jzchj_end, fzhjzchj_begin, fzhjzchj_end, 
+      create_time)
+      values  <foreach item="item" index="index" collection="reportFinance" open="("
+				separator=",">
+				#{item}
+	</foreach>
+	,now())
+  </insert>
+  
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.huike.app.report.model.TReportFinance">
+    insert into t_report_finance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="hbzjBegin != null">
+        hbzj_begin,
+      </if>
+      <if test="hbzjEnd != null">
+        hbzj_end,
+      </if>
+      <if test="dqtzBegin != null">
+        dqtz_begin,
+      </if>
+      <if test="dqtzEnd != null">
+        dqtz_end,
+      </if>
+      <if test="yskxBegin != null">
+        yskx_begin,
+      </if>
+      <if test="yskxEnd != null">
+        yskx_end,
+      </if>
+      <if test="yfzkBegin != null">
+        yfzk_begin,
+      </if>
+      <if test="yfzkEnd != null">
+        yfzk_end,
+      </if>
+      <if test="chBegin != null">
+        ch_begin,
+      </if>
+      <if test="chEnd != null">
+        ch_end,
+      </if>
+      <if test="dtfyBegin != null">
+        dtfy_begin,
+      </if>
+      <if test="dtfyEnd != null">
+        dtfy_end,
+      </if>
+      <if test="ynndqdcqzqtzBegin != null">
+        ynndqdcqzqtz_begin,
+      </if>
+      <if test="ynndqdcqzqtzEnd != null">
+        ynndqdcqzqtz_end,
+      </if>
+      <if test="qtldzcBegin != null">
+        qtldzc_begin,
+      </if>
+      <if test="qtldzcEnd != null">
+        qtldzc_end,
+      </if>
+      <if test="ldzchjBegin != null">
+        ldzchj_begin,
+      </if>
+      <if test="ldzchjEnd != null">
+        ldzchj_end,
+      </if>
+      <if test="cqgqtzBegin != null">
+        cqgqtz_begin,
+      </if>
+      <if test="cqgqtzEnd != null">
+        cqgqtz_end,
+      </if>
+      <if test="cqzqtzBegin != null">
+        cqzqtz_begin,
+      </if>
+      <if test="cqzqtzEnd != null">
+        cqzqtz_end,
+      </if>
+      <if test="cqtzhjBegin != null">
+        cqtzhj_begin,
+      </if>
+      <if test="cqtzhjEnd != null">
+        cqtzhj_end,
+      </if>
+      <if test="gdzcyjBegin != null">
+        gdzcyj_begin,
+      </if>
+      <if test="gdzcyjEnd != null">
+        gdzcyj_end,
+      </if>
+      <if test="ljzjBegin != null">
+        ljzj_begin,
+      </if>
+      <if test="ljzjEnd != null">
+        ljzj_end,
+      </if>
+      <if test="gdzcjzBegin != null">
+        gdzcjz_begin,
+      </if>
+      <if test="gdzcjzEnd != null">
+        gdzcjz_end,
+      </if>
+      <if test="zjgcBegin != null">
+        zjgc_begin,
+      </if>
+      <if test="zjgcEnd != null">
+        zjgc_end,
+      </if>
+      <if test="wwwhzcBegin != null">
+        wwwhzc_begin,
+      </if>
+      <if test="wwwhzcEnd != null">
+        wwwhzc_end,
+      </if>
+      <if test="gdzcqlBegin != null">
+        gdzcql_begin,
+      </if>
+      <if test="gdzcqlEnd != null">
+        gdzcql_end,
+      </if>
+      <if test="gdzchjBegin != null">
+        gdzchj_begin,
+      </if>
+      <if test="gdzchjEnd != null">
+        gdzchj_end,
+      </if>
+      <if test="wxzcBegin != null">
+        wxzc_begin,
+      </if>
+      <if test="wxzcEnd != null">
+        wxzc_end,
+      </if>
+      <if test="stdlzcBegin != null">
+        stdlzc_begin,
+      </if>
+      <if test="stdlzcEnd != null">
+        stdlzc_end,
+      </if>
+      <if test="zczjBegin != null">
+        zczj_begin,
+      </if>
+      <if test="zczjEnd != null">
+        zczj_end,
+      </if>
+      <if test="dqjdBegin != null">
+        dqjd_begin,
+      </if>
+      <if test="dqjdEnd != null">
+        dqjd_end,
+      </if>
+      <if test="yfkxBegin != null">
+        yfkx_begin,
+      </if>
+      <if test="yfkxEnd != null">
+        yfkx_end,
+      </if>
+      <if test="yfgzBegin != null">
+        yfgz_begin,
+      </if>
+      <if test="yfgzEnd != null">
+        yfgz_end,
+      </if>
+      <if test="yjsjBegin != null">
+        yjsj_begin,
+      </if>
+      <if test="yjsjEnd != null">
+        yjsj_end,
+      </if>
+      <if test="yszkBegin != null">
+        yszk_begin,
+      </if>
+      <if test="yszkEnd != null">
+        yszk_end,
+      </if>
+      <if test="ytfyBegin != null">
+        ytfy_begin,
+      </if>
+      <if test="ytfyEnd != null">
+        ytfy_end,
+      </if>
+      <if test="yjfzBegin != null">
+        yjfz_begin,
+      </if>
+      <if test="yjfzEnd != null">
+        yjfz_end,
+      </if>
+      <if test="ynndqdcqfzBegin != null">
+        ynndqdcqfz_begin,
+      </if>
+      <if test="ynndqdcqfzEnd != null">
+        ynndqdcqfz_end,
+      </if>
+      <if test="qtldfzBegin != null">
+        qtldfz_begin,
+      </if>
+      <if test="qtldfzEnd != null">
+        qtldfz_end,
+      </if>
+      <if test="ldfzhjBegin != null">
+        ldfzhj_begin,
+      </if>
+      <if test="ldfzhjEnd != null">
+        ldfzhj_end,
+      </if>
+      <if test="cqjdBegin != null">
+        cqjd_begin,
+      </if>
+      <if test="cqjdEnd != null">
+        cqjd_end,
+      </if>
+      <if test="cqyfkBegin != null">
+        cqyfk_begin,
+      </if>
+      <if test="cqyfkEnd != null">
+        cqyfk_end,
+      </if>
+      <if test="qtcqfzBegin != null">
+        qtcqfz_begin,
+      </if>
+      <if test="qtcqfzEnd != null">
+        qtcqfz_end,
+      </if>
+      <if test="cqfzhjBegin != null">
+        cqfzhj_begin,
+      </if>
+      <if test="cqfzhjEnd != null">
+        cqfzhj_end,
+      </if>
+      <if test="stdlfzBegin != null">
+        stdlfz_begin,
+      </if>
+      <if test="stdlfzEnd != null">
+        stdlfz_end,
+      </if>
+      <if test="fzhjBegin != null">
+        fzhj_begin,
+      </if>
+      <if test="fzhjEnd != null">
+        fzhj_end,
+      </if>
+      <if test="fxdxjzcBegin != null">
+        fxdxjzc_begin,
+      </if>
+      <if test="fxdxjzcEnd != null">
+        fxdxjzc_end,
+      </if>
+      <if test="xdxjzcBegin != null">
+        xdxjzc_begin,
+      </if>
+      <if test="xdxjzcEnd != null">
+        xdxjzc_end,
+      </if>
+      <if test="jzchjBegin != null">
+        jzchj_begin,
+      </if>
+      <if test="jzchjEnd != null">
+        jzchj_end,
+      </if>
+      <if test="fzhjzchjBegin != null">
+        fzhjzchj_begin,
+      </if>
+      <if test="fzhjzchjEnd != null">
+        fzhjzchj_end,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="hbzjBegin != null">
+        #{hbzjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="hbzjEnd != null">
+        #{hbzjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dqtzBegin != null">
+        #{dqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dqtzEnd != null">
+        #{dqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yskxBegin != null">
+        #{yskxBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yskxEnd != null">
+        #{yskxEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfzkBegin != null">
+        #{yfzkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfzkEnd != null">
+        #{yfzkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="chBegin != null">
+        #{chBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="chEnd != null">
+        #{chEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dtfyBegin != null">
+        #{dtfyBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dtfyEnd != null">
+        #{dtfyEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqzqtzBegin != null">
+        #{ynndqdcqzqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqzqtzEnd != null">
+        #{ynndqdcqzqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldzcBegin != null">
+        #{qtldzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldzcEnd != null">
+        #{qtldzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ldzchjBegin != null">
+        #{ldzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ldzchjEnd != null">
+        #{ldzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqgqtzBegin != null">
+        #{cqgqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqgqtzEnd != null">
+        #{cqgqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqzqtzBegin != null">
+        #{cqzqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqzqtzEnd != null">
+        #{cqzqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqtzhjBegin != null">
+        #{cqtzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqtzhjEnd != null">
+        #{cqtzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcyjBegin != null">
+        #{gdzcyjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcyjEnd != null">
+        #{gdzcyjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ljzjBegin != null">
+        #{ljzjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ljzjEnd != null">
+        #{ljzjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcjzBegin != null">
+        #{gdzcjzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcjzEnd != null">
+        #{gdzcjzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="zjgcBegin != null">
+        #{zjgcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="zjgcEnd != null">
+        #{zjgcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="wwwhzcBegin != null">
+        #{wwwhzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="wwwhzcEnd != null">
+        #{wwwhzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcqlBegin != null">
+        #{gdzcqlBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcqlEnd != null">
+        #{gdzcqlEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzchjBegin != null">
+        #{gdzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzchjEnd != null">
+        #{gdzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="wxzcBegin != null">
+        #{wxzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="wxzcEnd != null">
+        #{wxzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlzcBegin != null">
+        #{stdlzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlzcEnd != null">
+        #{stdlzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="zczjBegin != null">
+        #{zczjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="zczjEnd != null">
+        #{zczjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dqjdBegin != null">
+        #{dqjdBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dqjdEnd != null">
+        #{dqjdEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfkxBegin != null">
+        #{yfkxBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfkxEnd != null">
+        #{yfkxEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfgzBegin != null">
+        #{yfgzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfgzEnd != null">
+        #{yfgzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjBegin != null">
+        #{yjsjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjEnd != null">
+        #{yjsjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yszkBegin != null">
+        #{yszkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yszkEnd != null">
+        #{yszkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ytfyBegin != null">
+        #{ytfyBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ytfyEnd != null">
+        #{ytfyEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfzBegin != null">
+        #{yjfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfzEnd != null">
+        #{yjfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqfzBegin != null">
+        #{ynndqdcqfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqfzEnd != null">
+        #{ynndqdcqfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldfzBegin != null">
+        #{qtldfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldfzEnd != null">
+        #{qtldfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ldfzhjBegin != null">
+        #{ldfzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ldfzhjEnd != null">
+        #{ldfzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqjdBegin != null">
+        #{cqjdBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqjdEnd != null">
+        #{cqjdEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqyfkBegin != null">
+        #{cqyfkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqyfkEnd != null">
+        #{cqyfkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtcqfzBegin != null">
+        #{qtcqfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtcqfzEnd != null">
+        #{qtcqfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqfzhjBegin != null">
+        #{cqfzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqfzhjEnd != null">
+        #{cqfzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlfzBegin != null">
+        #{stdlfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlfzEnd != null">
+        #{stdlfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjBegin != null">
+        #{fzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjEnd != null">
+        #{fzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fxdxjzcBegin != null">
+        #{fxdxjzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fxdxjzcEnd != null">
+        #{fxdxjzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="xdxjzcBegin != null">
+        #{xdxjzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="xdxjzcEnd != null">
+        #{xdxjzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="jzchjBegin != null">
+        #{jzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="jzchjEnd != null">
+        #{jzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjzchjBegin != null">
+        #{fzhjzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjzchjEnd != null">
+        #{fzhjzchjEnd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.huike.app.report.model.TReportFinance">
+    update t_report_finance
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="hbzjBegin != null">
+        hbzj_begin = #{hbzjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="hbzjEnd != null">
+        hbzj_end = #{hbzjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dqtzBegin != null">
+        dqtz_begin = #{dqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dqtzEnd != null">
+        dqtz_end = #{dqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yskxBegin != null">
+        yskx_begin = #{yskxBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yskxEnd != null">
+        yskx_end = #{yskxEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfzkBegin != null">
+        yfzk_begin = #{yfzkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfzkEnd != null">
+        yfzk_end = #{yfzkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="chBegin != null">
+        ch_begin = #{chBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="chEnd != null">
+        ch_end = #{chEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dtfyBegin != null">
+        dtfy_begin = #{dtfyBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dtfyEnd != null">
+        dtfy_end = #{dtfyEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqzqtzBegin != null">
+        ynndqdcqzqtz_begin = #{ynndqdcqzqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqzqtzEnd != null">
+        ynndqdcqzqtz_end = #{ynndqdcqzqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldzcBegin != null">
+        qtldzc_begin = #{qtldzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldzcEnd != null">
+        qtldzc_end = #{qtldzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ldzchjBegin != null">
+        ldzchj_begin = #{ldzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ldzchjEnd != null">
+        ldzchj_end = #{ldzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqgqtzBegin != null">
+        cqgqtz_begin = #{cqgqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqgqtzEnd != null">
+        cqgqtz_end = #{cqgqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqzqtzBegin != null">
+        cqzqtz_begin = #{cqzqtzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqzqtzEnd != null">
+        cqzqtz_end = #{cqzqtzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqtzhjBegin != null">
+        cqtzhj_begin = #{cqtzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqtzhjEnd != null">
+        cqtzhj_end = #{cqtzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcyjBegin != null">
+        gdzcyj_begin = #{gdzcyjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcyjEnd != null">
+        gdzcyj_end = #{gdzcyjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ljzjBegin != null">
+        ljzj_begin = #{ljzjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ljzjEnd != null">
+        ljzj_end = #{ljzjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcjzBegin != null">
+        gdzcjz_begin = #{gdzcjzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcjzEnd != null">
+        gdzcjz_end = #{gdzcjzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="zjgcBegin != null">
+        zjgc_begin = #{zjgcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="zjgcEnd != null">
+        zjgc_end = #{zjgcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="wwwhzcBegin != null">
+        wwwhzc_begin = #{wwwhzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="wwwhzcEnd != null">
+        wwwhzc_end = #{wwwhzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcqlBegin != null">
+        gdzcql_begin = #{gdzcqlBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzcqlEnd != null">
+        gdzcql_end = #{gdzcqlEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzchjBegin != null">
+        gdzchj_begin = #{gdzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="gdzchjEnd != null">
+        gdzchj_end = #{gdzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="wxzcBegin != null">
+        wxzc_begin = #{wxzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="wxzcEnd != null">
+        wxzc_end = #{wxzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlzcBegin != null">
+        stdlzc_begin = #{stdlzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlzcEnd != null">
+        stdlzc_end = #{stdlzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="zczjBegin != null">
+        zczj_begin = #{zczjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="zczjEnd != null">
+        zczj_end = #{zczjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="dqjdBegin != null">
+        dqjd_begin = #{dqjdBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="dqjdEnd != null">
+        dqjd_end = #{dqjdEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfkxBegin != null">
+        yfkx_begin = #{yfkxBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfkxEnd != null">
+        yfkx_end = #{yfkxEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yfgzBegin != null">
+        yfgz_begin = #{yfgzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yfgzEnd != null">
+        yfgz_end = #{yfgzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjBegin != null">
+        yjsj_begin = #{yjsjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsjEnd != null">
+        yjsj_end = #{yjsjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yszkBegin != null">
+        yszk_begin = #{yszkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yszkEnd != null">
+        yszk_end = #{yszkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ytfyBegin != null">
+        ytfy_begin = #{ytfyBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ytfyEnd != null">
+        ytfy_end = #{ytfyEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfzBegin != null">
+        yjfz_begin = #{yjfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="yjfzEnd != null">
+        yjfz_end = #{yjfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqfzBegin != null">
+        ynndqdcqfz_begin = #{ynndqdcqfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ynndqdcqfzEnd != null">
+        ynndqdcqfz_end = #{ynndqdcqfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldfzBegin != null">
+        qtldfz_begin = #{qtldfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtldfzEnd != null">
+        qtldfz_end = #{qtldfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ldfzhjBegin != null">
+        ldfzhj_begin = #{ldfzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="ldfzhjEnd != null">
+        ldfzhj_end = #{ldfzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqjdBegin != null">
+        cqjd_begin = #{cqjdBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqjdEnd != null">
+        cqjd_end = #{cqjdEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqyfkBegin != null">
+        cqyfk_begin = #{cqyfkBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqyfkEnd != null">
+        cqyfk_end = #{cqyfkEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="qtcqfzBegin != null">
+        qtcqfz_begin = #{qtcqfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="qtcqfzEnd != null">
+        qtcqfz_end = #{qtcqfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="cqfzhjBegin != null">
+        cqfzhj_begin = #{cqfzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="cqfzhjEnd != null">
+        cqfzhj_end = #{cqfzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlfzBegin != null">
+        stdlfz_begin = #{stdlfzBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="stdlfzEnd != null">
+        stdlfz_end = #{stdlfzEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjBegin != null">
+        fzhj_begin = #{fzhjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjEnd != null">
+        fzhj_end = #{fzhjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fxdxjzcBegin != null">
+        fxdxjzc_begin = #{fxdxjzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fxdxjzcEnd != null">
+        fxdxjzc_end = #{fxdxjzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="xdxjzcBegin != null">
+        xdxjzc_begin = #{xdxjzcBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="xdxjzcEnd != null">
+        xdxjzc_end = #{xdxjzcEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="jzchjBegin != null">
+        jzchj_begin = #{jzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="jzchjEnd != null">
+        jzchj_end = #{jzchjEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjzchjBegin != null">
+        fzhjzchj_begin = #{fzhjzchjBegin,jdbcType=VARCHAR},
+      </if>
+      <if test="fzhjzchjEnd != null">
+        fzhjzchj_end = #{fzhjzchjEnd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+</mapper>

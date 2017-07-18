@@ -1,0 +1,1107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.report.service.IReportServerService">
+  <resultMap id="BaseResultMap" type="com.huike.app.report.model.TReportServer">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="employment_consult_accpet" jdbcType="INTEGER" property="employmentConsultAccpet" />
+    <result column="employment_consult_deal" jdbcType="INTEGER" property="employmentConsultDeal" />
+    <result column="employment_agent_accpet" jdbcType="INTEGER" property="employmentAgentAccpet" />
+    <result column="employment_agent_deal" jdbcType="INTEGER" property="employmentAgentDeal" />
+    <result column="employment_others_accpet" jdbcType="INTEGER" property="employmentOthersAccpet" />
+    <result column="employment_others_deal" jdbcType="INTEGER" property="employmentOthersDeal" />
+    <result column="employment_numbers" jdbcType="INTEGER" property="employmentNumbers" />
+    <result column="employment_remark" jdbcType="VARCHAR" property="employmentRemark" />
+    <result column="business_consult_accpet" jdbcType="INTEGER" property="businessConsultAccpet" />
+    <result column="business_consult_deal" jdbcType="INTEGER" property="businessConsultDeal" />
+    <result column="business_agent_accpet" jdbcType="INTEGER" property="businessAgentAccpet" />
+    <result column="business_agent_deal" jdbcType="INTEGER" property="businessAgentDeal" />
+    <result column="business_others_accpet" jdbcType="INTEGER" property="businessOthersAccpet" />
+    <result column="business_others_deal" jdbcType="INTEGER" property="businessOthersDeal" />
+    <result column="business_numbers" jdbcType="INTEGER" property="businessNumbers" />
+    <result column="business_remark" jdbcType="VARCHAR" property="businessRemark" />
+    <result column="law_consult_accpet" jdbcType="INTEGER" property="lawConsultAccpet" />
+    <result column="law_consult_deal" jdbcType="INTEGER" property="lawConsultDeal" />
+    <result column="law_agent_accpet" jdbcType="INTEGER" property="lawAgentAccpet" />
+    <result column="law_agent_deal" jdbcType="INTEGER" property="lawAgentDeal" />
+    <result column="law_others_accpet" jdbcType="INTEGER" property="lawOthersAccpet" />
+    <result column="law_others_deal" jdbcType="INTEGER" property="lawOthersDeal" />
+    <result column="law_numbers" jdbcType="INTEGER" property="lawNumbers" />
+    <result column="law_remark" jdbcType="VARCHAR" property="lawRemark" />
+    <result column="policy_consult_accpet" jdbcType="INTEGER" property="policyConsultAccpet" />
+    <result column="policy_consult_deal" jdbcType="INTEGER" property="policyConsultDeal" />
+    <result column="policy_agent_accpet" jdbcType="INTEGER" property="policyAgentAccpet" />
+    <result column="policy_agent_deal" jdbcType="INTEGER" property="policyAgentDeal" />
+    <result column="policy_others_accpet" jdbcType="INTEGER" property="policyOthersAccpet" />
+    <result column="policy_others_deal" jdbcType="INTEGER" property="policyOthersDeal" />
+    <result column="policy_numbers" jdbcType="INTEGER" property="policyNumbers" />
+    <result column="policy_remark" jdbcType="VARCHAR" property="policyRemark" />
+    <result column="project_consult_accpet" jdbcType="INTEGER" property="projectConsultAccpet" />
+    <result column="project_consult_deal" jdbcType="INTEGER" property="projectConsultDeal" />
+    <result column="project_agent_accpet" jdbcType="INTEGER" property="projectAgentAccpet" />
+    <result column="project_agent_deal" jdbcType="INTEGER" property="projectAgentDeal" />
+    <result column="project_others_accpet" jdbcType="INTEGER" property="projectOthersAccpet" />
+    <result column="project_others_deal" jdbcType="INTEGER" property="projectOthersDeal" />
+    <result column="project_numbers" jdbcType="INTEGER" property="projectNumbers" />
+    <result column="project_remark" jdbcType="VARCHAR" property="projectRemark" />
+    <result column="professor_consult_accpet" jdbcType="INTEGER" property="professorConsultAccpet" />
+    <result column="professor_consult_deal" jdbcType="INTEGER" property="professorConsultDeal" />
+    <result column="professor_agent_accpet" jdbcType="INTEGER" property="professorAgentAccpet" />
+    <result column="professor_agent_deal" jdbcType="INTEGER" property="professorAgentDeal" />
+    <result column="professor_others_accpet" jdbcType="INTEGER" property="professorOthersAccpet" />
+    <result column="professor_others_deal" jdbcType="INTEGER" property="professorOthersDeal" />
+    <result column="professor_numbers" jdbcType="INTEGER" property="professorNumbers" />
+    <result column="professor_remark" jdbcType="VARCHAR" property="professorRemark" />
+    <result column="train_consult_accpet" jdbcType="INTEGER" property="trainConsultAccpet" />
+    <result column="train_consult_deal" jdbcType="INTEGER" property="trainConsultDeal" />
+    <result column="train_agent_accpet" jdbcType="INTEGER" property="trainAgentAccpet" />
+    <result column="train_agent_deal" jdbcType="INTEGER" property="trainAgentDeal" />
+    <result column="train_others_accpet" jdbcType="INTEGER" property="trainOthersAccpet" />
+    <result column="train_others_deal" jdbcType="INTEGER" property="trainOthersDeal" />
+    <result column="train_numbers" jdbcType="INTEGER" property="trainNumbers" />
+    <result column="train_remark" jdbcType="VARCHAR" property="trainRemark" />
+    <result column="insurance_consult_accpet" jdbcType="INTEGER" property="insuranceConsultAccpet" />
+    <result column="insurance_consult_deal" jdbcType="INTEGER" property="insuranceConsultDeal" />
+    <result column="insurance_agent_accpet" jdbcType="INTEGER" property="insuranceAgentAccpet" />
+    <result column="insurance_agent_deal" jdbcType="INTEGER" property="insuranceAgentDeal" />
+    <result column="insurance_others_accpet" jdbcType="INTEGER" property="insuranceOthersAccpet" />
+    <result column="insurance_others_deal" jdbcType="INTEGER" property="insuranceOthersDeal" />
+    <result column="insurance_numbers" jdbcType="INTEGER" property="insuranceNumbers" />
+    <result column="insurance_remark" jdbcType="VARCHAR" property="insuranceRemark" />
+    <result column="weather_consult_accpet" jdbcType="INTEGER" property="weatherConsultAccpet" />
+    <result column="weather_consult_deal" jdbcType="INTEGER" property="weatherConsultDeal" />
+    <result column="weather_agent_accpet" jdbcType="INTEGER" property="weatherAgentAccpet" />
+    <result column="weather_agent_deal" jdbcType="INTEGER" property="weatherAgentDeal" />
+    <result column="weather_others_accpet" jdbcType="INTEGER" property="weatherOthersAccpet" />
+    <result column="weather_others_deal" jdbcType="INTEGER" property="weatherOthersDeal" />
+    <result column="weather_numbers" jdbcType="INTEGER" property="weatherNumbers" />
+    <result column="weather_remark" jdbcType="VARCHAR" property="weatherRemark" />
+    <result column="supply_consult_accpet" jdbcType="INTEGER" property="supplyConsultAccpet" />
+    <result column="supply_consult_deal" jdbcType="INTEGER" property="supplyConsultDeal" />
+    <result column="supply_agent_accpet" jdbcType="INTEGER" property="supplyAgentAccpet" />
+    <result column="supply_agent_deal" jdbcType="INTEGER" property="supplyAgentDeal" />
+    <result column="supply_others_accpet" jdbcType="INTEGER" property="supplyOthersAccpet" />
+    <result column="supply_others_deal" jdbcType="INTEGER" property="supplyOthersDeal" />
+    <result column="supply_numbers" jdbcType="INTEGER" property="supplyNumbers" />
+    <result column="supply_remark" jdbcType="VARCHAR" property="supplyRemark" />
+    <result column="acount_consult_accpet" jdbcType="INTEGER" property="acountConsultAccpet" />
+    <result column="acount_consult_deal" jdbcType="INTEGER" property="acountConsultDeal" />
+    <result column="acount_agent_accpet" jdbcType="INTEGER" property="acountAgentAccpet" />
+    <result column="acount_agent_deal" jdbcType="INTEGER" property="acountAgentDeal" />
+    <result column="acount_others_accpet" jdbcType="INTEGER" property="acountOthersAccpet" />
+    <result column="acount_others_deal" jdbcType="INTEGER" property="acountOthersDeal" />
+    <result column="acount_numbers" jdbcType="INTEGER" property="acountNumbers" />
+    <result column="acount_remark" jdbcType="VARCHAR" property="acountRemark" />
+  </resultMap>
+  
+  <sql id="zxsl_list">
+    sum(employment_consult_accpet) as employmentAccpet, 
+    sum(business_consult_accpet) as businessAccpet, 
+    sum(law_consult_accpet) as lawAccpet, 
+    sum(policy_consult_accpet) as policyAccpet,
+    sum(project_consult_accpet) as projectAccpet,
+    sum(professor_consult_accpet) as professorAccpet,
+    sum(train_consult_accpet) as trainAccpet,
+    sum(insurance_consult_accpet) as insuranceAccpet, 
+    sum(weather_consult_accpet) as weatherAccpet,
+    sum(supply_consult_accpet) as supplyAccpet
+  </sql>
+  
+  <sql id="zxbl_list">
+    sum(employment_consult_deal) as employmentDeal,
+    sum(business_consult_deal) as businessDeal,
+    sum(law_consult_deal) as lawDeal,
+    sum(policy_consult_deal) as policyDeal,
+    sum(project_consult_deal) as projectDeal, 
+    sum(professor_consult_deal) as professorDeal, 
+    sum(train_consult_deal) as trainDeal,
+    sum(insurance_consult_deal) as insuranceDeal,
+    sum(weather_consult_deal) as weatherDeal,
+    sum(supply_consult_deal) as supplyDeal
+  </sql>
+  
+  <sql id="dbsl_list">
+    sum(employment_agent_accpet) as employmentAccpet, 
+    sum(business_agent_accpet) as businessAccpet, 
+    sum(law_agent_accpet) as lawAccpet,
+    sum(policy_agent_accpet) as policyAccpet, 
+    sum(project_agent_accpet) as projectAccpet,
+    sum(professor_agent_accpet) as professorAccpet,
+    sum(train_agent_accpet) as trainAccpet, 
+    sum(insurance_agent_accpet) as insuranceAccpet,
+    sum(weather_agent_accpet) as weatherAccpet,
+    sum(supply_agent_accpet) as supplyAccpet
+  </sql>
+  
+  <sql id="dbbj_list">
+    sum(employment_agent_deal) as employmentDeal,
+    sum(business_agent_deal) as businessDeal,
+    sum(law_agent_deal) as lawDeal, 
+    sum(policy_agent_deal) as policyDeal,
+    sum(project_agent_deal) as projectDeal,
+    sum(professor_agent_deal) as professorDeal,
+    sum(train_agent_deal) as trainDeal,
+    sum(insurance_agent_deal) as insuranceDeal, 
+    sum(weather_agent_deal) as weatherDeal, 
+    sum(supply_agent_deal) as supplyDeal
+  </sql>
+  
+  <sql id="qtsl_list">
+    sum(employment_others_accpet) as employmentAccpet,
+    sum(business_others_accpet) as businessAccpet,
+    sum(law_others_accpet) as lawAccpet,
+    sum(policy_others_accpet) as policyAccpet, 
+    sum(project_others_accpet) as projectAccpet,
+    sum(professor_others_accpet) as professorAccpet,
+    sum(train_others_accpet) as trainAccpet,
+    sum(insurance_others_accpet) as insuranceAccpet,
+    sum(weather_others_accpet) as weatherAccpet,
+    sum(supply_others_accpet) as supplyAccpet
+  </sql>
+  
+  <sql id="qtbj_list">
+    sum(employment_others_deal) as employmentDeal,
+    sum(business_others_deal) as businessDeal,
+    sum(law_others_deal) as lawDeal,
+    sum(policy_others_deal) as policyDeal,
+    sum(project_others_deal) as projectDeal,
+    sum(professor_others_deal) as professorDeal,
+    sum(train_others_deal) as trainDeal,
+    sum(insurance_others_deal) as insuranceDeal,
+    sum(weather_others_deal) as weatherDeal,
+    sum(supply_others_deal) as supplyDeal
+  </sql>
+  
+  <sql id="Base_Column_List">
+    id, title, employment_consult_accpet, employment_consult_deal, employment_agent_accpet, 
+    employment_agent_deal, employment_others_accpet, employment_others_deal, employment_numbers, 
+    employment_remark, business_consult_accpet, business_consult_deal, business_agent_accpet, 
+    business_agent_deal, business_others_accpet, business_others_deal, business_numbers, 
+    business_remark, law_consult_accpet, law_consult_deal, law_agent_accpet, law_agent_deal, 
+    law_others_accpet, law_others_deal, law_numbers, law_remark, policy_consult_accpet, 
+    policy_consult_deal, policy_agent_accpet, policy_agent_deal, policy_others_accpet, 
+    policy_others_deal, policy_numbers, policy_remark, project_consult_accpet, project_consult_deal, 
+    project_agent_accpet, project_agent_deal, project_others_accpet, project_others_deal, 
+    project_numbers, project_remark, professor_consult_accpet, professor_consult_deal, 
+    professor_agent_accpet, professor_agent_deal, professor_others_accpet, professor_others_deal, 
+    professor_numbers, professor_remark, train_consult_accpet, train_consult_deal, train_agent_accpet, 
+    train_agent_deal, train_others_accpet, train_others_deal, train_numbers, train_remark, 
+    insurance_consult_accpet, insurance_consult_deal, insurance_agent_accpet, insurance_agent_deal, 
+    insurance_others_accpet, insurance_others_deal, insurance_numbers, insurance_remark, 
+    weather_consult_accpet, weather_consult_deal, weather_agent_accpet, weather_agent_deal, 
+    weather_others_accpet, weather_others_deal, weather_numbers, weather_remark, supply_consult_accpet, 
+    supply_consult_deal, supply_agent_accpet, supply_agent_deal, supply_others_accpet, 
+    supply_others_deal, supply_numbers, supply_remark, acount_consult_accpet, acount_consult_deal, 
+    acount_agent_accpet, acount_agent_deal, acount_others_accpet, acount_others_deal, 
+    acount_numbers, acount_remark
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultType="HashMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_report_server
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <!-- 报表统计查询 -->
+  <select id="statistics" parameterType="HashMap" resultType="HashMap">
+    select 
+    <if test="type == 1">
+    	<include refid="zxsl_list" />,
+    	<include refid="zxbl_list" />
+    </if>
+    <if test="type == 2">
+	   <include refid="dbsl_list" />,
+	   <include refid="dbbj_list" />
+    </if>
+    <if test="type == 3">
+	    <include refid="qtsl_list" />,
+	    <include refid="qtbj_list" />
+    </if>
+    from t_report_server
+    where id in (
+    select report_id from t_report_eaxm where report_type = 2
+	    <if test="xiangId != null and xiangId != ''">
+	    	and xiang_id = #{xiangId}
+	    </if>
+	    <if test="cunId != null and cunId != ''">
+	    	and cun_id = #{cunId}
+	    </if>
+	   	<if test="startTime != null and startTime != ''">and create_time &gt; #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt; #{endTime}</if>
+    )
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_report_server
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.huike.app.report.model.TReportServer">
+    insert into t_report_server (title, employment_consult_accpet, 
+      employment_consult_deal, employment_agent_accpet, 
+      employment_agent_deal, employment_others_accpet, 
+      employment_others_deal, employment_numbers, 
+      employment_remark, business_consult_accpet, 
+      business_consult_deal, business_agent_accpet, 
+      business_agent_deal, business_others_accpet, 
+      business_others_deal, business_numbers, business_remark, 
+      law_consult_accpet, law_consult_deal, law_agent_accpet, 
+      law_agent_deal, law_others_accpet, law_others_deal, 
+      law_numbers, law_remark, policy_consult_accpet, 
+      policy_consult_deal, policy_agent_accpet, policy_agent_deal, 
+      policy_others_accpet, policy_others_deal, policy_numbers, 
+      policy_remark, project_consult_accpet, project_consult_deal, 
+      project_agent_accpet, project_agent_deal, project_others_accpet, 
+      project_others_deal, project_numbers, project_remark, 
+      professor_consult_accpet, professor_consult_deal, 
+      professor_agent_accpet, professor_agent_deal, 
+      professor_others_accpet, professor_others_deal, 
+      professor_numbers, professor_remark, train_consult_accpet, 
+      train_consult_deal, train_agent_accpet, train_agent_deal, 
+      train_others_accpet, train_others_deal, train_numbers, 
+      train_remark, insurance_consult_accpet, insurance_consult_deal, 
+      insurance_agent_accpet, insurance_agent_deal, 
+      insurance_others_accpet, insurance_others_deal, 
+      insurance_numbers, insurance_remark, weather_consult_accpet, 
+      weather_consult_deal, weather_agent_accpet, 
+      weather_agent_deal, weather_others_accpet, 
+      weather_others_deal, weather_numbers, weather_remark, 
+      supply_consult_accpet, supply_consult_deal, 
+      supply_agent_accpet, supply_agent_deal, supply_others_accpet, 
+      supply_others_deal, supply_numbers, supply_remark, 
+      acount_consult_accpet, acount_consult_deal, 
+      acount_agent_accpet, acount_agent_deal, acount_others_accpet, 
+      acount_others_deal, acount_numbers, acount_remark
+      )
+    values 
+    <foreach item="item" index="index" collection="reportServer" open="("
+				separator="," close=")">
+				#{item}
+	</foreach>
+  </insert>
+  
+  
+  
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.huike.app.report.model.TReportServer">
+    insert into t_report_server
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="employmentConsultAccpet != null">
+        employment_consult_accpet,
+      </if>
+      <if test="employmentConsultDeal != null">
+        employment_consult_deal,
+      </if>
+      <if test="employmentAgentAccpet != null">
+        employment_agent_accpet,
+      </if>
+      <if test="employmentAgentDeal != null">
+        employment_agent_deal,
+      </if>
+      <if test="employmentOthersAccpet != null">
+        employment_others_accpet,
+      </if>
+      <if test="employmentOthersDeal != null">
+        employment_others_deal,
+      </if>
+      <if test="employmentNumbers != null">
+        employment_numbers,
+      </if>
+      <if test="employmentRemark != null">
+        employment_remark,
+      </if>
+      <if test="businessConsultAccpet != null">
+        business_consult_accpet,
+      </if>
+      <if test="businessConsultDeal != null">
+        business_consult_deal,
+      </if>
+      <if test="businessAgentAccpet != null">
+        business_agent_accpet,
+      </if>
+      <if test="businessAgentDeal != null">
+        business_agent_deal,
+      </if>
+      <if test="businessOthersAccpet != null">
+        business_others_accpet,
+      </if>
+      <if test="businessOthersDeal != null">
+        business_others_deal,
+      </if>
+      <if test="businessNumbers != null">
+        business_numbers,
+      </if>
+      <if test="businessRemark != null">
+        business_remark,
+      </if>
+      <if test="lawConsultAccpet != null">
+        law_consult_accpet,
+      </if>
+      <if test="lawConsultDeal != null">
+        law_consult_deal,
+      </if>
+      <if test="lawAgentAccpet != null">
+        law_agent_accpet,
+      </if>
+      <if test="lawAgentDeal != null">
+        law_agent_deal,
+      </if>
+      <if test="lawOthersAccpet != null">
+        law_others_accpet,
+      </if>
+      <if test="lawOthersDeal != null">
+        law_others_deal,
+      </if>
+      <if test="lawNumbers != null">
+        law_numbers,
+      </if>
+      <if test="lawRemark != null">
+        law_remark,
+      </if>
+      <if test="policyConsultAccpet != null">
+        policy_consult_accpet,
+      </if>
+      <if test="policyConsultDeal != null">
+        policy_consult_deal,
+      </if>
+      <if test="policyAgentAccpet != null">
+        policy_agent_accpet,
+      </if>
+      <if test="policyAgentDeal != null">
+        policy_agent_deal,
+      </if>
+      <if test="policyOthersAccpet != null">
+        policy_others_accpet,
+      </if>
+      <if test="policyOthersDeal != null">
+        policy_others_deal,
+      </if>
+      <if test="policyNumbers != null">
+        policy_numbers,
+      </if>
+      <if test="policyRemark != null">
+        policy_remark,
+      </if>
+      <if test="projectConsultAccpet != null">
+        project_consult_accpet,
+      </if>
+      <if test="projectConsultDeal != null">
+        project_consult_deal,
+      </if>
+      <if test="projectAgentAccpet != null">
+        project_agent_accpet,
+      </if>
+      <if test="projectAgentDeal != null">
+        project_agent_deal,
+      </if>
+      <if test="projectOthersAccpet != null">
+        project_others_accpet,
+      </if>
+      <if test="projectOthersDeal != null">
+        project_others_deal,
+      </if>
+      <if test="projectNumbers != null">
+        project_numbers,
+      </if>
+      <if test="projectRemark != null">
+        project_remark,
+      </if>
+      <if test="professorConsultAccpet != null">
+        professor_consult_accpet,
+      </if>
+      <if test="professorConsultDeal != null">
+        professor_consult_deal,
+      </if>
+      <if test="professorAgentAccpet != null">
+        professor_agent_accpet,
+      </if>
+      <if test="professorAgentDeal != null">
+        professor_agent_deal,
+      </if>
+      <if test="professorOthersAccpet != null">
+        professor_others_accpet,
+      </if>
+      <if test="professorOthersDeal != null">
+        professor_others_deal,
+      </if>
+      <if test="professorNumbers != null">
+        professor_numbers,
+      </if>
+      <if test="professorRemark != null">
+        professor_remark,
+      </if>
+      <if test="trainConsultAccpet != null">
+        train_consult_accpet,
+      </if>
+      <if test="trainConsultDeal != null">
+        train_consult_deal,
+      </if>
+      <if test="trainAgentAccpet != null">
+        train_agent_accpet,
+      </if>
+      <if test="trainAgentDeal != null">
+        train_agent_deal,
+      </if>
+      <if test="trainOthersAccpet != null">
+        train_others_accpet,
+      </if>
+      <if test="trainOthersDeal != null">
+        train_others_deal,
+      </if>
+      <if test="trainNumbers != null">
+        train_numbers,
+      </if>
+      <if test="trainRemark != null">
+        train_remark,
+      </if>
+      <if test="insuranceConsultAccpet != null">
+        insurance_consult_accpet,
+      </if>
+      <if test="insuranceConsultDeal != null">
+        insurance_consult_deal,
+      </if>
+      <if test="insuranceAgentAccpet != null">
+        insurance_agent_accpet,
+      </if>
+      <if test="insuranceAgentDeal != null">
+        insurance_agent_deal,
+      </if>
+      <if test="insuranceOthersAccpet != null">
+        insurance_others_accpet,
+      </if>
+      <if test="insuranceOthersDeal != null">
+        insurance_others_deal,
+      </if>
+      <if test="insuranceNumbers != null">
+        insurance_numbers,
+      </if>
+      <if test="insuranceRemark != null">
+        insurance_remark,
+      </if>
+      <if test="weatherConsultAccpet != null">
+        weather_consult_accpet,
+      </if>
+      <if test="weatherConsultDeal != null">
+        weather_consult_deal,
+      </if>
+      <if test="weatherAgentAccpet != null">
+        weather_agent_accpet,
+      </if>
+      <if test="weatherAgentDeal != null">
+        weather_agent_deal,
+      </if>
+      <if test="weatherOthersAccpet != null">
+        weather_others_accpet,
+      </if>
+      <if test="weatherOthersDeal != null">
+        weather_others_deal,
+      </if>
+      <if test="weatherNumbers != null">
+        weather_numbers,
+      </if>
+      <if test="weatherRemark != null">
+        weather_remark,
+      </if>
+      <if test="supplyConsultAccpet != null">
+        supply_consult_accpet,
+      </if>
+      <if test="supplyConsultDeal != null">
+        supply_consult_deal,
+      </if>
+      <if test="supplyAgentAccpet != null">
+        supply_agent_accpet,
+      </if>
+      <if test="supplyAgentDeal != null">
+        supply_agent_deal,
+      </if>
+      <if test="supplyOthersAccpet != null">
+        supply_others_accpet,
+      </if>
+      <if test="supplyOthersDeal != null">
+        supply_others_deal,
+      </if>
+      <if test="supplyNumbers != null">
+        supply_numbers,
+      </if>
+      <if test="supplyRemark != null">
+        supply_remark,
+      </if>
+      <if test="acountConsultAccpet != null">
+        acount_consult_accpet,
+      </if>
+      <if test="acountConsultDeal != null">
+        acount_consult_deal,
+      </if>
+      <if test="acountAgentAccpet != null">
+        acount_agent_accpet,
+      </if>
+      <if test="acountAgentDeal != null">
+        acount_agent_deal,
+      </if>
+      <if test="acountOthersAccpet != null">
+        acount_others_accpet,
+      </if>
+      <if test="acountOthersDeal != null">
+        acount_others_deal,
+      </if>
+      <if test="acountNumbers != null">
+        acount_numbers,
+      </if>
+      <if test="acountRemark != null">
+        acount_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentConsultAccpet != null">
+        #{employmentConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentConsultDeal != null">
+        #{employmentConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentAgentAccpet != null">
+        #{employmentAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentAgentDeal != null">
+        #{employmentAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentOthersAccpet != null">
+        #{employmentOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentOthersDeal != null">
+        #{employmentOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentNumbers != null">
+        #{employmentNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="employmentRemark != null">
+        #{employmentRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessConsultAccpet != null">
+        #{businessConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessConsultDeal != null">
+        #{businessConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessAgentAccpet != null">
+        #{businessAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessAgentDeal != null">
+        #{businessAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessOthersAccpet != null">
+        #{businessOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessOthersDeal != null">
+        #{businessOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessNumbers != null">
+        #{businessNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="businessRemark != null">
+        #{businessRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lawConsultAccpet != null">
+        #{lawConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawConsultDeal != null">
+        #{lawConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawAgentAccpet != null">
+        #{lawAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawAgentDeal != null">
+        #{lawAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawOthersAccpet != null">
+        #{lawOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawOthersDeal != null">
+        #{lawOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawNumbers != null">
+        #{lawNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="lawRemark != null">
+        #{lawRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="policyConsultAccpet != null">
+        #{policyConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyConsultDeal != null">
+        #{policyConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyAgentAccpet != null">
+        #{policyAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyAgentDeal != null">
+        #{policyAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyOthersAccpet != null">
+        #{policyOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyOthersDeal != null">
+        #{policyOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyNumbers != null">
+        #{policyNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="policyRemark != null">
+        #{policyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="projectConsultAccpet != null">
+        #{projectConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectConsultDeal != null">
+        #{projectConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectAgentAccpet != null">
+        #{projectAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectAgentDeal != null">
+        #{projectAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectOthersAccpet != null">
+        #{projectOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectOthersDeal != null">
+        #{projectOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectNumbers != null">
+        #{projectNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="projectRemark != null">
+        #{projectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="professorConsultAccpet != null">
+        #{professorConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorConsultDeal != null">
+        #{professorConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorAgentAccpet != null">
+        #{professorAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorAgentDeal != null">
+        #{professorAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorOthersAccpet != null">
+        #{professorOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorOthersDeal != null">
+        #{professorOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorNumbers != null">
+        #{professorNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="professorRemark != null">
+        #{professorRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trainConsultAccpet != null">
+        #{trainConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainConsultDeal != null">
+        #{trainConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainAgentAccpet != null">
+        #{trainAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainAgentDeal != null">
+        #{trainAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainOthersAccpet != null">
+        #{trainOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainOthersDeal != null">
+        #{trainOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainNumbers != null">
+        #{trainNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="trainRemark != null">
+        #{trainRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceConsultAccpet != null">
+        #{insuranceConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceConsultDeal != null">
+        #{insuranceConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceAgentAccpet != null">
+        #{insuranceAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceAgentDeal != null">
+        #{insuranceAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceOthersAccpet != null">
+        #{insuranceOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceOthersDeal != null">
+        #{insuranceOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceNumbers != null">
+        #{insuranceNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceRemark != null">
+        #{insuranceRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherConsultAccpet != null">
+        #{weatherConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherConsultDeal != null">
+        #{weatherConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherAgentAccpet != null">
+        #{weatherAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherAgentDeal != null">
+        #{weatherAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherOthersAccpet != null">
+        #{weatherOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherOthersDeal != null">
+        #{weatherOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherNumbers != null">
+        #{weatherNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="weatherRemark != null">
+        #{weatherRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyConsultAccpet != null">
+        #{supplyConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyConsultDeal != null">
+        #{supplyConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyAgentAccpet != null">
+        #{supplyAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyAgentDeal != null">
+        #{supplyAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyOthersAccpet != null">
+        #{supplyOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyOthersDeal != null">
+        #{supplyOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyNumbers != null">
+        #{supplyNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="supplyRemark != null">
+        #{supplyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="acountConsultAccpet != null">
+        #{acountConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountConsultDeal != null">
+        #{acountConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountAgentAccpet != null">
+        #{acountAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountAgentDeal != null">
+        #{acountAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountOthersAccpet != null">
+        #{acountOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountOthersDeal != null">
+        #{acountOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountNumbers != null">
+        #{acountNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="acountRemark != null">
+        #{acountRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.huike.app.report.model.TReportServer">
+    update t_report_server
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="employmentConsultAccpet != null">
+        employment_consult_accpet = #{employmentConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentConsultDeal != null">
+        employment_consult_deal = #{employmentConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentAgentAccpet != null">
+        employment_agent_accpet = #{employmentAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentAgentDeal != null">
+        employment_agent_deal = #{employmentAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentOthersAccpet != null">
+        employment_others_accpet = #{employmentOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="employmentOthersDeal != null">
+        employment_others_deal = #{employmentOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="employmentNumbers != null">
+        employment_numbers = #{employmentNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="employmentRemark != null">
+        employment_remark = #{employmentRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="businessConsultAccpet != null">
+        business_consult_accpet = #{businessConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessConsultDeal != null">
+        business_consult_deal = #{businessConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessAgentAccpet != null">
+        business_agent_accpet = #{businessAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessAgentDeal != null">
+        business_agent_deal = #{businessAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessOthersAccpet != null">
+        business_others_accpet = #{businessOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="businessOthersDeal != null">
+        business_others_deal = #{businessOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="businessNumbers != null">
+        business_numbers = #{businessNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="businessRemark != null">
+        business_remark = #{businessRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="lawConsultAccpet != null">
+        law_consult_accpet = #{lawConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawConsultDeal != null">
+        law_consult_deal = #{lawConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawAgentAccpet != null">
+        law_agent_accpet = #{lawAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawAgentDeal != null">
+        law_agent_deal = #{lawAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawOthersAccpet != null">
+        law_others_accpet = #{lawOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="lawOthersDeal != null">
+        law_others_deal = #{lawOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="lawNumbers != null">
+        law_numbers = #{lawNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="lawRemark != null">
+        law_remark = #{lawRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="policyConsultAccpet != null">
+        policy_consult_accpet = #{policyConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyConsultDeal != null">
+        policy_consult_deal = #{policyConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyAgentAccpet != null">
+        policy_agent_accpet = #{policyAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyAgentDeal != null">
+        policy_agent_deal = #{policyAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyOthersAccpet != null">
+        policy_others_accpet = #{policyOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="policyOthersDeal != null">
+        policy_others_deal = #{policyOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="policyNumbers != null">
+        policy_numbers = #{policyNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="policyRemark != null">
+        policy_remark = #{policyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="projectConsultAccpet != null">
+        project_consult_accpet = #{projectConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectConsultDeal != null">
+        project_consult_deal = #{projectConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectAgentAccpet != null">
+        project_agent_accpet = #{projectAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectAgentDeal != null">
+        project_agent_deal = #{projectAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectOthersAccpet != null">
+        project_others_accpet = #{projectOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="projectOthersDeal != null">
+        project_others_deal = #{projectOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="projectNumbers != null">
+        project_numbers = #{projectNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="projectRemark != null">
+        project_remark = #{projectRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="professorConsultAccpet != null">
+        professor_consult_accpet = #{professorConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorConsultDeal != null">
+        professor_consult_deal = #{professorConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorAgentAccpet != null">
+        professor_agent_accpet = #{professorAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorAgentDeal != null">
+        professor_agent_deal = #{professorAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorOthersAccpet != null">
+        professor_others_accpet = #{professorOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="professorOthersDeal != null">
+        professor_others_deal = #{professorOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="professorNumbers != null">
+        professor_numbers = #{professorNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="professorRemark != null">
+        professor_remark = #{professorRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="trainConsultAccpet != null">
+        train_consult_accpet = #{trainConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainConsultDeal != null">
+        train_consult_deal = #{trainConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainAgentAccpet != null">
+        train_agent_accpet = #{trainAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainAgentDeal != null">
+        train_agent_deal = #{trainAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainOthersAccpet != null">
+        train_others_accpet = #{trainOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="trainOthersDeal != null">
+        train_others_deal = #{trainOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="trainNumbers != null">
+        train_numbers = #{trainNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="trainRemark != null">
+        train_remark = #{trainRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceConsultAccpet != null">
+        insurance_consult_accpet = #{insuranceConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceConsultDeal != null">
+        insurance_consult_deal = #{insuranceConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceAgentAccpet != null">
+        insurance_agent_accpet = #{insuranceAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceAgentDeal != null">
+        insurance_agent_deal = #{insuranceAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceOthersAccpet != null">
+        insurance_others_accpet = #{insuranceOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceOthersDeal != null">
+        insurance_others_deal = #{insuranceOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceNumbers != null">
+        insurance_numbers = #{insuranceNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="insuranceRemark != null">
+        insurance_remark = #{insuranceRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="weatherConsultAccpet != null">
+        weather_consult_accpet = #{weatherConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherConsultDeal != null">
+        weather_consult_deal = #{weatherConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherAgentAccpet != null">
+        weather_agent_accpet = #{weatherAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherAgentDeal != null">
+        weather_agent_deal = #{weatherAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherOthersAccpet != null">
+        weather_others_accpet = #{weatherOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="weatherOthersDeal != null">
+        weather_others_deal = #{weatherOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="weatherNumbers != null">
+        weather_numbers = #{weatherNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="weatherRemark != null">
+        weather_remark = #{weatherRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyConsultAccpet != null">
+        supply_consult_accpet = #{supplyConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyConsultDeal != null">
+        supply_consult_deal = #{supplyConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyAgentAccpet != null">
+        supply_agent_accpet = #{supplyAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyAgentDeal != null">
+        supply_agent_deal = #{supplyAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyOthersAccpet != null">
+        supply_others_accpet = #{supplyOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="supplyOthersDeal != null">
+        supply_others_deal = #{supplyOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="supplyNumbers != null">
+        supply_numbers = #{supplyNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="supplyRemark != null">
+        supply_remark = #{supplyRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="acountConsultAccpet != null">
+        acount_consult_accpet = #{acountConsultAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountConsultDeal != null">
+        acount_consult_deal = #{acountConsultDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountAgentAccpet != null">
+        acount_agent_accpet = #{acountAgentAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountAgentDeal != null">
+        acount_agent_deal = #{acountAgentDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountOthersAccpet != null">
+        acount_others_accpet = #{acountOthersAccpet,jdbcType=INTEGER},
+      </if>
+      <if test="acountOthersDeal != null">
+        acount_others_deal = #{acountOthersDeal,jdbcType=INTEGER},
+      </if>
+      <if test="acountNumbers != null">
+        acount_numbers = #{acountNumbers,jdbcType=INTEGER},
+      </if>
+      <if test="acountRemark != null">
+        acount_remark = #{acountRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

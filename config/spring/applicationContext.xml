@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/data/jpa
+	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/cache
+    http://www.springframework.org/schema/cache/spring-cache.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+<!--     <mvc:annotation-driven> 
+    处理responseBody 里面日期类型  
+    <mvc:message-converters>  
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
+                <property name="objectMapper">  
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">  
+                        <property name="dateFormat">  
+                            <bean class="java.text.SimpleDateFormat">  
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />  
+                            </bean>  
+                        </property>  
+                    </bean>  
+                </property>  
+            </bean>  
+        </mvc:message-converters>  
+    </mvc:annotation-driven>   -->
+    
+        <!-- API 接口跨域配置 -->
+	<!--<mvc:cors>  
+	    <mvc:mapping path="/api/**"
+	        allowed-origins="*"
+	        allowed-methods="POST, GET, OPTIONS, DELETE, PUT"
+	        allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+	        allow-credentials="true" />
+	</mvc:cors> 
+    <bean name="phoneHelper" class="com.huike.base.tools.sms.PhoneHelper"/>-->
+    
+ 	<!--  database conf  -->
+ 	<import resource="dataSource.xml" />
+ 	
+ 	<!-- <import resource="mybatis-config.xml" /> -->
+ 	
+	<context:component-scan base-package="com.huike.app, com.huike.boot, com.huike.base, com.huike.mapper" />
+
+	<cache:annotation-driven />
+
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<bean name="restSmsAPI" class="com.cloopen.rest.sdk.CCPRestSmsSDK"/>
+</beans> 	

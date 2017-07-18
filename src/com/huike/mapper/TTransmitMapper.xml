@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.transmit.service.ITransmitService">
+	<resultMap id="BaseResultMap" type="com.huike.app.transmit.model.TTransmit">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="receiver" jdbcType="VARCHAR" property="receiver" />
+		<result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+		<result column="sender" jdbcType="BIGINT" property="sender" />
+		<result column="send_time" jdbcType="DATE" property="sendTime" />
+		<result column="by1" jdbcType="VARCHAR" property="by1" />
+		<result column="by2" jdbcType="VARCHAR" property="by2" />
+		<result column="by3" jdbcType="VARCHAR" property="by3" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, receiver, receiver_name, title, content, sender, send_time, by1, by2,
+		by3
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultType="hashmap">
+		select
+		id, receiver, receiver_name receiverName, title, content, sender, (select
+		username from t_user where id = sender) senderName, send_time
+		sendTime, by1, by2, by3
+		from t_transmit
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		update t_transmit set is_delete = 1
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.huike.app.transmit.model.TTransmit">
+		insert into t_transmit
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="receiver != null">
+				receiver,
+			</if>
+			<if test="receiverName != null">
+				receiver_name,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="sender != null">
+				sender,
+			</if>
+			send_time,
+			<if test="by1 != null">
+				by1,
+			</if>
+			<if test="by2 != null">
+				by2,
+			</if>
+			<if test="by3 != null">
+				by3,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="receiver != null">
+				#{receiver,jdbcType=VARCHAR},
+			</if>
+			<if test="receiverName != null">
+				#{receiverName,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="sender != null">
+				#{sender,jdbcType=BIGINT},
+			</if>
+			now(),
+			<if test="by1 != null">
+				#{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				#{by2,jdbcType=VARCHAR},
+			</if>
+			<if test="by3 != null">
+				#{by3,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 查询最后一条插入记录的id -->
+	<select id="maxId" resultType="java.lang.Integer">
+		select max(id) id from t_transmit
+	</select>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.transmit.model.TTransmit">
+		update t_transmit
+		<set>
+			<if test="receiver != null">
+				receiver = #{receiver,jdbcType=VARCHAR},
+			</if>
+			<if test="receiverName != null">
+				receiver_name = #{receiverName,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="sender != null">
+				sender = #{sender,jdbcType=BIGINT},
+			</if>
+			<if test="sendTime != null">
+				send_time = #{sendTime,jdbcType=DATE},
+			</if>
+			<if test="by1 != null">
+				by1 = #{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				by2 = #{by2,jdbcType=VARCHAR},
+			</if>
+			<if test="by3 != null">
+				by3 = #{by3,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select t1.id id, t1.title, t1.send_time
+		sendTime, (select count(1) from t_transmit_receiver t2 where t2.is_read =0 and t2.transmit_id = t1.id) unread from t_transmit t1 where 1 = 1
+		<if test="sender != null">
+			and t1.sender = #{sender,jdbcType=INTEGER}
+		</if>
+		order by t1.send_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_transmit t1 where 1 = 1
+		<if test="sender != null">
+			and t1.sender = #{sender,jdbcType=INTEGER}
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.transmit.service.ITransmitReceiverService">
+	<resultMap id="BaseResultMap"
+		type="com.huike.app.transmit.model.TTransmitReceiver">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="transmit_id" jdbcType="BIGINT" property="transmitId" />
+		<result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+		<result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
+		<result column="receiver_phone" jdbcType="VARCHAR" property="receiverPhone" />
+		<result column="is_read" jdbcType="INTEGER" property="isRead" />
+		<result column="read_time" jdbcType="DATE" property="readTime" />
+		<result column="receive_time" jdbcType="DATE" property="receiveTime" />
+		<result column="by1" jdbcType="VARCHAR" property="by1" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, transmit_id, receiver_id, receiver_name, receiver_phone, is_read,
+		read_time,
+		receive_time, by1
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from t_transmit_receiver
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_transmit_receiver
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<insert id="insert" parameterType="com.huike.app.transmit.model.TTransmitReceiver">
+		insert into t_transmit_receiver
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="transmitId != null">
+				transmit_id,
+			</if>
+			<if test="receiverId != null">
+				receiver_id,
+			</if>
+			<if test="receiverName != null">
+				receiver_name,
+			</if>
+			<if test="receiverPhone != null">
+				receiver_phone,
+			</if>
+			<if test="isRead != null">
+				is_read,
+			</if>
+			<if test="readTime != null">
+				read_time,
+			</if>
+			receive_time,
+			<if test="by1 != null">
+				by1,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="transmitId != null">
+				#{transmitId,jdbcType=BIGINT},
+			</if>
+			<if test="receiverId != null">
+				#{receiverId,jdbcType=BIGINT},
+			</if>
+			<if test="receiverName != null">
+				#{receiverName,jdbcType=VARCHAR},
+			</if>
+			<if test="receiverPhone != null">
+				#{receiverPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="isRead != null">
+				#{isRead,jdbcType=INTEGER},
+			</if>
+			<if test="readTime != null">
+				#{readTime,jdbcType=DATE},
+			</if>
+			now(),
+			<if test="by1 != null">
+				#{by1,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.transmit.model.TTransmitReceiver">
+		update t_transmit_receiver
+		<set>
+			is_read = is_read+1,
+			read_time = now(),
+		</set>
+		where transmit_id = #{transmitId,jdbcType=BIGINT}
+		and receiver_id = #{receiverId,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select t2.id id, t1.is_read isRead, t2.sender, (select username from t_user where id = t2.sender) senderName, t2.title, t1.receive_time receiveTime from t_transmit_receiver t1, t_transmit t2 where t1.transmit_id = t2.id
+		<if test="receiverId != null">
+			and receiver_id = #{receiverId,jdbcType=INTEGER}
+		</if>
+		order by receive_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_transmit_receiver t1, t_transmit t2 where t1.transmit_id = t2.id
+		<if test="receiverId != null">
+			and receiver_id = #{receiverId,jdbcType=INTEGER}
+		</if>
+	</select>
+
+	<select id="readDetail" parameterType="java.lang.Integer" resultType="hashmap">
+		SELECT
+			receiver_name readName
+		FROM
+			t_transmit_receiver
+		WHERE
+			is_read > 0
+		AND transmit_id = #{_parameter,jdbcType=INTEGER}
+	</select>
+	
+	<select id="unReadDetail" parameterType="java.lang.Integer" resultType="hashmap">
+		SELECT
+			receiver_name unReadName
+		FROM
+			t_transmit_receiver
+		WHERE
+			is_read = 0
+		AND transmit_id = #{_parameter,jdbcType=INTEGER}
+	</select>
+</mapper>

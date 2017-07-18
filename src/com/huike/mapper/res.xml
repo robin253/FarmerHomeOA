@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.system.service.IResService">
+
+	<resultMap type="java.util.Map" id="Res">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="symbol" property="symbol" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="menu_order" property="menuOrder" jdbcType="INTEGER" />
+		<result column="is_usable" property="isUsable" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<collection property="roles" column="id" javaType="ArrayList"
+			select="queryRoles" />
+	</resultMap>
+	
+	<resultMap id="BaseResultMap" type="java.util.Map">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="symbol" property="symbol" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="icon" property="icon" jdbcType="VARCHAR" />
+		<result column="parent_id" property="parentId" jdbcType="INTEGER" />
+		<result column="menu_order" property="menuOrder" jdbcType="INTEGER" />
+		<result column="is_usable" property="isUsable" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		t1.id, t1.name, t1.symbol, t1.url,
+		t1.icon,
+		t1.parent_id, t1.menu_order,
+		t1.is_usable, t1.remark, t1.create_time
+	</sql>
+	
+	<resultMap type="java.util.Map" id="Role">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="expound" property="expound" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="queryRoles" parameterType="int" resultMap="Role">
+		select t1.* from t_role t1, t_role_res t2 where t1.id = t2.roleid and t2.resid = #{id}
+	</select>
+	
+	<select id="queryResIdsByRoleId" parameterType="int" resultType="int">
+		select t1.id from t_res t1, t_role_res t2 where t1.id = t2.resid and t2.roleid = #{id}
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="int" resultMap="Res">
+		select t1.* from t_res t1 where t1.id = #{_parameter}
+	</select>
+
+	<insert id="insert" parameterType="Res">
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id"> 
+        	select last_insert_id() as id
+        </selectKey>
+		insert into t_res
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		   <if test="id != null">id,</if>
+		   <if test="name != null">name,</if>
+		   <if test="symbol != null">symbol,</if>
+		   <if test="url != null">url,</if>
+		   <if test="icon != null">icon,</if>
+		   <if test="parentId != null">parent_id,</if>
+		   <if test="menuOrder != null">menu_order,</if>
+		   <if test="isUsable != null">is_usable,</if>
+		   <if test="remark != null">remark,</if>
+		   create_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		   <if test="id != null">#{id,jdbcType=INTEGER},</if>
+		   <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+		   <if test="symbol != null">#{symbol,jdbcType=VARCHAR},</if>
+		   <if test="url != null">#{url,jdbcType=VARCHAR},</if>
+		   <if test="icon != null">#{icon,jdbcType=VARCHAR},</if>
+		   <if test="parentId != null">#{parent_id,jdbcType=INTEGER},</if>
+		   <if test="menuOrder != null">#{menu_order,jdbcType=INTEGER},</if>
+		   <if test="isUsable != null">#{is_usable,jdbcType=VARCHAR},</if>
+		   <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+		   now(),
+		</trim>
+	</insert>
+	
+	
+	<insert id="addRoleRes" parameterType="hashmap">
+		insert into t_role_res
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		   <if test="resid != null">resid,</if>
+		   <if test="roleid != null">roleid,</if>
+		   create_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+		   <if test="resid != null">#{resid,jdbcType=INTEGER},</if>
+		   <if test="roleid != null">#{roleid,jdbcType=INTEGER},</if>
+		   now(),
+		</trim>
+	</insert>
+
+	<update id="updateRes" parameterType="Res">
+		update t_res
+		<set>
+		   <if test="name != null">#{name,jdbcType=VARCHAR},</if>
+		   <if test="symbol != null">#{symbol,jdbcType=VARCHAR},</if>
+		   <if test="url != null">#{url,jdbcType=VARCHAR},</if>
+		   <if test="icon != null">#{icon,jdbcType=VARCHAR},</if>
+		   <if test="parentId != null">#{parent_id,jdbcType=INTEGER},</if>
+		   <if test="menuOrder != null">#{menu_order,jdbcType=INTEGER},</if>
+		   <if test="isUsable != null">#{is_usable,jdbcType=VARCHAR},</if>
+		   <if test="remark != null">#{remark,jdbcType=VARCHAR},</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	
+	<select id="queryMenuByRole" resultMap="BaseResultMap" resultType="int">
+		select <include refid="Base_Column_List" /> from t_res t1, t_role_res t2 where t1.id = t2.resid and t2.roleid = #{roleid} order by t1.id
+    </select>
+	
+	<select id="queryForAll" resultMap="BaseResultMap">
+		select t1.* from t_res t1 order by t1.id
+    </select>
+
+	<select id="queryForPageTotal" parameterType="Map" resultType="int">
+		select count(1) from t_res
+	</select>
+
+	<select id="queryForPageList" parameterType="Map" resultMap="Res">
+		select * from t_res limit #{offset}, #{show}
+	</select>
+	
+	<select id="selectCountByMap" parameterType="hashmap" resultType="int">
+		select count(1) from t_res where 1 = 1
+		<if test="id != null and id != ''"> and id = #{id}</if>
+		<if test="name != null and name != ''"> and name = #{name}</if>
+		<if test="url != null and url != ''"> and url = #{url}</if>
+		<if test="symbol != null and symbol != ''"> and symbol like '%${symbol}%'</if>
+		<if test="icon != null and icon != ''"> and icon like '%${icon}%'</if>
+		<if test="parentId != null and parentId != ''"> and parentId = #{parentId}</if>
+		<if test="menuOrder != null and menuOrder != ''"> and menuOrder = #{menuOrder}</if>
+		<if test="isUsable != null and isUsable != ''"> and isUsable = #{isUsable}</if>
+		<if test="remark != null and remark != ''"> and remark like '%${remark}%'</if>
+	</select>
+
+	<select id="selectListPageByMap" parameterType="hashmap" resultMap="Res">
+		select * from t_res where 1 = 1
+		<if test="id != null and id != ''"> and id = #{id}</if>
+		<if test="name != null and name != ''"> and name = #{name}</if>
+		<if test="url != null and url != ''"> and url = #{url}</if>
+		<if test="symbol != null and symbol != ''"> and symbol like '%${symbol}%'</if>
+		<if test="icon != null and icon != ''"> and icon like '%${icon}%'</if>
+		<if test="parentId != null and parentId != ''"> and parentId = #{parentId}</if>
+		<if test="menuOrder != null and menuOrder != ''"> and menuOrder = #{menuOrder}</if>
+		<if test="isUsable != null and isUsable != ''"> and isUsable = #{isUsable}</if>
+		<if test="remark != null and remark != ''"> and remark like '%${remark}%'</if>
+		<if test="name != null and name != ''"> and name = #{name}</if>
+		<if test="url != null and url != ''"> and url = #{url}</if>
+		<if test="symbol != null and symbol != ''"> and symbol like '%${symbol}%'</if>
+		<if test="icon != null and icon != ''"> and icon like '%${icon}%'</if>
+		<if test="parentId != null and parentId != ''"> and parentId = #{parentId}</if>
+		<if test="menuOrder != null and menuOrder != ''"> and menuOrder = #{menuOrder}</if>
+		<if test="isUsable != null and isUsable != ''"> and isUsable = #{isUsable}</if>
+		<if test="remark != null and remark != ''"> and remark like '%${remark}%'</if>
+		order by id desc limit #{offset}, #{show}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="int">
+		delete from t_res where id = #{_parameter}
+	</delete>
+	
+	<delete id="deleteRelationByResId" parameterType="int">
+		delete from t_role_res where resid = #{_parameter}
+	</delete>
+
+	<delete id="deleteRelationByRoleId" parameterType="int">
+		delete from t_role_res where roleid = #{_parameter}
+	</delete>
+
+	<delete id="deleteForBatch" parameterType="List">
+		delete from t_res where
+		<foreach collection="list" item="item" index="index" separator="or">id = #{item}</foreach>
+	</delete>
+	
+	<delete id="deleteRelationByResIds" parameterType="List">
+		delete from t_role_res where
+		<foreach collection="list" item="item" index="index" separator="or">resid = #{item}</foreach>
+	</delete>
+	
+	<delete id="deleteRelationByRoleIds" parameterType="List">
+		delete from t_role_res where
+		<foreach collection="list" item="item" index="index" separator="or">roleid = #{item}</foreach>
+	</delete>
+</mapper>

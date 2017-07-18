@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.archive.service.IResidentService">
+	<resultMap id="BaseResultMap" type="com.huike.app.archive.model.TResident">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="sex" jdbcType="INTEGER" property="sex" />
+		<result column="education" jdbcType="INTEGER" property="education" />
+		<result column="politics" jdbcType="INTEGER" property="politics" />
+		<result column="xiang_id" jdbcType="BIGINT" property="xiangId" />
+		<result column="cun_id" jdbcType="BIGINT" property="cunId" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+		<result column="by1" jdbcType="VARCHAR" property="by1" />
+		<result column="by2" jdbcType="VARCHAR" property="by2" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, name, sex, education, politics, xiang_id xiangId,
+		cun_id cunId,
+		create_time, update_time, is_delete,
+		by1, by2
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
+		resultType="hashmap">
+		select
+		id, name, sex, education, politics, xiang_id xiangId,
+		cun_id cunId
+		from t_resident
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		update t_resident
+		set is_delete = 1
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<insert id="insert" parameterType="com.huike.app.archive.model.TResident">
+		insert into t_resident
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="education != null">
+				education,
+			</if>
+			<if test="politics != null">
+				politics,
+			</if>
+			<if test="xiangId != null">
+				xiang_id,
+			</if>
+			<if test="cunId != null">
+				cun_id,
+			</if>
+			create_time,
+			update_time,
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="by1 != null">
+				by1,
+			</if>
+			<if test="by2 != null">
+				by2,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="education != null">
+				#{education,jdbcType=INTEGER},
+			</if>
+			<if test="politics != null">
+				#{politics,jdbcType=INTEGER},
+			</if>
+			<if test="xiangId != null">
+				#{xiangId,jdbcType=BIGINT},
+			</if>
+			<if test="cunId != null">
+				#{cunId,jdbcType=BIGINT},
+			</if>
+			now(),
+			now(),
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="by1 != null">
+				#{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				#{by2,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.archive.model.TResident">
+		update t_resident
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="education != null">
+				education = #{education,jdbcType=INTEGER},
+			</if>
+			<if test="politics != null">
+				politics = #{politics,jdbcType=INTEGER},
+			</if>
+			<if test="xiangId != null">
+				xiang_id = #{xiangId,jdbcType=BIGINT},
+			</if>
+			<if test="cunId != null">
+				cun_id = #{cunId,jdbcType=BIGINT},
+			</if>
+			update_time = now(),
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="by1 != null">
+				by1 = #{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				by2 = #{by2,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, name, sex, education, politics, IFNULL(xiang_id,"")
+		xiangId,
+		IFNULL((select village_name from t_village where id = xiang_id),"") as xiangName,
+		IFNULL(cun_id,"")
+		cunId, IFNULL((select village_name from t_village
+		where id = cun_id),"") as
+		cunName from t_resident where is_delete=0
+		<if test="sex != null and sex != ''">
+			and sex = #{sex,jdbcType=INTEGER}
+		</if>
+		<if test="education != null and education != ''">
+			and education = #{education,jdbcType=INTEGER}
+		</if>
+		<if test="politics != null and politics != ''">
+			and politics = #{politics,jdbcType=INTEGER}
+		</if>
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id = #{xiangId,jdbcType=INTEGER}
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id = #{cunId,jdbcType=INTEGER}
+		</if>
+		<if test="name != null and name != ''">
+			and name like CONCAT('%', #{name,jdbcType=VARCHAR},'%')
+		</if>
+		order by create_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_resident where is_delete=0
+		<if test="sex != null and sex != ''">
+			and sex = #{sex,jdbcType=INTEGER}
+		</if>
+		<if test="education != null and education != ''">
+			and education = #{education,jdbcType=INTEGER}
+		</if>
+		<if test="politics != null and politics != ''">
+			and politics = #{politics,jdbcType=INTEGER}
+		</if>
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id = #{xiangId,jdbcType=INTEGER}
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id = #{cunId,jdbcType=INTEGER}
+		</if>
+		<if test="name != null and name != ''">
+			and name like CONCAT('%', #{name,jdbcType=VARCHAR},'%')
+		</if>
+	</select>
+
+	<select id="statisticsGroupByEducation" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT
+		count(1) value,
+		CASE education
+		WHEN 1 THEN
+		'无文凭'
+		WHEN 2 THEN
+		'小学'
+		WHEN 3 THEN
+		'初中'
+		WHEN 4 THEN
+		'高中'
+		WHEN 5 THEN
+		'大专/高职'
+		WHEN 6 THEN
+		'本科'
+		ELSE
+		'研究生及以上'
+		END AS name
+		FROM
+		t_resident
+		WHERE
+		is_delete = 0
+		<if test="politics != null and politics != ''">
+			and politics = #{politics,jdbcType=INTEGER}
+		</if>
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id in
+			<foreach item="item" index="index" collection="xiangId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id in
+			<foreach item="item" index="index" collection="cunId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		GROUP BY
+		education
+	</select>
+
+	<select id="statisticsGroupByPolitics" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT
+		count(1) value,
+		CASE politics
+		WHEN 1 THEN
+		'群众'
+		WHEN 2 THEN
+		'共青团员'
+		WHEN 3 THEN
+		'预备党员'
+		ELSE
+		'党员'
+		END AS name
+		FROM
+		t_resident
+		WHERE
+		is_delete = 0
+		<if test="education != null and education !=''">
+			and education = #{education,jdbcType=INTEGER}
+		</if>
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id in
+			<foreach item="item" index="index" collection="xiangId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id in
+			<foreach item="item" index="index" collection="cunId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		GROUP BY
+		politics
+	</select>
+
+	<select id="statisticsGroupByXiang" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT
+		count(1) AS value,
+		(
+		SELECT
+		village_name
+		FROM
+		t_village
+		WHERE
+		id = a.xiang_id
+		)AS name
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		t_resident
+		WHERE
+		is_delete = 0
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id in
+			<foreach item="item" index="index" collection="xiangId" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		<if test="education != null and education != ''">
+			and education = #{education,jdbcType=INTEGER}
+		</if>
+		<if test="politics != null and politics !=''">
+			and politics = #{politics,jdbcType=INTEGER}
+		</if>
+		)a
+		GROUP BY
+		xiang_id
+	</select>
+
+	<select id="statisticsGroupByCun" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT
+		count(1)AS value,
+		(
+		SELECT
+		village_name
+		FROM
+		t_village
+		WHERE
+		id = a.cun_id
+		)AS name
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		t_resident
+		WHERE
+		is_delete = 0
+		<if test="cunId != null and cunId != ''">
+			and cun_id in
+			<foreach item="item" index="index" collection="cunId" open="("
+				separator="," close=")">
+				#{item,jdbcType=INTEGER}
+			</foreach>
+		</if>
+		<if test="education != null and education !=''">
+			and education = #{education,jdbcType=INTEGER}
+		</if>
+		<if test="politics != null and politics !=''">
+			and politics = #{politics,jdbcType=INTEGER}
+		</if>
+		)a
+		GROUP BY
+		cun_id
+	</select>
+
+</mapper>

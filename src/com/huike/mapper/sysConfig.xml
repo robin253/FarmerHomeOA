@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huike.app.system.service.ISysConfigService" >
+  <resultMap id="BaseResultMap" type="java.util.Map" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="group_code" property="groupCode" jdbcType="VARCHAR" />
+    <result column="config_name" property="configName" jdbcType="VARCHAR" />
+    <result column="ckey" property="ckey" jdbcType="VARCHAR" />
+    <result column="cvalue" property="cvalue" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, group_code, config_name, ckey, cvalue, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectValueByKey" resultMap="BaseResultMap" parameterType="java.util.Map">
+  	select 
+    <include refid="Base_Column_List" />
+    from sys_config where ckey=#{ckey}
+  </select>
+  
+  <select id="selectGroupCodeByCkey" resultType="java.lang.String" parameterType="java.util.Map">
+  	select group_code from sys_config where ckey = #{ckey}
+  </select>
+  
+   <select id="selectKeyValueByGroupCode" resultType="java.util.Map" parameterType="java.util.Map">
+     	select ckey, cvalue from sys_config where 1 = 1 
+     	<if test="null != groupCode">
+			and group_code = #{groupCode}
+		</if>
+  </select>
+  
+  <select id="selectAllList" resultMap="BaseResultMap" parameterType="java.lang.Long">
+  	select c.id id, c.group_code, c.config_name, c.ckey, c.cvalue, c.remark from sys_config c 
+	LEFT JOIN sys_config_group g on c.group_code = g.group_code
+	order by g.sort
+  </select>
+  
+  <select id="selectPageCountByGroupCode" resultType="java.lang.Integer" parameterType="java.util.Map">
+	  	select count(1) from sys_config c 
+		LEFT JOIN sys_config_group g on c.group_code = g.group_code
+		where 1 = 1
+	<if test="null != groupCode">
+		<![CDATA[
+		and c.group_code = #{groupCode,jdbcType=VARCHAR}
+		]]>
+	</if>
+	order by g.sort
+  </select>
+  
+  
+  <select id="selectConfigListPageByGroupCode" resultMap="BaseResultMap" parameterType="java.util.Map">
+	  	select c.id id, c.group_code, c.config_name, c.ckey, c.cvalue, c.remark from sys_config c 
+		LEFT JOIN sys_config_group g on c.group_code = g.group_code
+		where 1 = 1
+	<if test="null != groupCode">
+		<![CDATA[
+		and c.group_code = #{groupCode,jdbcType=VARCHAR}
+		]]>
+	</if>
+	order by g.sort
+	 <if test = "null != webPager">
+    	limit #{webPager.startRow},#{webPager.pageSize}
+    </if>
+  </select>
+  
+  <select id="selectListByMap" resultMap="BaseResultMap" parameterType="java.util.Map" >
+  	select c.id id, c.group_code group_code, c.config_name config_name, c.ckey ckey, c.cvalue cvalue, c.remark remark from sys_config c 
+	LEFT JOIN sys_config_group g on c.group_code = g.group_code
+	where 1 = 1
+	<if test="null != configName and '' != configName ">
+		and c.config_name = #{configName}
+	</if>
+	<if test="null != groupCode">
+		and c.group_code = #{groupCode}
+	</if>
+	<if test="null != ckey and '' != ckey ">
+		and c.ckey = #{ckey}
+	</if>
+	order by g.sort
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_config
+    where id = #{id,jdbcType=BIGINT} and app_code = #{appCode}
+  </delete>
+  
+  <delete id="betachDeleteByPrimaryKey" parameterType="java.util.List" >
+    delete from sys_config where id in
+    <foreach collection="list" item="id" open="(" separator="," close=")">
+    	 #{id,jdbcType=BIGINT} 
+    </foreach>
+  </delete>
+  
+  <insert id="insertSelective" parameterType="SysConfig" >
+    insert into sys_config
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="groupCode != null" >
+        group_code,
+      </if>
+      <if test="configName != null" >
+        config_name,
+      </if>
+      <if test="ckey != null" >
+        ckey,
+      </if>
+      <if test="cvalue != null" >
+        cvalue,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="groupCode != null" >
+        #{groupCode,jdbcType=VARCHAR},
+      </if>
+      <if test="configName != null" >
+        #{configName,jdbcType=VARCHAR},
+      </if>
+      <if test="ckey != null" >
+        #{ckey,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null" >
+        #{cvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="SysConfig" >
+    update sys_config
+    <set >
+      <if test="groupCode != null" >
+        group_code = #{groupCode,jdbcType=BIGINT},
+      </if>
+      <if test="configName != null" >
+        config_name = #{configName,jdbcType=VARCHAR},
+      </if>
+      <if test="ckey != null" >
+        ckey = #{ckey,jdbcType=VARCHAR},
+      </if>
+      <if test="cvalue != null" >
+        cvalue = #{cvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

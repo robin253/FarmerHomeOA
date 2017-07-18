@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.report.service.IReportManageService">
+  
+  <resultMap id="BaseResultMap" type="com.huike.app.report.model.TReportManage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="xiang_id" jdbcType="INTEGER" property="xiangId" />
+    <result column="cun_id" jdbcType="INTEGER" property="cunId" />
+    <result column="xiang_name" jdbcType="VARCHAR" property="xiangName" />
+    <result column="cun_name" jdbcType="VARCHAR" property="cunName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="report_type" jdbcType="INTEGER" property="reportType" />
+    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="is_upload" jdbcType="INTEGER" property="isUpload" />
+    <result column="upload_time" jdbcType="DATE" property="uploadTime" />
+    <result column="by1" jdbcType="VARCHAR" property="by1" />
+    <result column="by2" jdbcType="VARCHAR" property="by2" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, user_id, username, xiang_id, cun_id, xiang_name, cun_name, phone, report_type, create_time, 
+    is_upload, upload_time, by1, by2
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_report_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_report_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="com.huike.app.report.model.TReportManage">
+    insert into t_report_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="xiangId != null">
+        xiang_id,
+      </if>
+      <if test="cunId != null">
+        cun_id,
+      </if>
+      <if test="xiangName != null">
+        xiang_name,
+      </if>
+      <if test="cunName != null">
+        cun_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="reportType != null">
+        report_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="isUpload != null">
+        is_upload,
+      </if>
+      <if test="uploadTime != null">
+        upload_time,
+      </if>
+      <if test="by1 != null">
+        by1,
+      </if>
+      <if test="by2 != null">
+        by2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="xiangId != null">
+        #{xiangId,jdbcType=INTEGER},
+      </if>
+      <if test="cunId != null">
+        #{cunId,jdbcType=INTEGER},
+      </if>
+      <if test="xiangName != null">
+        #{xiangName,jdbcType=VARCHAR},
+      </if>
+      <if test="cunName != null">
+        #{cunName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null">
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="isUpload != null">
+        #{isUpload,jdbcType=INTEGER},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=DATE},
+      </if>
+      <if test="by1 != null">
+        #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        #{by2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKey" parameterType="com.huike.app.report.model.TReportManage">
+    update t_report_manage
+    <set>
+      <if test="isUpload != null">
+        is_upload = #{isUpload,jdbcType=INTEGER},
+      </if>
+        upload_time = now(),
+      <if test="by1 != null">
+        by1 = #{by1,jdbcType=VARCHAR},
+      </if>
+      <if test="by2 != null">
+        by2 = #{by2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where 1 = 1
+    and create_time = #{createTime}
+    and xiang_id = #{xiangId}
+    and cun_id = #{cunId}
+    and report_type = #{reportType}
+  </update>
+  
+  	<!-- 后台列表分页咨询 -->
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, create_time createTime, xiang_name xiangName, cun_name cunName,
+		case report_type when 1 then '财务报表' else
+		'服务报表' end as reportTypeValue, report_type reportType,
+		case is_upload when 1 then '未上传' else
+		'逾期上传' end as isUpload
+		from t_report_manage
+		where 1 = 1
+		<if test="startTime != null and startTime != ''">and create_time &gt;= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt;= #{endTime}</if>
+		<if test="isUpload != null">and is_upload = #{isUpload}</if>
+		GROUP BY cun_id,report_type,is_upload,create_time
+		order by create_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from (select count(1) from t_report_manage where 1 = 1
+		<if test="startTime != null and startTime != ''">and create_time &gt;= #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt;= #{endTime}</if>
+		<if test="isUpload != null">and is_upload = #{isUpload}</if>
+		GROUP BY cun_id,report_type,is_upload,create_time)as temp 
+	</select>
+	
+	<!-- 查询出未上传报表的用户发送提醒短信 -->
+	<select id="selectUnuploadList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select username, phone
+		from t_report_manage
+		where is_upload = 1 and create_time = #{createTime}
+		order by create_time desc
+	</select>
+  
+</mapper>

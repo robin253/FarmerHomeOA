@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.consult.service.IConsultService">
+
+	<resultMap id="BaseResultMap" type="com.huike.app.consult.model.TConsult">
+		<id column="id" jdbcType="VARCHAR" property="id" />
+		<result column="consultant_name" jdbcType="VARCHAR" property="consultantName" />
+		<result column="consultant_phone" jdbcType="VARCHAR" property="consultantPhone" />
+		<result column="consultant_address" jdbcType="VARCHAR"
+			property="consultantAddress" />
+		<result column="consultant_mail" jdbcType="VARCHAR" property="consultantMail" />
+		<result column="consult_question" jdbcType="VARCHAR" property="consultQuestion" />
+		<result column="handle_user_id" jdbcType="BIGINT" property="handleUserId" />
+		<result column="handle_status" jdbcType="INTEGER" property="handleStatus" />
+		<result column="handle_result" jdbcType="VARCHAR" property="handleResult" />
+		<result column="handle_feedback" jdbcType="INTEGER" property="handleFeedback" />
+		<result column="is_public" jdbcType="INTEGER" property="isPublic" />
+		<result column="current_user_id" jdbcType="BIGINT" property="currentUserId" />
+		<result column="create_time" jdbcType="DATE" property="createTime" />
+		<result column="update_time" jdbcType="DATE" property="updateTime" />
+		<result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+		<result column="by1" jdbcType="VARCHAR" property="by1" />
+		<result column="by2" jdbcType="VARCHAR" property="by2" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, consultant_name consultantName, consultant_phone consultantPhone,
+		consultant_address consultantAddress, consultant_mail consultantMail,
+		consult_question consultQuestion,
+		handle_user_id handldUserId, handle_status handleStatus, handle_result handleResult,
+		handle_feedback handleFeedback, is_public isPublic, current_user_id
+		currentUserId,
+		create_time, update_time, is_delete, by1, by2
+	</sql>
+
+	<!-- 官网根据查询号查询咨询情况 -->
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultType="hashmap">
+		select
+		id, handle_status handleStatus, consult_question consultQuestion,
+		ifnull(handle_result,"") handleResult, ifnull(handle_feedback,"")
+		handleFeedback
+		from t_consult
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+	
+		<!-- 后台查询用户详情 -->
+	<select id="selectUserDetailByPrimaryKey" parameterType="java.lang.String"
+		resultType="hashmap">
+		select
+		id, handle_status handleStatus, consult_question consultQuestion,
+		ifnull(handle_result,"") handleResult, ifnull(handle_feedback,"")
+		handleFeedback,
+		ifnull(consultant_name,"") consultantName,
+		ifnull(consultant_phone,"") consultantPhone,
+		ifnull(consultant_address,"") consultantAddress,
+		ifnull(consultant_mail,"") consultantMail,
+		CASE is_public
+		WHEN 0 THEN
+		'是'
+		WHEN 1 THEN
+		'否'
+		ELSE
+		''
+		END AS isPublic
+		from t_consult
+		where id = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 官网分页查询历史咨询 -->
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select consult_question consultQuestion, ifnull(handle_result,"")
+		handleResult, ifnull(handle_feedback,"") handleFeedback from t_consult
+		where is_delete=0 and is_public=0 and handle_status=3 order by
+		update_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_consult where is_delete=0 and is_public=0 and
+		handle_status=3
+	</select>
+	
+	<!-- 查询出尚未办结的事项，发送短信 -->
+	<select id="unHandleMessage" parameterType="java.util.Map"
+		resultType="hashmap">
+		select handle_user_id handleUserId
+		 from t_consult
+		where is_delete=0 and handle_status=2
+		<if test="update_time != null">and update_time = #{updateTime}</if>
+	</select>
+
+	<!-- 后台事项列表分页咨询 -->
+	<select id="handlePageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, ifnull(consultant_name,"") consultantName,
+		create_time createTime,
+		update_time updateTime,
+		CASE handle_status
+		WHEN 1 THEN
+		'已受理'
+		WHEN 2 THEN
+		'正在办理'
+		WHEN 3 THEN
+		'已办理'
+		ELSE
+		''
+		END AS handleStatusValue,
+		handle_status as handleStatus,
+		CASE handle_feedback
+		WHEN 1 THEN
+		'满意'
+		WHEN 2 THEN
+		'基本满意'
+		WHEN 3 THEN
+		'不满意'
+		ELSE
+		''
+		END AS handleFeedback,
+		CASE is_public
+		WHEN 0 THEN
+		'是'
+		WHEN 1 THEN
+		'否'
+		ELSE
+		''
+		END AS isPublic,
+		IFNULL((select username from t_user where id = handle_user_id),"") handleUserName
+		from t_consult
+		where is_delete=0
+		<if test="startTime != null and startTime != ''">and create_time &gt; #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt; #{endTime}</if>
+		<if test="consultantName != null and consultantName != ''">
+			and consultant_name like CONCAT('%',
+			#{consultantName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="handlestatus != null and handlestatus != ''">and handle_status = #{handlestatus}</if>
+		<if test="handleUserId != null">and handle_user_id = #{handleUserId}</if>
+		<if test="handleFeedback != null and handleFeedback != ''">and handle_feedback = #{handleFeedback}</if>
+		order by update_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="handlePageListCount" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_consult where is_delete=0
+		<if test="startTime != null and startTime != ''">and create_time &gt; #{startTime}</if>
+		<if test="endTime != null and endTime != ''">and create_time &lt; #{endTime}</if>
+		<if test="consultantName != null and consultantName != ''">
+			and consultant_name like CONCAT('%',
+			#{consultantName,jdbcType=VARCHAR},'%')
+		</if>
+		<if test="handlestatus != null and handlestatus != ''">and handle_status = #{handlestatus}</if>
+		<if test="handle_user_id != null">and handle_user_id = #{handleUserId}</if>
+		<if test="handleFeedback != null and handleFeedback != ''">and handle_feedback = #{handleFeedback}</if>
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.String">
+		update t_consult set is_delete = 1
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 添加咨询 -->
+	<insert id="insert" parameterType="com.huike.app.consult.model.TConsult">
+		insert into t_consult
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="consultantName != null">
+				consultant_name,
+			</if>
+			<if test="consultantPhone != null">
+				consultant_phone,
+			</if>
+			<if test="consultantAddress != null">
+				consultant_address,
+			</if>
+			<if test="consultantMail != null">
+				consultant_mail,
+			</if>
+			<if test="consultQuestion != null">
+				consult_question,
+			</if>
+			<if test="handleUserId != null">
+				handle_user_id,
+			</if>
+			<if test="handleStatus != null">
+				handle_status,
+			</if>
+			<if test="handleResult != null">
+				handle_result,
+			</if>
+			<if test="handleFeedback != null">
+				handle_feedback,
+			</if>
+			<if test="isPublic != null">
+				is_public,
+			</if>
+			<if test="currentUserId != null">
+				current_user_id,
+			</if>
+			create_time,
+			update_time,
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="by1 != null">
+				by1,
+			</if>
+			<if test="by2 != null">
+				by2,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantName != null">
+				#{consultantName,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantPhone != null">
+				#{consultantPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantAddress != null">
+				#{consultantAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantMail != null">
+				#{consultantMail,jdbcType=VARCHAR},
+			</if>
+			<if test="consultQuestion != null">
+				#{consultQuestion,jdbcType=VARCHAR},
+			</if>
+			<if test="handleUserId != null">
+				#{handleUserId,jdbcType=BIGINT},
+			</if>
+			<if test="handleStatus != null">
+				#{handleStatus,jdbcType=INTEGER},
+			</if>
+			<if test="handleResult != null">
+				#{handleResult,jdbcType=VARCHAR},
+			</if>
+			<if test="handleFeedback != null">
+				#{handleFeedback,jdbcType=INTEGER},
+			</if>
+			<if test="isPublic != null">
+				#{isPublic,jdbcType=INTEGER},
+			</if>
+			<if test="currentUserId != null">
+				#{currentUserId,jdbcType=BIGINT},
+			</if>
+			now(),
+			now(),
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="by1 != null">
+				#{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				#{by2,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.consult.model.TConsult">
+		update t_consult
+		<set>
+			<if test="consultantName != null">
+				consultant_name = #{consultantName,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantPhone != null">
+				consultant_phone = #{consultantPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantAddress != null">
+				consultant_address = #{consultantAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="consultantMail != null">
+				consultant_mail = #{consultantMail,jdbcType=VARCHAR},
+			</if>
+			<if test="consultQuestion != null">
+				consult_question = #{consultQuestion,jdbcType=VARCHAR},
+			</if>
+			<if test="handleUserId != null">
+				handle_user_id = #{handleUserId,jdbcType=BIGINT},
+			</if>
+			<if test="handleStatus != null">
+				handle_status = #{handleStatus,jdbcType=INTEGER},
+			</if>
+			<if test="handleResult != null">
+				handle_result = #{handleResult,jdbcType=VARCHAR},
+			</if>
+			<if test="handleFeedback != null">
+				handle_feedback = #{handleFeedback,jdbcType=INTEGER},
+			</if>
+			<if test="isPublic != null">
+				is_public = #{isPublic,jdbcType=INTEGER},
+			</if>
+			<if test="currentUserId != null">
+				current_user_id = #{currentUserId,jdbcType=BIGINT},
+			</if>
+			update_time = now(),
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="by1 != null">
+				by1 = #{by1,jdbcType=VARCHAR},
+			</if>
+			<if test="by2 != null">
+				by2 = #{by2,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查询当天最大的订单号 -->
+	<select id="selectMaxId" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select IFNULL(MAX(id),0) maxId from t_consult where create_time =
+		#{startTime}
+	</select>
+</mapper>
