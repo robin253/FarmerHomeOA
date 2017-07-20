@@ -1,0 +1,248 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>未上报管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap-datetimepicker.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		     .txts{
+            	display: inline-block;
+            	width:180px;
+            	overflow: hidden;
+            	white-space: nowrap;
+            	text-overflow: ellipsis;
+            } 
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>未上报管理</legend>
+		</fieldset>
+		<form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<div class="form-group">
+					<input type="text" value="" class="form-control checkLogs" id="orderNum" placeholder="开始时间" autocomplete="off">
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+				<div class="form-group">
+					<input type="text" value="" class="form-control checkLogs" id="companyName" placeholder="结束时间" autocomplete="off">
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+				<div class="form-group">
+					分类
+					<select class="form-control" id="status">
+						<option data-type="1">未上报</option>
+						<option data-type="2">逾期上报</option>
+					</select>
+				</div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<table id="biuuu_city_list" class="layui-table">
+			<thead>
+				<tr>
+					<th style="text-align: center;">序号</th>
+					<th style="text-align: center;">报表类型</th>
+					<th style="text-align: center;">时间</th>
+					<th style="text-align: center;">所在乡</th>
+					<th style="text-align: center;">所在村</th>
+				</tr>
+			</thead>
+			<tbody style="text-align: center;">
+
+			</tbody>
+		</table>
+		<div class="tcdPageCode"></div>
+		<div id="demo8" style="text-align: center;"></div>
+		<div class="hide">
+			<div id="x-address">
+				<div class="form-group form-inline clearfix">
+					用户名称
+					<input type="text" value="" class="form-control checkLogs" id="yy" placeholder="" autocomplete="off">
+				</div>
+				<div class="form-group form-inline clearfix">
+					标识&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" value="" class="form-control checkLogs" id="bs" placeholder="" autocomplete="off">
+				</div>
+			</div>
+		</div>
+		<div class="hide">
+			<div id="removePeople">
+				确定删除该角色？
+			</div>
+		</div>
+		<div class="hide">
+			<div id="quan">
+				<ul id="q-lie" class="list-group" style="height:300px;overflow: scroll;">
+
+				</ul>
+			</div>
+		</div>
+		<script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script src="../common/js/md5.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script>
+		var newCookie=sessionStorage.ticket;
+		(function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var xx = $.getUrlParam('x');
+		         var y = $.getUrlParam('y');
+		        var name=decodeURI($.getUrlParam('name'));
+		        var flag=decodeURI($.getUrlParam('flag'));
+		        var status=decodeURI($.getUrlParam('status'));
+		        var sessionId=sessionStorage.session_id;
+		         if(xx==null){
+		        	xx=1;
+		        }else{
+		        	xx=$.getUrlParam('x');
+		        };
+		        if(flag=="null"){
+		        	flag=''
+		        }
+		        if(status=="null"){
+		        	status=''
+		        }
+		        if(y==null){
+		        	 name='';
+		        	 var list={
+			        	pageIndex:xx,
+						pageSize:10,
+						isUpload:1,
+						sessionId:sessionId
+			           };
+		        }else{
+		        	 var list={
+		        	 	startTime:name,
+		        	 	endTime:flag,
+		        	 	pageIndex:xx,
+						pageSize:10,
+						isUpload:status,
+						sessionId:sessionId
+		             }
+		        }
+		       $("#orderNum").val(name);
+		       $("#companyName").val(flag);
+		       $("#status option[data-type='"+ status +"']").prop("selected", true);
+      	      //获取角色列表
+			    $.ajax({
+				type: "post",
+				url: href+"/api/back/reportManage/list",
+				data:list,
+				dataType:"json",
+				success: function(data) {
+					var length = data.data.pagination.pageCount;
+					var d = data.data.rows;
+					//console.log(d);
+					var str = '';
+					if(d.length){
+				    for(var i=0;i<d.length;i++) {
+						str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].reporttypevalue + '</td><td>' + d[i].createtime + '</td><td>' + d[i].xiangname + '</td><td>' + d[i].cunname+ '</td></tr>';
+						//<button data-id="' + d[i].id + '" class="layui-btn layui-btn-danger quan">权限</button>
+					};		
+					}else{
+						str='<tr><td colspan="5">无数据</td></tr>';
+					}
+					
+					$("#biuuu_city_list tbody").html(str);
+					 $(".tcdPageCode").createPage({
+				        pageCount:length,
+				        current:xx,
+				        backFn:function(p){
+				        	if(y==null){
+				        	 window.location.href="disBaoManage.html?x="+p;	
+				        	}else{
+				var a=$("#orderNum").val(),b=$("#companyName").val(),c=$('#status option:selected').data('type');
+				window.location.href="disBaoManage.html?x="+p+"&name="+encodeURI(encodeURI(a))+"&flag="+encodeURI(encodeURI(b))+"&status="+encodeURI(encodeURI(c))+"&y="+1;
+				        	}
+				          
+				           
+				        }
+					 });
+					 //去重
+					 for(var i=0;i<$(".tcdPageCode a").length-1;i++){
+					 	if($(".tcdPageCode a").eq(i).text()==$(".tcdPageCode a").eq(i+1).text()){
+					 		$(".tcdPageCode a").eq(i).remove()
+					 	}
+					 }
+				},
+				error: function() {
+					alert()
+				}
+			});
+			//开始时间
+			  $('#orderNum').datetimepicker({
+				        format: 'yyyy-mm-dd',
+				        language:  'zh-CN',
+				        autoclose: 1,
+				        minView: 2
+		    });
+		    //结束时间
+		    $('#companyName').datetimepicker({
+				        format: 'yyyy-mm-dd',
+				        language:  'zh-CN',
+				        autoclose: 1,
+				        minView: 2
+		     });
+			//刷新页面
+				$(".shua").on('click',function(event){
+					event.preventDefault();
+					window.location.href="disBaoManage.html"
+				})
+				//时间转化
+			function time(t){
+				var d=new Date(t);
+				var year=d.getFullYear();
+				var day=d.getDate();
+				var month=+d.getMonth()+1;
+				var hour=d.getHours();
+				var minute=d.getMinutes();
+				var second=d.getSeconds();
+				var misec=d.getMilliseconds();
+				var f=year+"-"+change(month)+"-"+change(day)+" "+change(hour)+":"+change(minute)+":"+change(second);
+				return f;
+			};
+			function change(t){
+				if(t<10){
+					t="0"+t
+				};
+				return t;
+			};
+			//搜索
+			$("#j-search").on("click", function() {
+				var a=$("#orderNum").val(),b=$("#companyName").val(),c=$('#status option:selected').data('type');
+				window.location.href="disBaoManage.html?x="+1+"&name="+encodeURI(encodeURI(a))+"&flag="+encodeURI(encodeURI(b))+"&status="+encodeURI(encodeURI(c))+"&y="+1;
+			});
+		</script>
+	</body>
+</html>

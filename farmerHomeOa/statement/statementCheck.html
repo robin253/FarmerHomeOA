@@ -1,0 +1,433 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>报表审核</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap-datetimepicker.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		    .panel{
+				border:0
+			}
+			 .txts{
+            	display: inline-block;
+            	width:180px;
+            	overflow: hidden;
+            	white-space: nowrap;
+            	text-overflow: ellipsis;
+            } 
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>报表审核</legend>
+		</fieldset>
+		<form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<div class="form-group">
+					选择乡
+					<select class="form-control" id="m-leis">
+						    <option data-type="">请选择乡</option>
+                    </select>
+				</div>
+				<div class="form-group">
+					选择村
+					<select class="form-control" id="m-fens">
+                        <option data-type="">请选择村</option>    
+                    </select>
+				</div>
+				<div class="form-group">
+					<input type="text" value="" class="form-control checkLogs" id="addTime" placeholder="开始时间" autocomplete="off">
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+				<div class="form-group">
+					<input type="text" value="" class="form-control checkLogs" id="endTime" placeholder="结束时间" autocomplete="off">
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<table id="biuuu_city_list" class="layui-table">
+			<thead>
+				<tr>
+					<th style="text-align: center;">序号</th>
+					<th style="text-align: center;">报表名称</th>
+					<th style="text-align: center;">上传时间</th>
+					<th style="text-align: center;">报表类型</th>
+					<th style="text-align: center;">所在乡</th>
+					<th style="text-align: center;">所在村</th>
+					<th style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody style="text-align: center;">
+
+			</tbody>
+		</table>
+		<div class="tcdPageCode"></div>
+		<div id="demo8" style="text-align: center;"></div>
+		<div class="hide">
+			<div id="shang">
+				确定上传？
+			</div>
+		</div>
+		<div class="hide">
+			<div id="cun">
+				确定存档？
+			</div>
+		</div>
+		<div class="hide">
+			<div id="shen">
+				<div class="form-group form-inline clearfix">
+					请输入修改要求
+					<textarea class="form-control" rows="3" cols="60" id="remark" placeholder="请填写重审(必填)"></textarea>
+				</div>
+		      </div>
+		    <script src="../common/js/jquery-1.12.3.min.js"></script>
+			<script type="text/javascript" src="../common/layui/layui.js"></script>
+			<script src="../common/js/bootstrap.min.js"></script>
+			<script src="../common/js/jquery.bootstrap.min.js"></script>
+			<script src="../common/js/search-logs.js"></script>
+			<script src="../common/js/jquery.page.js"></script>
+			<script src="../common/js/spark-md5.js"></script>
+			<script src="../common/js/template.js"></script>
+			<script src="../common/js/async.js"></script>
+			<script src="../common/js/upyun-mu.js"></script>
+			<script src="../common/js/bootstrap-datetimepicker.min.js"></script>
+			<script src="../common/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script>
+		var newCookie=sessionStorage.ticket;
+		 var sessionId=sessionStorage.session_id;
+		(function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var xx = $.getUrlParam('x');
+		        var bName=decodeURI($.getUrlParam('bName'));
+		        var bType=decodeURI($.getUrlParam('bType'));
+		        var addTime=decodeURI($.getUrlParam('addTime'));
+		        var endTime=decodeURI($.getUrlParam('endTime'));
+		        var y=$.getUrlParam('y');
+		       if(bName=="null"){
+		          bName="";
+		       };
+		       if(bType=="null"){
+		         bType="";
+		       };
+		       if(addTime=="null"){
+		         addTime="";
+		       };
+		       if(endTime=="null"){
+		         endTime="";
+		       };
+		         if(xx==null){
+		        	xx=1;
+		        }else{
+		        	xx=$.getUrlParam('x');
+		        };
+		        if(y==null){
+		        	 var list={
+		        	 	pageIndex:xx,
+						pageSize:10,
+						sessionId:sessionId
+			           };
+			           var url=href+"/api/back/reportEaxm/handleList"
+		        }else{
+		        	 var list={
+		        	 	xiangId:bName,
+		        	 	cunId:bType,
+		        	 	currentPage:xx,
+		        	 	pageSize:10,
+		        	 	endTime:endTime,
+		        	 	startTime:addTime,
+						sessionId:sessionId
+		            };
+		            var url=href+"/api/back/reportEaxm/handleList"
+		        }
+		       $("#addTime").val(addTime);
+		       $("#endTime").val(endTime);
+		       //获取乡
+		       $.ajax({
+		       	type:"post",
+		       	url:href+"/api/back/village/parentList",
+		       	data:{
+		       		sessionId:sessionId
+		       	},
+		       	dataType:"json",
+		       	success:function(data){
+		       		var d=data.data;
+		       		var otr="";
+		       		if(d.length){
+		       			for(var i=0;i<d.length;i++){
+		       			otr += '<option data-id="'+d[i].id+'" data-type="'+d[i].id+'">'+d[i].villageName+'</option>';	
+		       			};
+		       			$("#m-leis").html('<option data-type="">请选择乡</option>'+otr);
+		       		    $("#m-leis option[data-type='"+ bName +"']").prop("selected", true);
+		       		    fens($('#m-leis option:selected').data('id'));
+		       		}
+		       	}
+		       });
+		       //入学时间
+				  $('#addTime').datetimepicker({
+					        format: 'yyyy-mm-dd',
+					        language:  'zh-CN',
+					        autoclose: 1,
+					        minView: 2
+			    });
+			    //结业时间
+			    $('#endTime').datetimepicker({
+					        format: 'yyyy-mm-dd',
+					        language:  'zh-CN',
+					        autoclose: 1,
+					        minView: 2
+			    });
+      	      //获取角色列表
+			    $.ajax({
+				type: "post",
+				url: url ,
+				data:list,
+				success: function(data) {
+					console.log(data.status)
+					var length = data.data.pagination.pageCount;
+					var d = data.data.rows;
+					var str = '';
+					if(d.length){
+						if(newCookie==1){
+							for(var i=0;i<d.length;i++) {
+				    	if(d[i].reporttype==1){
+							str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].reportname + '</td><td>' + d[i].createtime + '</td><td>' + d[i].reporttypevalue + '</td><td>' + d[i].xiangname + '</td><td>' + d[i].cunname + '</td><td><button data-id="'+d[i].reportid+'" class="layui-btn cha">查看</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-danger chong">重审</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-warm shang">上传</button></td></tr>';	    		
+								    	}else{
+							str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].reportname + '</td><td>' + d[i].createtime + '</td><td>' + d[i].reporttypevalue + '</td><td>' + d[i].xiangname + '</td><td>' + d[i].cunname + '</td><td><button data-id="'+d[i].reportid+'" class="layui-btn cha2">查看</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-danger chong">重审</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-warm shang">上传</button></td></tr>';	    		
+								    	}
+						
+									};	
+						}else{
+							for(var i=0;i<d.length;i++) {
+				    	if(d[i].reporttype==1){
+							str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].reportname + '</td><td>' + d[i].createtime + '</td><td>' + d[i].reporttypevalue + '</td><td>' + d[i].xiangname + '</td><td>' + d[i].cunname + '</td><td><button data-id="'+d[i].reportid+'" class="layui-btn cha">查看</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-danger chong">重审</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-warm cun">存档</button></td></tr>';	    		
+								    	}else{
+							str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].reportname + '</td><td>' + d[i].createtime + '</td><td>' + d[i].reporttypevalue + '</td><td>' + d[i].xiangname + '</td><td>' + d[i].cunname + '</td><td><button data-id="'+d[i].reportid+'" class="layui-btn cha2">查看</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-danger chong">重审</button><button data-id="'+d[i].id+'" class="layui-btn layui-btn-warm cun">存档</button></td></tr>';	    		
+								    	}
+						
+									};	
+						}
+				    	
+					}else{
+						str='<tr><td colspan="7">无数据</td></tr>';
+					}
+					$("#biuuu_city_list tbody").html(str);
+					 $(".tcdPageCode").createPage({
+				        pageCount:length,
+				        current:xx,
+				        backFn:function(p){
+				        	if(y==null){
+				        	 window.location.href="statementCheck.html?x="+p;	
+				        	}else{
+				        		var a=$('#m-leis option:selected').data('type'),b=$('#m-fens option:selected').data('type'),f=$("#addTime").val(),g=$("#endTime").val();
+				window.location.href="statementCheck.html?x="+1+"&bName="+encodeURI(encodeURI(a))+"&bType="+encodeURI(encodeURI(b))+"&addTime="+encodeURI(encodeURI(f))+"&endTime="+encodeURI(encodeURI(g))+"&y="+1;
+				        	}
+				        }
+					 });
+				},
+				error: function() {
+					alert()
+				}
+			});
+			//刷新页面
+				$(".shua").on('click',function(event){
+					event.preventDefault();
+					window.location.href="statementCheck.html";
+				});
+			//查看财务报表
+			$(document).delegate('.cha', 'click', function(event) {
+				event.preventDefault();
+				var id=$(this).attr("data-id");
+				window.location.href="caiXiang.html?id="+id+"&page="+xx;
+			});
+			//查看服务报表
+			$(document).delegate('.cha2', 'click', function(event) {
+				event.preventDefault();
+				var id=$(this).attr("data-id");
+				window.location.href="fuXiang.html?id="+id+"&page="+xx;
+			});
+		     //获取村
+		    function fens(id){
+		    	$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/village/childrenList",
+		    		data:{
+		    			parentId:id,
+		    			sessionId:sessionId
+		    		},
+		    		success:function(data){
+		    			 var optstr = '';
+		    			 var d=data.data;
+		    			if(d.length){
+		    				for(var i=0;i<d.length;i++){
+		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+		    				};
+		    				$("#m-fens").html('<option data-type="">请选择村</option>'+optstr);
+		    			}else{
+		    				$("#m-fens").html('<option data-type="">请选择村</option>')
+		    			};
+		    			$("#m-fens option[data-type='"+ bType +"']").prop("selected", true);
+		    		}
+		    	});
+		    };
+		     //搜索变化监听
+		      $('#m-leis').on('change',function (event) {
+		     	event.preventDefault();
+		     	var id=$('#m-leis option:selected').data('id');
+		     	fens(id);
+		     });
+			//搜索
+			$("#j-search").on("click", function() {
+				var a=$('#m-leis option:selected').data('type'),b=$('#m-fens option:selected').data('type'),f=$("#addTime").val(),g=$("#endTime").val();
+				window.location.href="statementCheck.html?x="+1+"&bName="+encodeURI(encodeURI(a))+"&bType="+encodeURI(encodeURI(b))+"&addTime="+encodeURI(encodeURI(f))+"&endTime="+encodeURI(encodeURI(g))+"&y="+1;
+			});
+			//重申
+				$(document).delegate('.chong', 'click', function(event) {
+				    event.preventDefault();
+					var manId = $(this).attr("data-id");
+					$("#remark").val("");
+					$('#shen').dialog({
+						title: '重审',
+						onClose: function() {
+							$(this).dialog('close');
+						},
+						buttons: [{
+							text: '取消',
+							'click': function() {
+								$(this).dialog('close');
+							}
+						}, {
+							text: '确定',
+							'class': 'btn-primary',
+							'click': function() {
+								if($("#remark").val()==""){
+									alert("请填写重审");
+									return;
+								}
+								$.ajax({
+									type: "post",
+									url:href+"/api/back/reportEaxm/submit",
+									data: {
+										id:manId,
+										updateRequest:$("#remark").val(),
+										status:4,
+										sessionId:sessionId
+									},
+									success: function(data) {
+										if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+									}
+								});
+							}
+						}]
+					})
+
+				});
+				//上传
+				$(document).delegate('.shang', 'click', function(event) {
+				    event.preventDefault();
+					var manId = $(this).attr("data-id");
+					$('#shang').dialog({
+						title: '上传',
+						onClose: function() {
+							$(this).dialog('close');
+						},
+						buttons: [{
+							text: '取消',
+							'click': function() {
+								$(this).dialog('close');
+							}
+						}, {
+							text: '确定',
+							'class': 'btn-primary',
+							'click': function() {
+								$.ajax({
+									type: "post",
+									url:href+"/api/back/reportEaxm/submit",
+									data: {
+										id:manId,
+										status:2,
+										sessionId:sessionId
+									},
+									success: function(data) {
+										if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+									}
+								});
+							}
+						}]
+					})
+				});
+				//存档
+				$(document).delegate('.cun', 'click', function(event) {
+				    event.preventDefault();
+					var manId = $(this).attr("data-id");
+					$('#cun').dialog({
+						title: '存档',
+						onClose: function() {
+							$(this).dialog('close');
+						},
+						buttons: [{
+							text: '取消',
+							'click': function() {
+								$(this).dialog('close');
+							}
+						}, {
+							text: '确定',
+							'class': 'btn-primary',
+							'click': function() {
+								$.ajax({
+									type: "post",
+									url:href+"/api/back/reportEaxm/submit",
+									data: {
+										id:manId,
+										status:3,
+										sessionId:sessionId
+									},
+									success: function(data) {
+										if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+									}
+								});
+							}
+						}]
+					})
+				});
+		</script>
+	</body>
+</html>

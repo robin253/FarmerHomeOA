@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<title>农户列表</title>
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		     .panel{
+				border:0
+			}
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>农户列表</legend>
+		</fieldset>
+		<form id="search" class="form-inline clearfix">
+			<div class="form-group">
+              	<input type="text" value="" class="form-control checkLogs" id="name" placeholder="姓名" autocomplete="off">
+              </div>
+			<div class="form-group">
+				性别
+				<select class="form-control" id="sex">
+					      <option data-type="">全部</option> 
+						  <option data-type="1">男</option> 
+						  <option data-type="2">女</option> 
+                 </select>
+             </div>
+             <div class="form-group">
+				文化程度
+				<select class="form-control" id="culture">
+					      <option data-type="">全部</option> 
+						  <option data-type="1">无文凭</option> 
+						  <option data-type="2">小学</option> 
+						  <option data-type="3">初中</option> 
+						  <option data-type="4">高中</option> 
+						  <option data-type="5">大专/高职</option> 
+						  <option data-type="6">本科</option> 
+						  <option data-type="7">研究生及以上</option> 
+                 </select>
+             </div>
+              <br /> <br />
+              <div class="form-group">
+				政治面貌
+				<select class="form-control" id="politics">
+					      <option data-type="">全部</option> 
+						  <option data-type="1">群众</option> 
+						  <option data-type="2">共青团员</option> 
+						  <option data-type="3">预备党员</option> 
+						  <option data-type="4">党员</option> 
+                 </select>
+             </div>
+              <div class="form-group">
+					选择乡&nbsp;&nbsp;
+					<select class="form-control" id="y-xiang">
+                        
+                    </select>
+				</div>
+				<div class="form-group form-inline clearfix">
+					选择村&nbsp;&nbsp;
+					<select class="form-control" id="y-cun">
+                        <option data-type="">请选择村</option>
+                    </select>
+				</div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>
+				&nbsp;&nbsp;
+				<div class="form-group">
+					<button class="layui-btn layui-btn-normal header-dropdown-menu addContent">添加农户</button>
+				</div>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<table id="biuuu_city_list" class="layui-table">
+			<thead>
+				<tr>
+					<th style="text-align: center;">序号</th>
+					<th style="text-align: center;">姓名</th>
+					<th style="text-align: center;">性别</th>
+					<th style="text-align: center;">文化程度</th>
+					<th style="text-align: center;">政治面貌</th>
+					<th style="text-align: center;">所在乡</th>
+					<th style="text-align: center;">所在村</th>
+					<th style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody style="text-align: center;">
+
+			</tbody>
+		</table>
+		<!--<div id="demo8" style="text-align: center;"></div>-->
+		<div class="tcdPageCode"></div>
+		<div class="hide">
+			<div id="tian">
+				 <div class="form-group form-inline clearfix">
+					姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" value=""  class="form-control checkLogs" id="bName" placeholder="" autocomplete="off">
+				</div>
+				<div class="form-group form-inline clearfix">
+					性别&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					    <select class="form-control" id="t-sex">
+					       <option data-type="">请选择性别</option>  	
+						  <option data-type="1">男</option> 
+						  <option data-type="2">女</option> 
+                         </select>
+				</div>
+				<div class="form-group form-inline clearfix">
+					文化程度
+					<select class="form-control" id="t-culture">
+						 <option data-type="">请选择文化程度</option> 
+						  <option data-type="1">无文凭</option> 
+						  <option data-type="2">小学</option> 
+						  <option data-type="3">初中</option> 
+						  <option data-type="4">高中</option> 
+						  <option data-type="5">大专/高职</option> 
+						  <option data-type="6">本科</option> 
+						  <option data-type="7">研究生及以上</option> 
+                   </select>
+				</div>
+				<div class="form-group form-inline clearfix">
+					政治面貌
+					   <select class="form-control" id="t-politics">
+					      <option data-type="">请选择政治面貌</option> 
+						  <option data-type="1">群众</option> 
+						  <option data-type="2">共青团员</option> 
+						  <option data-type="3">预备党员</option> 
+						  <option data-type="4">党员</option> 
+                   </select>
+				</div>
+				<!--<div class="form-group form-inline clearfix">
+					选择乡&nbsp;&nbsp;&nbsp;&nbsp;
+					<select class="form-control" id="t-xiang">
+                        
+                    </select>
+				</div>
+				<div class="form-group form-inline clearfix">
+					选择村&nbsp;&nbsp;&nbsp;&nbsp;
+					<select class="form-control" id="t-cun">
+                        <option data-type="">请选择村</option>
+                    </select>
+				</div>-->
+		      </div>
+		<div class="hide">
+			<div id="removePeople">
+				确定删除？
+			</div>
+		</div>
+        <script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script>
+			var newCookie=sessionStorage.ticket;
+			var sessionId=sessionStorage.session_id;
+			(function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var xx = $.getUrlParam('x');
+		        var y = $.getUrlParam('y');
+		         var name=decodeURI($.getUrlParam('name'));
+		         var sex=decodeURI($.getUrlParam('sex'));
+		         var culture=decodeURI($.getUrlParam('culture'));
+		         var politics=decodeURI($.getUrlParam('politics'));
+		         var xiang=decodeURI($.getUrlParam('xiang'));
+		         var cun=decodeURI($.getUrlParam('cun'));
+		         if(xx==null){
+		        	xx=1;
+		        }else{
+		        	xx=$.getUrlParam('x');
+		        };
+		        if(name=="null"){
+		        	name=""
+		        };
+		        if(sex=="null"){
+		        	sex=""
+		        };
+		        if(culture=="null"){
+		        	culture=""
+		        };
+		        if(politics=="null"){
+		        	politics=""
+		        };
+		        if(xiang=="null"){
+		        	xiang=""
+		        };
+		        if(cun=="null"){
+		        	cun=""
+		        };
+		        if(y==null){
+		        	var list={
+			        	pageIndex:xx,
+						pageSize:10,
+						sessionId:sessionId
+			           };
+		        }else{
+		        	var list={
+		        		cunId:cun,
+		        		education:culture,
+		        		name:name,
+		        		politics:politics,
+		        		sex:sex,
+		        		xiangId:xiang,
+			        	pageIndex:xx,
+						pageSize:10,
+						sessionId:sessionId
+			           };
+		        }
+		        
+			   var url=href+"/api/back/resident/list";
+			   $("#name").val(name);
+			   $("#sex option[data-type='"+ sex +"']").prop("selected", true);
+			   $("#culture option[data-type='"+ culture +"']").prop("selected", true); 
+			   $("#politics option[data-type='"+ politics +"']").prop("selected", true); 
+      	      //获取帮助中心列表
+			    $.ajax({
+				type: "post",
+				url: url,
+				data:list,
+				dataType:"json",
+				success: function(data) {
+					var length =data.data.pagination.pageCount;
+					ch=length;
+					var d = data.data.rows;
+					var str = '';
+					if(d.length){
+					for(var i=0;i<d.length;i++) {
+						if(newCookie==2){
+				str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].name + '</td><td>' +sex1(d[i].sex)+ '</td><td>' +edu(d[i].education)+ '</td><td>' +politics1(d[i].politics)+ '</td><td>'+d[i].xiangname+'</td><td>'+d[i].cunname+'</td><td><button data-id="' + d[i].id + '" class="layui-btn remove">删除</button><button  data-id="' + d[i].id + '" class="layui-btn layui-btn-warm bian">修改</button></td></tr>';			
+						}else{
+				str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].name + '</td><td>' +sex1(d[i].sex)+ '</td><td>' +edu(d[i].education)+ '</td><td>' +politics1(d[i].politics)+ '</td><td>'+d[i].xiangname+'</td><td>'+d[i].cunname+'</td><td></td></tr>';			
+						}
+						
+					};	
+					}else{
+						str='<tr><td colspan="8">无数据</td></tr>';
+					}
+					
+					$("#biuuu_city_list tbody").html(str);
+					 $(".tcdPageCode").createPage({
+				        pageCount:length,
+				        current:xx,
+				        backFn:function(p){
+				        	if(y==null){
+				    window.location.href="farmerList.html?x="+p;	    		
+				        	}else{
+				    var a=$("#name").val(),b=$('#sex option:selected').data('type'),c=$('#culture option:selected').data('type'),d=$('#politics option:selected').data('type'),e=$('#y-xiang option:selected').data('type'),f=$('#y-cun option:selected').data('type');
+				window.location.href="farmerList.html?x="+p+"&name="+encodeURI(encodeURI(a))+"&sex="+encodeURI(encodeURI(b))+"&culture="+encodeURI(encodeURI(c))+"&politics="+encodeURI(encodeURI(d))+"&xiang="+encodeURI(encodeURI(f))+"&cun="+encodeURI(encodeURI(f))+"&y="+1;    		
+				        	}
+				        }
+					 });
+					 //去重
+					 for(var i=0;i<$(".tcdPageCode a").length-1;i++){
+					 	if($(".tcdPageCode a").eq(i).text()==$(".tcdPageCode a").eq(i+1).text()){
+					 		$(".tcdPageCode a").eq(i).remove()
+					 	}
+					 }
+				},
+				error: function() {
+					alert()
+				}
+			});
+			if(newCookie==2){
+				$(".addContent").removeClass("hide")
+			}else{
+				$(".addContent").addClass("hide")
+			}
+			//刷新页面
+				$(".shua").on('click',function(event){
+					event.preventDefault();
+					window.location.href="farmerList.html"
+				});
+				//获取乡
+			  function xiang1(x){
+			  	$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/village/parentList",
+		    		data:{
+		    			sessionId:sessionId
+		    		},
+		    		dataType:"json",
+		    		success:function(data){
+		    			 var optstr = '';
+		    			 var d=data.data;
+		    			 console.log(d);
+		    			if(d.length){
+		    				for(var i=0;i<d.length;i++){
+		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+		    				};
+		    				$("#y-xiang").html('<option data-type="">请选择乡</option>'+optstr);
+		    				$("#y-xiang option[data-type='"+x+"']").prop("selected", true);
+		    			}
+		    		}
+		    	 });
+			  };
+			  xiang1(xiang);
+			  cun1(xiang,cun);
+		   //展示村
+			 function cun1(id,x){
+			 	$.ajax({
+	    		type:"post",
+	    		url:href+"/api/back/village/childrenList",
+	    		data:{
+	    			parentId:id,
+	    			sessionId:sessionId
+	    		},
+	    		dataType:"json",
+	    		success:function(data){
+	    			 var optstr = '';
+	    			 var d=data.data;
+	    			 console.log(d);
+	    			if(d.length){
+	    				for(var i=0;i<d.length;i++){
+	    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+	    				};
+	    				$("#y-cun").html('<option data-type="">请选择村</option>'+optstr);
+	    				$("#y-cun option[data-type='"+x+"']").prop("selected", true);
+	    			}else{
+	    				$("#y-cun").html('<option data-type="">请选择村</option>');
+	    			}
+	    		}
+	    	 });
+			 };
+//			 //获取乡
+//			  function xiang2(x){
+//			  	$.ajax({
+//		    		type:"post",
+//		    		url:href+"/api/back/village/parentList",
+//		    		data:{
+//		    			sessionId:sessionId
+//		    		},
+//		    		dataType:"json",
+//		    		success:function(data){
+//		    			 var optstr = '';
+//		    			 var d=data.data;
+//		    			 console.log(d);
+//		    			if(d.length){
+//		    				for(var i=0;i<d.length;i++){
+//		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+//		    				};
+//		    				$("#t-xiang").html('<option data-type="">请选择乡</option>'+optstr);
+//		    				$("#t-xiang option[data-type='"+x+"']").prop("selected", true);
+//		    			}
+//		    		}
+//		    	 });
+//			  };
+//			 //展示村
+//			 function cun2(id,x){
+//			 	$.ajax({
+//	    		type:"post",
+//	    		url:href+"/api/back/village/childrenList",
+//	    		data:{
+//	    			parentId:id,
+//	    			sessionId:sessionId
+//	    		},
+//	    		dataType:"json",
+//	    		success:function(data){
+//	    			 var optstr = '';
+//	    			 var d=data.data;
+//	    			 console.log(d);
+//	    			if(d.length){
+//	    				for(var i=0;i<d.length;i++){
+//	    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+//	    				};
+//	    				$("#t-cun").html('<option data-type="">请选择村</option>'+optstr);
+//	    				$("#t-cun option[data-type='"+x+"']").prop("selected", true);
+//	    			}else{
+//	    				$("#t-cun").html('<option data-type="">请选择村</option>');
+//	    			}
+//	    		}
+//	    	 });
+//			 };
+			 //判断性别
+			 function sex1(x){
+			 	if(x==1){
+			 		x="男"
+			 	}else{
+			 		x="女"
+			 	};
+			 	return x;
+			 };
+			 //判断教育程度
+			 function edu(x){
+			 	if(x==1){
+			 		x="无文凭"
+			 	};
+			 	if(x==2){
+			 		x="小学"
+			 	};
+			 	if(x==3){
+			 		x="初中"
+			 	};
+			 	if(x==4){
+			 		x="高中"
+			 	};
+			 	if(x==5){
+			 		x="大专/高职"
+			 	};
+			 	if(x==6){
+			 		x="本科"
+			 	};
+			 	if(x==7){
+			 		x="研究生及以上"
+			 	};
+			 	return x;
+			 };
+			 //判断政治面貌
+			 function politics1(x){
+			 	if(x==1){
+			 		x="群众"
+			 	};
+			 	if(x==2){
+			 		x="共青团员"
+			 	};
+			 	if(x==3){
+			 		x="预备党员"
+			 	};
+			 	if(x==4){
+			 		x="党员"
+			 	};
+			 	return x;
+			 }
+			  //监听乡变化村的展示
+				 $('#y-xiang').on('change',function (event) {
+				event.preventDefault();
+				var id=$('#y-xiang option:selected').data('type');
+				if(id==""){
+					if(id=="0"){
+						cun1(0,"");
+					}else{
+						$("#y-cun").html('<option data-type="">请选择村</option>');
+					}
+				 }else{
+					cun1(id,"");
+				 }
+				})
+//				 //添加监听乡变化村的展示
+//				 $('#t-xiang').on('change',function (event) {
+//				event.preventDefault();
+//				var id=$('#t-xiang option:selected').data('type');
+//				if(id==""){
+//					if(id=="0"){
+//						cun2(0,"");
+//					}else{
+//						$("#t-cun").html('<option data-type="">请选择村</option>');
+//					}
+//				 }else{
+//					cun2(id,"");
+//				 }
+//				})
+			//添加农户
+			$(document).delegate('.addContent', 'click', function(event) {
+				event.preventDefault();
+				$("#bName").val("");
+				$("#t-sex option[data-type='']").prop("selected", true);
+				$("#t-culture option[data-type='']").prop("selected", true);
+				$("#t-politics option[data-type='']").prop("selected", true);
+				//xiang2("");
+				//$("#t-cun").html('<option data-type="">请选择村</option>');
+				$('#tian').dialog({
+					title: '添加农户',
+					onClose: function() {
+						$(this).dialog('close');
+					},
+					buttons: [{
+						text: '取消',
+						'click': function() {
+							$(this).dialog('close');
+						}
+					}, {
+						text: '确定',
+						'class': 'btn-primary',
+						'click': function() {
+							if($("#bName").val() == "") {
+								alert("请填写姓名");
+								return;
+							};
+							if($('#t-sex option:selected').data('type')==''){
+								if($('#t-sex option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择性别");
+									return;
+								}
+							}
+							if($('#t-culture option:selected').data('type')==''){
+								if($('#t-culture option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择文化程度");
+									return;
+								}
+							}
+							if($('#t-politics option:selected').data('type')==''){
+								if($('#t-politics option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择政治面貌");
+									return;
+								}
+							};
+//							if($('#t-xiang option:selected').data('type')==''){
+//								if($('#t-xiang option:selected').data('type')=='0'){
+//									
+//								}else{
+//									alert("请选择乡");
+//									return;
+//								}
+//							};
+//							if($('#t-cun option:selected').data('type')==''){
+//								if($('#t-cun option:selected').data('type')=='0'){
+//									
+//								}else{
+//									alert("请选择村");
+//									return;
+//								}
+//							};
+							$.ajax({
+								type: "post",
+								url: href+"/api/back/resident/save",
+								data: {
+									education:$('#t-culture option:selected').data('type'),
+									politics:$('#t-politics option:selected').data('type'),
+									sex:$('#t-sex option:selected').data('type'),
+									name:$("#bName").val(),
+									sessionId:sessionId
+								},
+								dataType:"json",
+								success: function(data) {
+									if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+									}else{
+										window.location.reload()
+									}
+								}
+							});
+						}
+					}]
+				});
+			});
+			//搜索
+			$("#j-search").on("click", function() {
+				var a=$("#name").val(),b=$('#sex option:selected').data('type'),c=$('#culture option:selected').data('type'),d=$('#politics option:selected').data('type'),e=$('#y-xiang option:selected').data('type'),f=$('#y-cun option:selected').data('type');
+				window.location.href="farmerList.html?x="+1+"&name="+encodeURI(encodeURI(a))+"&sex="+encodeURI(encodeURI(b))+"&culture="+encodeURI(encodeURI(c))+"&politics="+encodeURI(encodeURI(d))+"&xiang="+encodeURI(encodeURI(e))+"&cun="+encodeURI(encodeURI(f))+"&y="+1;
+			});
+			//删除
+			$(document).delegate('.remove', 'click', function(event) {
+					var manId = $(this).attr("data-id");
+					$('#removePeople').dialog({
+						title: '删除',
+						onClose: function() {
+							$(this).dialog('close');
+						},
+						buttons: [{
+							text: '取消',
+							'click': function() {
+								$(this).dialog('close');
+							}
+						}, {
+							text: '确定',
+							'class': 'btn-primary',
+							'click': function() {
+								$.ajax({
+									type: "post",
+									url: href+"/api/back/resident/delete",
+									data: {
+										id: manId,
+										sessionId:sessionId
+									},
+									dataType:"json",
+									success: function(data) {
+										if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+									}
+
+								});
+							}
+						}]
+					})
+				});
+			  //修改
+			  $(document).delegate('.bian', 'click', function(event) {
+				event.preventDefault();
+				var orderId = $(this).attr("data-id");
+				$.ajax({
+					type: "post",
+					url: href+"/api/back/resident/detail",
+					data: {
+						id: orderId,
+						sessionId:sessionId
+					},
+					dataType:"json",
+					success: function(data) {
+						var d=data.data;
+						$("#bName").val(d.name);
+						$("#t-sex option[data-type='"+d.sex+"']").prop("selected", true);
+						$("#t-culture option[data-type='"+d.education+"']").prop("selected", true);
+						$("#t-politics option[data-type='"+d.politics+"']").prop("selected", true);
+//						xiang2(d.xiangId);
+//						cun2(d.xiangId,d.cunId);
+					}
+
+				});
+				$('#tian').dialog({
+					title: '修改',
+					onClose: function() {
+						$(this).dialog('close');
+					},
+					buttons: [{
+						text: '取消',
+						'click': function() {
+							$(this).dialog('close');
+						}
+					}, {
+						text: '确定',
+						'class': 'btn-primary',
+						'click': function() {
+							if($("#bName").val() == "") {
+								alert("请填写姓名");
+								return;
+							};
+							if($('#t-sex option:selected').data('type')==''){
+								if($('#t-sex option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择性别");
+									return;
+								}
+							}
+							if($('#t-culture option:selected').data('type')==''){
+								if($('#t-culture option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择文化程度");
+									return;
+								}
+							}
+							if($('#t-politics option:selected').data('type')==''){
+								if($('#t-politics option:selected').data('type')=='0'){
+									
+								}else{
+									alert("请选择政治面貌");
+									return;
+								}
+							};
+//							if($('#t-xiang option:selected').data('type')==''){
+//								if($('#t-xiang option:selected').data('type')=='0'){
+//									
+//								}else{
+//									alert("请选择乡");
+//									return;
+//								}
+//							};
+//							if($('#t-cun option:selected').data('type')==''){
+//								if($('#t-cun option:selected').data('type')=='0'){
+//									
+//								}else{
+//									alert("请选择村");
+//									return;
+//								}
+//							};
+							$.ajax({
+								type: "post",
+								url: href+"/api/back/resident/save",
+								data: {
+									id:orderId,
+									education:$('#t-culture option:selected').data('type'),
+									politics:$('#t-politics option:selected').data('type'),
+									sex:$('#t-sex option:selected').data('type'),
+									name:$("#bName").val(),
+									sessionId:sessionId
+								},
+								dataType:"json",
+								success: function(data) {
+									if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+									}else{
+										window.location.reload()
+									}
+								}
+							});
+						}
+					}]
+				});
+			});
+			
+		</script>
+	</body>
+</html>

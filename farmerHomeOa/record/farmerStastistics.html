@@ -1,0 +1,495 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>农户统计</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap-datetimepicker.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		     #allmap{width:100%;height:300px;margin-top:20px;box-shadow: 1px 2px 5px #666;border-radius: 5px;}
+		     .dropdown-menu{
+		    	z-index: 100000000000;
+		    }
+		     .panel{
+				border:0
+			}
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>农户统计</legend>
+		</fieldset>
+	    <form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<div class="form-group">
+				文化程度
+				<select class="form-control" id="culture">
+					      <option data-type="">请选择----</option> 
+					      <option data-type="all">全部</option> 
+						  <option data-type="1">无文凭</option> 
+						  <option data-type="2">小学</option> 
+						  <option data-type="3">初中</option> 
+						  <option data-type="4">高中</option> 
+						  <option data-type="5">大专/高职</option> 
+						  <option data-type="6">本科</option> 
+						  <option data-type="7">研究生及以上</option> 
+                 </select>
+             </div>
+				<div class="form-group">
+				政治面貌
+				<select class="form-control" id="politics">
+					      <option data-type="">请选择----</option> 
+					      <option data-type="all">全部</option> 
+						  <option data-type="1">群众</option> 
+						  <option data-type="2">共青团员</option> 
+						  <option data-type="3">预备党员</option> 
+						  <option data-type="4">党员</option> 
+                 </select>
+             </div>
+             <div class="form-group">
+				查询级别
+				<select class="form-control" id="country">
+					      <option data-type="1">乡级查询</option>
+					      <option data-type="2">村级查询</option>
+                 </select>
+             </div>
+             <div class="form-group x-xiang">
+             	<button class="layui-btn xiang">+选择乡</button>
+             </div>	
+             <div class="form-group hide x-cun">
+             	<button class="layui-btn cun">+选择村</button>
+             </div>	
+             <div class="form-group">
+				选择图形
+				<select class="form-control" id="tu">
+					      <option data-type="2">柱状图</option>
+					      <option data-type="1">饼状图</option>
+                 </select>
+             </div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<br /><br />
+		<div class="hide">
+			<div id="quan">
+				<ul id="q-lie" class="list-group" style="max-height:300px;overflow: scroll;overflow-x: hidden;">
+
+				</ul>
+			</div>
+		</div>
+		<div id="main" style="width: 700px;height:400px;"></div>
+		<script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script src='../common/js/echarts.min.js'></script>
+		<script>
+		  var newCookie = sessionStorage.ticket;
+		  var sessionId=sessionStorage.session_id;
+		  //路径上去参数
+		  (function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var id = $.getUrlParam('id');
+		        var page = $.getUrlParam('page');
+		        var y = $.getUrlParam('y');
+		        var addTime=decodeURI($.getUrlParam('addTime'));
+		        var endTime=decodeURI($.getUrlParam('endTime'));
+//		        if(addTime=="null"){
+//		         addTime='';
+//		       };
+//		       if(endTime=="null"){
+//		         endTime='';
+//		       };
+//		        if(y==null){
+//		        	 var list={
+//			        	currentPage:xx,
+//						pageSize:10,
+//						ticket:newCookie
+//			           };
+//			           var url=href+"memberWeb/getList.web"
+//		        }else{
+//		        	 var list={
+//		        	 	nickName:studentName,
+//		        	 	userName:studentNum,
+//		        	 	minTime:addTime,
+//		        	 	maxTime:endTime,
+//		        	 	currentPage:xx,
+//						pageSize:10,
+//						ticket:newCookie
+//		            };
+//		            var url=href+"memberWeb/getList.web"
+//		        };
+//		        $("#addTime").val(addTime);
+//		       $("#endTime").val(endTime);
+           //入学时间
+		  $('#addTime').datetimepicker({
+			        format: 'yyyy-mm-dd',
+			        language:  'zh-CN',
+			        autoclose: 1,
+			        minView: 2
+	    });
+	    //结业时间
+	    $('#endTime').datetimepicker({
+			        format: 'yyyy-mm-dd',
+			        language:  'zh-CN',
+			        autoclose: 1,
+			        minView: 2
+	    });
+	    //刷新页面
+			$(".shua").on('click',function(event){
+				event.preventDefault();
+				window.location.href="farmerStastistics.html";
+			});
+			var xiangId="",cunId="";
+		//搜索
+			$("#j-search").on("click", function(event) {
+				event.preventDefault();
+				var status=$('#tu option:selected').data('type');
+				if(status==1){
+					$.ajax({
+						type:"post",
+						url:href+"/api/back/resident/statistics",
+						data:{
+							cunId:cunId,
+							education:$('#culture option:selected').data('type'),
+							politics:$('#politics option:selected').data('type'),
+							statisticsType:status,
+							xiangId:xiangId
+						},
+						dataType:"json",
+						success:function(data){
+							var myChart = echarts.init(document.getElementById('main'));
+							var d=data.data;
+							option = {
+							  title : {
+							      text: '乡村人口比例',
+							      x:'center'
+							  },
+							  tooltip : {
+							      trigger: 'item',
+							      formatter: "{a} <br/>{b} : {c} ({d}%)"
+							  },
+							  legend: {
+							      orient: 'vertical',
+							      left: 'left'
+							  },
+							  series : [
+							      {
+							          name: '访问来源',
+							          type: 'pie',
+							          radius : '55%',
+							          center: ['50%', '60%'],
+							          data:d,
+							          itemStyle: {
+							              emphasis: {
+							                  shadowBlur: 10,
+							                  shadowOffsetX: 0,
+							                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+							              }
+							          }
+							      }
+							  ]
+							};
+							myChart.setOption(option);
+						}
+						
+					});
+				}else{
+					$.ajax({
+						type:"post",
+						url:href+"/api/back/resident/statistics",
+						data:{
+							cunId:cunId,
+							education:$('#culture option:selected').data('type'),
+							politics:$('#politics option:selected').data('type'),
+							statisticsType:status,
+							xiangId:xiangId
+						},
+						dataType:"json",
+						success:function(data){
+							var name=data.data.name;
+							var value=data.data.value;
+							var myChart = echarts.init(document.getElementById('main'));
+						 option = {
+					    color: ['#3398DB'],
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+					            type : 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+					             animation: false,
+						            label: {
+						               
+						            }
+					        }
+					    },
+					    grid: {
+					        bottom: '15%',
+					        containLabel: true
+					    },
+					     dataZoom: [
+					        {
+					            show: true,
+					            realtime: true,
+					            start: 0,
+		                        end: 50
+					        }
+					    ],
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data :name,
+					            boundaryGap: true,
+					            axisLine: {onZero: true},
+					            axisTick: {
+					                alignWithLabel: true
+					            }
+					        }
+					    ],
+					    yAxis : [
+					        {
+					        	name : '人数',
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'村里人数',
+					            type:'bar',
+					            barWidth: '20%',
+					            data:value
+					        }
+					    ]
+					};
+					myChart.setOption(option);
+						}
+						
+					})
+				}
+					
+			});
+			//获取信息数据
+			$.ajax({
+				type:"post",
+				url:href+"/api/back/resident/statistics",
+				data:{
+					statisticsType:2,
+					sessionId:sessionId
+				},
+				dataType:"json",
+				success:function(data){
+					var name=data.data.name;
+					var value=data.data.value;
+					//绘制折线图
+					 var myChart = echarts.init(document.getElementById('main'));
+					 option = {
+					    color: ['#3398DB'],
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+					            type : 'shadow',        // 默认为直线，可选为：'line' | 'shadow'
+					             animation: false,
+						            label: {
+						               
+						            }
+					        }
+					    },
+					    grid: {
+					        bottom: '15%',
+					        containLabel: true
+					    },
+					     dataZoom: [
+					        {
+					            show: true,
+					            realtime: true,
+					            start: 0,
+		                        end: 50
+					        }
+					    ],
+					    xAxis : [
+					        {
+					            type : 'category',
+					            data :name,
+					            boundaryGap: true,
+					            axisLine: {onZero: true},
+					            axisTick: {
+					                alignWithLabel: true
+					            }
+					        }
+					    ],
+					    yAxis : [
+					        {
+					        	name : '人数',
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'村里人数',
+					            type:'bar',
+					            barWidth: '20%',
+					            data:value
+					        }
+					    ]
+					};
+
+
+					myChart.setOption(option);
+					
+				}
+			});
+			//选择乡
+			$(document).delegate('.xiang', 'click', function(event) {
+				event.preventDefault();
+				var str = '';
+				$.ajax({
+					type: "post",
+					url: href+"/api/back/village/parentListByLevel",
+					data:{
+						sessionId:sessionId
+					},
+					success: function(data) {
+						var d = data.data;
+						var ttr = '';
+						for(var i = 0; i < d.length; i++) {
+			ttr += '<li class="list-group-item" style="width:33%;display:inline-block;"><input class="smallclassauthorize xuan" type="checkbox"    data-id="' + d[i].id + '"/>&nbsp;&nbsp;&nbsp;&nbsp;' + d[i].villageName + '</li>'
+						}
+						$("#q-lie").html(ttr);
+						for(var i=0;i<$(".xuan").length;i++){
+							$(".xuan").eq(i).attr("checked",false);
+						};
+						$('#quan').dialog({
+							title: '选择乡',
+							onClose: function() {
+								$(this).dialog('close');
+							},
+							buttons: [{
+								text: '取消',
+								'click': function() {
+									$(this).dialog('close');
+								}
+							}, {
+								text: '确定',
+								'class': 'btn-primary',
+								'click': function() {
+                                  var s='';
+                                  var arr=[];
+                                  for(var i=0;i<$(".xuan").length;i++){
+                                  	if($(".xuan").eq(i).prop("checked")){
+                                  		   arr.push(i);
+                                  	}
+                                  }
+                                  for(var i=0;i<arr.length;i++){
+                                  	if(i==0){
+                                  		s = $(".xuan").eq(arr[i]).attr("data-id");
+                                  	}else{
+                                  		s += (","+$(".xuan").eq(arr[i]).attr("data-id"));
+                                  	}
+                                  }
+                                  console.log(s);
+                                  xiangId=s;
+                                  cunId="";
+                                  $('#quan').dialog('close');
+								}
+							}]
+						});
+					}
+				})
+			});
+			//选择村
+			$(document).delegate('.cun', 'click', function(event) {
+				event.preventDefault();
+				var str = '';
+				$.ajax({
+					type: "post",
+					url: href+"/api/back/village/childrenListByLevel",
+					data:{
+						sessionId:sessionId
+					},
+					success: function(data) {
+						var d = data.data;
+						console.log(data);
+						var ttr = '';
+						for(var i = 0; i < d.length; i++) {
+			ttr += '<li class="list-group-item" style="width:33%;display:inline-block;"><input class="smallclassauthorize xuan" type="checkbox"    data-id="' + d[i].id + '"/>&nbsp;&nbsp;&nbsp;&nbsp;' + d[i].villageName + '</li>'
+						}
+						$("#q-lie").html(ttr);
+						for(var i=0;i<$(".xuan").length;i++){
+							$(".xuan").eq(i).attr("checked",false);
+						};
+						$('#quan').dialog({
+							title: '选择村',
+							onClose: function() {
+								$(this).dialog('close');
+							},
+							buttons: [{
+								text: '取消',
+								'click': function() {
+									$(this).dialog('close');
+								}
+							}, {
+								text: '确定',
+								'class': 'btn-primary',
+								'click': function() {
+                                  var s='';
+                                  var arr=[];
+                                  for(var i=0;i<$(".xuan").length;i++){
+                                  	if($(".xuan").eq(i).prop("checked")){
+                                  		   arr.push(i);
+                                  	}
+                                  }
+                                  for(var i=0;i<arr.length;i++){
+                                  	if(i==0){
+                                  		s = $(".xuan").eq(arr[i]).attr("data-id");
+                                  	}else{
+                                  		s += (","+$(".xuan").eq(arr[i]).attr("data-id"));
+                                  	}
+                                  }
+                                   xiangId="";
+                                    cunId=s;
+                                    $('#quan').dialog('close');
+								}
+							}]
+						});
+					}
+				})
+			});
+			$('#country').on('change',function (event) {
+				event.preventDefault();
+				var id=$('#country option:selected').data('type');
+				if(id==1){
+					$(".x-xiang").removeClass("hide");
+					$(".x-cun").addClass("hide")
+				 }else{
+					$(".x-xiang").addClass("hide");
+					$(".x-cun").removeClass("hide")
+				 }
+				})
+		   </script>
+	</body>
+</html>

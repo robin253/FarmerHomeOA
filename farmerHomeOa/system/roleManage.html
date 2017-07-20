@@ -1,0 +1,717 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>用户管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>用户管理</legend>
+		</fieldset>
+		<form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<!--<div class="form-group">
+					<input type="text" value="" class="form-control checkLogs" id="orderNum" placeholder="用户名称" autocomplete="off">
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>-->
+				<div class="form-group">
+					<button class="layui-btn layui-btn-normal header-dropdown-menu addPeople">添加用户</button>
+				</div>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<table id="biuuu_city_list" class="layui-table">
+			<thead>
+				<tr>
+					<th style="text-align: center;">序号</th>
+					<th style="text-align: center;">姓名</th>
+					<th style="text-align: center;">手机号</th>
+					<th style="text-align: center;">类别</th>
+					<th style="text-align: center;">操作</th>
+				</tr>
+			</thead>
+			<tbody style="text-align: center;">
+
+			</tbody>
+		</table>
+		<div class="tcdPageCode"></div>
+		<div id="demo8" style="text-align: center;"></div>
+		<div class="hide">
+			<div id="x-address">
+				<div class="form-group form-inline clearfix">
+					姓名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="text" value="" class="form-control checkLogs" id="xing" placeholder="" autocomplete="off">
+				</div>
+				<div class="form-group form-inline clearfix">
+					联系方式
+					<input type="text" value="" class="form-control checkLogs" id="x-phone" placeholder="" autocomplete="off">
+				</div>
+				<div class="form-group form-inline clearfix mm">
+					密码&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="password" value="" class="form-control checkLogs" id="bs" placeholder="" autocomplete="off">
+				</div>
+				<div class="form-group form-inline clearfix">
+					用户级别
+					<select class="form-control" id="y-level">
+                        <option data-type="0">县级</option>   
+                        <option data-type="1">乡级</option>   
+                        <option data-type="2">村级</option>   
+                        <option data-type="3">部门</option>   
+                    </select>
+				</div>
+				<div class="form-group form-inline clearfix xiang hide">
+					选择乡&nbsp;&nbsp;&nbsp;&nbsp;
+					<select class="form-control" id="y-xiang">
+                        
+                    </select>
+				</div>
+				<div class="form-group form-inline clearfix cun hide">
+					选择村&nbsp;&nbsp;&nbsp;&nbsp;
+					<select class="form-control" id="y-cun">
+                        <option data-type="">请选择村</option>
+                    </select>
+				</div>
+				<div class="form-group form-inline clearfix bu hide">
+					选择部门
+					<select class="form-control" id="y-bu">
+                        
+                    </select>
+				</div>
+			</div>
+		</div>
+		<div class="hide">
+			<div id="removePeople">
+				确定删除该用户？
+			</div>
+		</div>
+		<div class="hide">
+			<div id="quan">
+				<ul id="q-lie" class="list-group" style="height:300px;overflow: scroll;">
+
+				</ul>
+			</div>
+		</div>
+		<script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script src="../common/js/md5.js"></script>
+		<script>
+		var newCookie=sessionStorage.ticket;
+		var sessionId=sessionStorage.session_id;
+		(function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var xx = $.getUrlParam('x');
+		        var name=decodeURI($.getUrlParam('name'));
+		       // var flag=decodeURI($.getUrlParam('flag'));
+		         if(xx==null){
+		        	xx=1;
+		        }else{
+		        	xx=$.getUrlParam('x');
+		        };
+//		        if(flag=="null"){
+//		        	flag=''
+//		        } 
+		        if(name=="null"){
+		        	 name='';
+		        	 var list={
+			        	pageIndex:xx,
+						pageSize:10,
+						sessionId:sessionId
+			           };
+		        }else{
+		        	 var list={
+		        	 	userName:name,
+		        	 	pageIndex:xx,
+		        	 	pageSize:10,
+		        	 	sessionId:sessionId
+		             }
+		        }
+		       $("#orderNum").val(name);
+		       //$("#companyName").val(flag);
+      	      //获取角色列表
+			    $.ajax({
+				type: "post",
+				url: href+"/api/back/user/list",
+				data:list,
+				dataType:"json",
+				success: function(data) {
+					var length = data.data.pagination.pageCount;
+					var d = data.data.rows;
+					console.log(d);
+					var str = '';
+					if(d.length){
+				    for(var i=0;i<d.length;i++) {
+						str += '<tr><td>' + (i + 1) + '</td><td>' + d[i].username + '</td><td>' + d[i].userphone + '</td><td>' + d[i].level + '</td><td><button data-id="' + d[i].id + '" class="layui-btn remove">删除用户</button><button   data-id="' + d[i].id + '" class="layui-btn layui-btn-warm bian">编辑</button></td></tr>';
+						//<button data-id="' + d[i].id + '" class="layui-btn layui-btn-danger quan">权限</button>
+					};		
+					}else{
+						str='<tr><td colspan="6">无数据</td></tr>';
+					}
+					
+					$("#biuuu_city_list tbody").html(str);
+					 $(".tcdPageCode").createPage({
+				        pageCount:length,
+				        current:xx,
+				        backFn:function(p){
+				        	if(name=="null"){
+				        	 window.location.href="roleManage.html?x="+p;	
+				        	}else{
+				        		var a=$("#orderNum").val();
+				        		window.location.href="roleManage.html?x="+p+"&name="+encodeURI(encodeURI(a));
+				        	}
+				          
+				           
+				        }
+					 });
+					 //去重
+					 for(var i=0;i<$(".tcdPageCode a").length-1;i++){
+					 	if($(".tcdPageCode a").eq(i).text()==$(".tcdPageCode a").eq(i+1).text()){
+					 		$(".tcdPageCode a").eq(i).remove()
+					 	}
+					 }
+				},
+				error: function() {
+					alert()
+				}
+			});
+			//判断类别
+			function status(x){
+				if(x==0){
+					x="县级"
+				};
+				if(x==1){
+					x="乡级"
+				};
+				if(x==2){
+					x="村级"
+				};
+				if(x==3){
+					x="部级"
+				};
+				return x;
+			};
+			//监听用户级别变化
+			$('#y-level').on('change',function (event) {
+				event.preventDefault();
+				var id=$('#y-level option:selected').data('type');
+				if(id==0){
+					$(".xiang").addClass("hide");
+					$(".cun").addClass("hide");
+					$(".bu").addClass("hide");
+				};
+				if(id==1){
+					$(".xiang").removeClass("hide");
+					$("#y-xiang option[data-type='']").prop("selected", true);
+					$(".cun").addClass("hide");
+					$(".bu").addClass("hide");
+				};
+				if(id==2){
+					$(".xiang").removeClass("hide");
+					$("#y-xiang option[data-type='']").prop("selected", true);
+					$("#y-cun option[data-type='']").prop("selected", true);
+					$(".cun").removeClass("hide");
+					$(".bu").addClass("hide");
+				};
+				if(id==3){
+					$(".xiang").removeClass("hide");
+					$("#y-xiang option[data-type='']").prop("selected", true);
+					$("#y-bu option[data-type='']").prop("selected", true);
+					$(".cun").addClass("hide");
+					$(".bu").removeClass("hide");
+				};
+				
+			});
+			//刷新页面
+				$(".shua").on('click',function(event){
+					event.preventDefault();
+					window.location.href="roleManage.html"
+				})
+			//删除角色
+			$(document).delegate('.remove', 'click', function(event) {
+				event.preventDefault();
+					var manId = $(this).attr("data-id");
+					$('#removePeople').dialog({
+						title: '删除用户',
+						onClose: function() {
+							$(this).dialog('close');
+						},
+						buttons: [{
+							text: '取消',
+							'click': function() {
+								$(this).dialog('close');
+							}
+						}, {
+							text: '确定',
+							'class': 'btn-primary',
+							'click': function() {
+								$.ajax({
+									type: "post",
+									url: href+"/api/back/user/delete",
+									data: {
+										id: manId,
+										sessionId:sessionId
+									},
+									success: function(data) {
+										//console.log(data);
+										window.location.reload()
+									}
+
+								});
+							}
+						}]
+					})
+
+				})
+			//获取乡
+			  function xiang(x){
+			  	$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/village/parentList",
+		    		data:{
+		    			sessionId:sessionId
+		    		},
+		    		dataType:"json",
+		    		success:function(data){
+		    			 var optstr = '';
+		    			 var d=data.data;
+		    			 console.log(d);
+		    			if(d.length){
+		    				for(var i=0;i<d.length;i++){
+		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+		    				};
+		    				$("#y-xiang").html('<option data-type="">请选择乡</option>'+optstr);
+		    				$("#y-xiang option[data-type='"+x+"']").prop("selected", true);
+		    			}
+		    		}
+		    	 });
+			  };
+				 //获取部门
+				 function bu(x){
+				 	$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/department/optionList",
+		    		data:{
+		    			sessionId:sessionId
+		    		},
+		    		dataType:"json",
+		    		success:function(data){
+		    			 var optstr = '';
+		    			 var d=data.data;
+		    			 console.log(d);
+		    			if(d.length){
+		    				for(var i=0;i<d.length;i++){
+		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].departName+'</option>';
+		    				};
+		    				$("#y-bu").html('<option data-type="">请选择部门</option>'+optstr);
+		    				$("#y-bu option[data-type='"+x+"']").prop("selected", true);
+		    			}
+		    		}
+		    	 });
+				 };
+				 //展示村
+				 function cun(id,x){
+				 	$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/village/childrenList",
+		    		data:{
+		    			parentId:id,
+		    			sessionId:sessionId
+		    		},
+		    		dataType:"json",
+		    		success:function(data){
+		    			 var optstr = '';
+		    			 var d=data.data;
+		    			 console.log(d);
+		    			if(d.length){
+		    				for(var i=0;i<d.length;i++){
+		    					optstr += '<option data-type="'+d[i].id+'">'+d[i].villageName+'</option>';
+		    				};
+		    				$("#y-cun").html('<option data-type="">请选择村</option>'+optstr);
+		    				$("#y-cun option[data-type='"+x+"']").prop("selected", true);
+		    			}else{
+		    				$("#y-cun").html('<option data-type="">请选择村</option>');
+		    			}
+		    		}
+		    	 });
+				 };
+				 //监听乡变化村的展示
+				 $('#y-xiang').on('change',function (event) {
+				event.preventDefault();
+				var id=$('#y-xiang option:selected').data('type');
+				if(id==""){
+					if(id=="0"){
+						cun(0,"");
+					}else{
+						$("#y-cun").html('<option data-type="">请选择部门</option>');
+					}
+				 }else{
+					cun(id,"");
+				 }
+				})
+				//添加用户
+			$(document).delegate('.addPeople', 'click', function(event) {
+				event.preventDefault();
+				$("#xing").val("");
+				$("#x-phone").val("");
+				$("#bs").val("");
+				xiang();
+				bu();
+				$("#y-level option[data-type='"+0+"']").prop("selected", true);
+				$(".xiang").addClass("hide");
+				$(".cun").addClass("hide");
+				$(".bu").addClass("hide");
+				$('#x-address').dialog({
+					title: '增加用户',
+					onClose: function() {
+						$(this).dialog('close');
+					},
+					buttons: [{
+						text: '取消',
+						'click': function() {
+							$(this).dialog('close');
+						}
+					}, {
+						text: '确定',
+						'class': 'btn-primary',
+						'click': function() {
+							if($("#xing").val() == "") {
+								alert("请填写姓名");
+								return;
+							};
+							if($("#x-phone").val() == "") {
+								alert("请填写联系方式");
+								return;
+							};
+							//判断电话
+                  var phone = document.getElementById('x-phone').value;
+							    if(!(/^1[34578]\d{9}$/.test(phone))){ 
+							        alert("手机号码有误，请重填"); 
+							        return; 
+							    };
+							if($("#bs").val() == "") {
+								alert("请填写密码");
+								return;
+							};
+							var t=$('#y-level option:selected').data('type');
+							var x='',c='',b='';
+							if(t==0){
+								x='';
+								c='';
+								b='';
+							};
+							if(t==1){
+								x=$('#y-xiang option:selected').data('type');
+								c='';
+								b='';
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+							};
+							if(t==2){
+								x=$('#y-xiang option:selected').data('type');
+								c=$('#y-cun option:selected').data('type');
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+								if(c==""){
+									if(c=="0"){
+										
+									}else{
+										alert("请选择村");
+										return;
+									}
+								}
+								b='';
+							};
+							if(t==3){
+								x=$('#y-xiang option:selected').data('type');
+								c='';
+								b=$('#y-bu option:selected').data('type');
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+								if(b==""){
+									if(b=="0"){
+										
+									}else{
+										alert("请选择部门");
+										return;
+									}
+								}
+							};
+							$.ajax({
+								type: "post",
+								url: href+"/api/back/user/save",
+								data: {
+									cunId:c,
+									departId:b,
+									xiangId:x,
+									level:t,
+									username:$("#xing").val(),
+									userPhone:$("#x-phone").val(),
+									password :hex_md5($("#bs").val()),
+									sessionId:sessionId
+								},
+								success: function(data) {
+									if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+								}
+							});
+						}
+					}]
+				});
+			});
+			//搜索
+			$("#j-search").on("click", function() {
+				var a=$("#orderNum").val();
+				window.location.href="roleManage.html?x="+1+"&name="+encodeURI(encodeURI(a));
+			});
+			//编辑
+			$(document).delegate('.bian', 'click', function(event) {
+				event.preventDefault();
+				var orderId = $(this).attr("data-id");
+				$("#bs").val("******");
+				xiang();
+				bu();
+				var newMi="";
+				$.ajax({
+		    		type:"post",
+		    		url:href+"/api/back/user/detail",
+		    		data:{
+		    			id:orderId,
+		    			sessionId:sessionId
+		    		},
+		    		dataType:"json",
+		    		success:function(data){
+		    			var d=data.data;
+		    			$("#xing").val(d.username);
+		    			newMi=d.password;
+		    			$("#x-phone").val(d.phone);
+		    			var level=d.level;
+		    			$("#y-level option[data-type='"+level+"']").prop("selected", true);
+		    			if(level==0){
+							$(".xiang").addClass("hide");
+							$(".cun").addClass("hide");
+							$(".bu").addClass("hide");
+						};
+						if(level==1){
+							$(".xiang").removeClass("hide");
+							xiang(d.xiangId);
+							//$("#y-xiang option[data-type='"++"']").prop("selected", true);
+							$(".cun").addClass("hide");
+							$(".bu").addClass("hide");
+						};
+						if(level==2){
+							$(".xiang").removeClass("hide");
+//							$("#y-xiang option[data-type='']").prop("selected", true);
+//							$("#y-cun option[data-type='']").prop("selected", true);
+							$(".cun").removeClass("hide");
+							$(".bu").addClass("hide");
+							xiang(d.xiangId);
+							cun(d.xiangId,d.cunId);
+						};
+						if(level==3){
+							$(".xiang").removeClass("hide");
+//							$("#y-xiang option[data-type='']").prop("selected", true);
+//							$("#y-bu option[data-type='']").prop("selected", true);
+							$(".cun").addClass("hide");
+							$(".bu").removeClass("hide");
+							xiang(d.xiangId);
+							bu(d.departId);
+						};
+		    		}
+		    	});
+		    	 $('#bs').bind('input propertychange', function () {
+                   newMi=hex_md5($("#bs").val());
+                 });
+				$('#x-address').dialog({
+					title: '编辑',
+					onClose: function() {
+						$(this).dialog('close');
+					},
+					buttons: [{
+						text: '取消',
+						'click': function() {
+							$(this).dialog('close');
+						}
+					}, {
+						text: '确定',
+						'class': 'btn-primary',
+						'click': function() {
+							if($("#xing").val() == "") {
+								alert("请填写姓名");
+								return;
+							};
+							if($("#x-phone").val() == "") {
+								alert("请填写联系方式");
+								return;
+							};
+							//判断电话
+                              var phone = document.getElementById('x-phone').value;
+							    if(!(/^1[34578]\d{9}$/.test(phone))){ 
+							        alert("手机号码有误，请重填"); 
+							        return; 
+							    };
+							if($("#bs").val() == "") {
+								alert("请填写密码");
+								return;
+							};
+							var t=$('#y-level option:selected').data('type');
+							var x='',c='',b='';
+							if(t==0){
+								x='';
+								c='';
+								b='';
+							};
+							if(t==1){
+								x=$('#y-xiang option:selected').data('type');
+								c='';
+								b='';
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+							};
+							if(t==2){
+								x=$('#y-xiang option:selected').data('type');
+								c=$('#y-cun option:selected').data('type');
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+								if(c==""){
+									if(c=="0"){
+										
+									}else{
+										alert("请选择村");
+										return;
+									}
+								}
+								b='';
+							};
+							if(t==3){
+								x=$('#y-xiang option:selected').data('type');
+								c='';
+								b=$('#y-bu option:selected').data('type');
+								if(x==""){
+									if(x=="0"){
+										
+									}else{
+										alert("请选择乡");
+										return;
+									}
+								}
+								if(b==""){
+									if(b=="0"){
+										
+									}else{
+										alert("请选择部门");
+										return;
+									}
+								}
+							};
+							$.ajax({
+								type: "post",
+								url: href+"/api/back/user/save",
+								data: {
+									id:orderId,
+									cunId:c,
+									departId:b,
+									xiangId:x,
+									level:t,
+									username:$("#xing").val(),
+									userPhone:$("#x-phone").val(),
+									password :hex_md5($("#bs").val()),
+									sessionId:sessionId
+								},
+								success: function(data) {
+									if(data.resultCode==1){
+										alert(data.resultMsg);
+										return;
+										}else{
+											window.location.reload()
+										}
+								}
+							});
+						}
+					}]
+				});
+			});
+			//时间转化
+			function time(t){
+				var d=new Date(t);
+				var year=d.getFullYear();
+				var day=d.getDate();
+				var month=+d.getMonth()+1;
+				var hour=d.getHours();
+				var minute=d.getMinutes();
+				var second=d.getSeconds();
+				var misec=d.getMilliseconds();
+				var f=year+"-"+change(month)+"-"+change(day)+" "+change(hour)+":"+change(minute)+":"+change(second);
+				return f;
+			};
+			function change(t){
+				if(t<10){
+					t="0"+t
+				};
+				return t;
+			};
+		</script>
+	</body>
+</html>

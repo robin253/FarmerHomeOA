@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>财务报表管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		    .txts{
+		    	display: inline-block;
+            	width:100px;
+            	overflow: hidden;
+            	white-space: nowrap;
+            	text-overflow: ellipsis;
+		    }
+		    .txt{
+		    	width:50px;
+		    } 
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>财务报表管理</legend>
+		</fieldset>
+		<form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<div class="form-group">
+					<button class="layui-btn layui-btn-normal header-dropdown-menu fan">返回</button>
+					<button class="layui-btn  header-dropdown-menu bao">保存</button>
+				</div>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<div style="width:98%;overflow-x: scroll;">
+			<table id="biuuu_city_list" class="layui-table">
+			<thead>
+				<tr>
+					<th>标题</th>
+					<th colspan="22" style="text-align: center;"><input type="text" value=""   class="form-control checkLogs title txt" style="width:50%;margin: auto;" autocomplete="off"></th>
+				</tr>
+				<tr>
+					<th style="text-align: center;">资产</th>
+					<th colspan="10" style="text-align: center;">流动资产</th>
+					<th colspan="3" style="text-align: center;">长期投资</th>
+					<th colspan="6" style="text-align: center;">固定资产</th>
+					<th style="text-align: center;">无形资产</th>
+					<th style="text-align: center;">受托代理资产</th>
+					<th style="text-align: center;">资产总计</th>
+				</tr>
+			</thead>
+			<tbody style="text-align: center;">
+             <tr>
+             	<td></td>
+             	<td>货币资金</td><td>短期投资</td><td>应收款项</td><td>预付账款</td><td>存货</td><td>待摊费用</td><td>一年内到期的长期债权投资</td><td>其他流动资产</td><td>流动资产合计</td>
+                <td>长期股权投资</td><td>长期债权投资</td><td>长期投资合计</td>
+                <td>固定资产原价</td><td>减：累积折旧</td><td>固定资产净值</td><td>在建工程</td><td>文物文化资产</td><td>固定资产清理</td><td>固定资产合计</td>
+                <td>无形资产</td>
+                <td>受托代理资产</td>
+                <td>资产总计</td>
+             </tr>
+             <tr class="tt1">
+             	
+             </tr>
+              <tr class="tt2">
+             	
+             </tr>
+             <tr>
+				<th style="text-align: center;"><span class="txts">负债和净资产</span></th>
+				<th colspan="10" style="text-align: center;">流动负债</th>
+				<th colspan="4" style="text-align: center;">长期负债</th>
+				<th colspan="2" style="text-align: center;">受托代理负债</th>
+				<th colspan="3" style="text-align: center;">净资产</th>
+				<th title="负债和净资产合计" style="text-align: center;"><span class="txts">负债和净资产合计</span></th>
+				<th style="text-align: center;">待续...</th>
+				<th style="text-align: center;"></th>
+			</tr>
+			 <tr>
+             	<td></td>
+             	<td>短期借款</td><td>应付款项</td><td>应付工资</td><td>应交税金</td><td>预收账款</td><td>预提费用</td><td>预计负债</td><td>一年内到期的长期负债</td><td>其他流动负债</td><td>流动负债合计</td>
+                <td>长期借款</td><td>长期应付款</td><td>其他长期负债</td><td>长期负债合计</td>
+                <td>受托代理负债</td><td>负债合计</td>
+                <td>非限定性净资产</td><td>限定性净资产</td><td>净资产合计</td>
+                <td>负债和净资产合计</td>
+                <td></td><td></td>
+             </tr>
+             <tr class="t1">
+             	
+             </tr>
+             <tr class="t2">
+             	
+             </tr>
+			</tbody>
+		</table>
+		</div>
+		
+		<div class="tcdPageCode"></div>
+		<div id="demo8" style="text-align: center;"></div>
+		<script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script src="../common/js/md5.js"></script>
+		<script>
+		var sessionId=sessionStorage.session_id;
+		//刷新页面
+			$(".shua").on('click',function(event){
+				event.preventDefault();
+				window.location.href="financialManage.html"
+			})
+		//返回
+		$(".fan").on("click",function(event){
+			event.preventDefault();
+			window.location.href="statementManage.html";
+		});
+		//只能输入两位小数:
+		  function clearNoNum(obj) {
+		        obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
+		        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+		        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+		        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+		        if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+		            obj.value = parseFloat(obj.value);
+		        }
+		        ;
+		
+		   };
+		   //获取第一个年初数
+		   var otr0="<td>年初数</td>";
+		  for(var i=0;i<22;i++){
+		  	otr0 += '<td><input type="text" value="" onkeyup="clearNoNum(this)"  class="form-control checkLogs txt" autocomplete="off"></td>'
+		  };
+		  $(".tt1").html(otr0);
+		  //获取第一个期末数
+		   var otr3="<td>期末数</td>";
+		  for(var i=0;i<22;i++){
+		  	otr3 += '<td><input type="text" value="" onkeyup="clearNoNum(this)"  class="form-control checkLogs txt" autocomplete="off"></td>'
+		  };
+		  $(".tt2").html(otr3);
+		  //获取年初数
+		  var otr1="<td>年初数</td>";
+		  for(var i=0;i<20;i++){
+		  	otr1 += '<td><input type="text" value="" onkeyup="clearNoNum(this)"  class="form-control checkLogs txt" autocomplete="off"></td>'
+		  };
+		  $(".t1").html(otr1+'<td></td><td></td>');
+		  //获取期末数
+		  var otr2="<td>期末数</td>";
+		  for(var i=0;i<20;i++){
+		  	otr2 += '<td><input type="text" value="" onkeyup="clearNoNum(this)"  class="form-control checkLogs txt" autocomplete="off"></td>'
+		  };
+		  $(".t2").html(otr2+'<td></td><td></td>'); 
+		  //保存
+		  $(".bao").on("click",function(event){
+		  	event.preventDefault();
+		  	if($(".title").val()==""){
+		  		alert("请填写标题");
+		  		return;
+		  	}
+		  	var s="";
+		  	for(var i=0;i<$(".txt").length;i++){
+		  		if($(".txt").eq(i).val()==""){
+		  			alert("表格里面的数据不能为空");
+		  			return;
+		  		}
+		  	};
+		  	s=$(".txt").eq(0).val();
+		  	for(var i=1;i<$(".txt").length;i++){
+		  	 s += ","+ $(".txt").eq(i).val();	
+		  	};
+		  	$.ajax({
+		  		type:"post",
+		  		url:href+"/api/back/reportFinance/save",
+		  		data:{
+		  			reportFinance:s,
+		  			title:$(".title").val(),
+		  			reportType:1,
+		  			sessionId:sessionId
+		  		},
+		  		dataType:"json",
+		  		success:function(data){
+		  			if(data.resultCode==1){
+					alert(data.resultMsg);
+					return;
+					}else{
+						window.location.href="statementManage.html";
+					}
+		  		}
+		  	});
+		  });
+		</script>
+	</body>
+</html>

@@ -1,0 +1,522 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>服务报表统计</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="../common/layui/css/layui.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../common/css/bootstrap-datetimepicker.min.css" />
+		<style>
+			*{ margin:0; padding:0; list-style:none;}
+			a{ text-decoration:none;}
+			a:hover{ text-decoration:none;}
+			.tcdPageCode{padding: 15px 20px;text-align: left;color: #ccc;text-align:center;}
+			.tcdPageCode a{display: inline-block;color: #428bca;display: inline-block;height: 25px;	line-height: 25px;	padding: 0 10px;border: 1px solid #ddd;	margin: 0 2px;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode a:hover{text-decoration: none;border: 1px solid #428bca;}
+			.tcdPageCode span.current{display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;color: #fff;background-color: #428bca;	border: 1px solid #428bca;border-radius: 4px;vertical-align: middle;}
+			.tcdPageCode span.disabled{	display: inline-block;height: 25px;line-height: 25px;padding: 0 10px;margin: 0 2px;	color: #bfbfbf;background: #f2f2f2;border: 1px solid #bfbfbf;border-radius: 4px;vertical-align: middle;}
+		     #allmap{width:100%;height:300px;margin-top:20px;box-shadow: 1px 2px 5px #666;border-radius: 5px;}
+		     .dropdown-menu{
+		    	z-index: 100000000000;
+		    }
+		     .panel{
+				border:0
+			}
+		</style>
+	</head>
+	<body>
+		<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+			<legend>服务报表统计</legend>
+		</fieldset>
+	    <form id="search" class="form-inline clearfix">
+			<div class="searchItems">
+				<div class="form-group">
+				年份查询
+				<select class="form-control" id="country">
+					      <option data-type="2016">2016</option>
+					      <option data-type="2017">2017</option>
+                 </select>
+             </div>
+				<div class="form-group">
+				季度查询
+				<select class="form-control" id="culture">
+						  <option data-type="1">第一季度</option> 
+						  <option data-type="2">第二季度</option> 
+						  <option data-type="3">第三季度</option> 
+						  <option data-type="4">第四季度</option> 
+                 </select>
+             </div>
+				<div class="form-group">
+				服务类型
+				<select class="form-control" id="politics">
+						  <option data-type="1">咨询</option> 
+						  <option data-type="2">代办</option> 
+						  <option data-type="3">其他</option> 
+                 </select>
+             </div>
+				<a href="javascript:void(0)" id="j-search" class="btn btn-primary active" role="button">搜索</a>
+				<div class="form-group" style="float:right;margin-right:30px;">
+					<button type="button" class="btn btn-info shua"> 页面刷新</button>
+				</div>
+			</div>
+		</form>
+		<div id="main" style="width: 900px;height:600px;"></div>
+		<script src="../common/js/jquery-1.12.3.min.js"></script>
+		<script type="text/javascript" src="../common/layui/layui.js"></script>
+		<script src="../common/layui/lay/modules/laydate.js"></script>
+		<script src='../common/layui/lay/modules/laypage.js'></script>
+		<script src="../common/js/bootstrap.min.js"></script>
+		<script src="../common/js/jquery.bootstrap.min.js"></script>
+		<script src="../common/js/search-logs.js"></script>
+		<script src="../common/js/jquery.page.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="../common/js/bootstrap-datetimepicker.zh-CN.js"></script>
+		<script src='../common/js/echarts.min.js'></script>
+		<script>
+		  var newCookie = sessionStorage.ticket;
+		  var sessionId=sessionStorage.session_id;
+		  //路径上去参数
+		  (function ($) {
+		            $.getUrlParam = function (name) {
+		                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		                var r = window.location.search.substr(1).match(reg);
+		                if (r != null) return unescape(r[2]); return null;
+		            }
+		        })(jQuery);
+		        var id = $.getUrlParam('id');
+		        var page = $.getUrlParam('page');
+		        var y = $.getUrlParam('y');
+		        var addTime=decodeURI($.getUrlParam('addTime'));
+		        var endTime=decodeURI($.getUrlParam('endTime'));
+           //入学时间
+		  $('#addTime').datetimepicker({
+			        format: 'yyyy-mm-dd',
+			        language:  'zh-CN',
+			        autoclose: 1,
+			        minView: 2
+	    });
+	    //结业时间
+	    $('#endTime').datetimepicker({
+			        format: 'yyyy-mm-dd',
+			        language:  'zh-CN',
+			        autoclose: 1,
+			        minView: 2
+	    });
+	    //刷新页面
+			$(".shua").on('click',function(event){
+				event.preventDefault();
+				window.location.href="serviceStatistic.html";
+			});
+			var xiangId="",cunId="";
+		//搜索
+			$("#j-search").on("click", function(event) {
+				event.preventDefault();
+			//获取信息数据
+			$.ajax({
+				type:"post",
+				url:href+"/api/back/reportServer/statistics",
+				data:{
+					season:$('#culture option:selected').data('type'),
+					type:$('#politics option:selected').data('type'),
+					year:$('#country option:selected').data('type'),
+					sessionId:sessionId
+				},
+				dataType:"json",
+				success:function(data){
+					if(data.resultCode==1){
+					alert(data.resultMsg);
+					return;
+					}else{
+					var name=data.data.charts;
+					var value=data.data.components;
+					var max=data.data.max;
+					//绘制折线图
+					 var myChart = echarts.init(document.getElementById('main'));
+					var builderJson = {
+						  "all": max,
+						  "charts": name,
+						  "components": value,
+						  "ie": max
+						};
+						var downloadJson = name;
+						var themeJson = value;
+						
+						var waterMarkText = '';
+						
+						var canvas = document.createElement('canvas');
+						var ctx = canvas.getContext('2d');
+						canvas.width = canvas.height = 100;
+						ctx.textAlign = 'center';
+						ctx.textBaseline = 'middle';
+						ctx.globalAlpha = 0.08;
+						ctx.font = '20px Microsoft Yahei';
+						ctx.translate(50, 50);
+						ctx.rotate(-Math.PI / 4);
+						ctx.fillText(waterMarkText, 0, 0);
+						
+						option = {
+						    backgroundColor: {
+						        type: 'pattern',
+						        image: canvas,
+						        repeat: 'repeat'
+						    },
+						    tooltip: {},
+						    title: [{
+						        text: '服务报表统计',
+						        x: '25%',
+						        textAlign: 'center'
+						    }, {
+						        text: '受理',
+						        x: '75%',
+						        textAlign: 'center'
+						    }, {
+						        text: '办结',
+						        x: '75%',
+						        y: '50%',
+						        textAlign: 'center'
+						    }],
+						    grid: [{
+						        top: 50,
+						        width: '50%',
+						        bottom: '45%',
+						        left: 10,
+						        containLabel: true
+						    }, {
+						        top: '55%',
+						        width: '50%',
+						        bottom: 0,
+						        left: 10,
+						        containLabel: true
+						    }],
+						    xAxis: [{
+						        type: 'value',
+						        max: builderJson.all,
+						        splitLine: {
+						            show: false
+						        }
+						    }, {
+						        type: 'value',
+						        max: builderJson.all,
+						        gridIndex: 1,
+						        splitLine: {
+						            show: false
+						        }
+						    }],
+						    yAxis: [{
+						        type: 'category',
+						        data: Object.keys(builderJson.charts),
+						        axisLabel: {
+						            interval: 0,
+						            rotate: 30
+						        },
+						        splitLine: {
+						            show: false
+						        }
+						    }, {
+						        gridIndex: 1,
+						        type: 'category',
+						        data: Object.keys(builderJson.components),
+						        axisLabel: {
+						            interval: 0,
+						            rotate: 30
+						        },
+						        splitLine: {
+						            show: false
+						        }
+						    }],
+						    series: [{
+						        type: 'bar',
+						        stack: 'chart',
+						        z: 3,
+						        label: {
+						            normal: {
+						                position: 'right',
+						                show: true
+						            }
+						        },
+						        data: Object.keys(builderJson.charts).map(function (key) {
+						            return builderJson.charts[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'chart',
+						        silent: true,
+						        itemStyle: {
+						            normal: {
+						                color: '#eee'
+						            }
+						        },
+						        data: Object.keys(builderJson.charts).map(function (key) {
+						            return builderJson.all - builderJson.charts[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'component',
+						        xAxisIndex: 1,
+						        yAxisIndex: 1,
+						        z: 3,
+						        label: {
+						            normal: {
+						                position: 'right',
+						                show: true
+						            }
+						        },
+						        data: Object.keys(builderJson.components).map(function (key) {
+						            return builderJson.components[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'component',
+						        silent: true,
+						        xAxisIndex: 1,
+						        yAxisIndex: 1,
+						        itemStyle: {
+						            normal: {
+						                color: '#eee'
+						            }
+						        },
+						        data: Object.keys(builderJson.components).map(function (key) {
+						            return builderJson.all - builderJson.components[key];
+						        })
+						    }, {
+						        type: 'pie',
+						        radius: [0, '30%'],
+						        center: ['75%', '25%'],
+						        data: Object.keys(downloadJson).map(function (key) {
+						            return {
+						                name: key.replace('.js', ''),
+						                value: downloadJson[key]
+						            }
+						        })
+						    }, {
+						        type: 'pie',
+						        radius: [0, '30%'],
+						        center: ['75%', '75%'],
+						        data: Object.keys(themeJson).map(function (key) {
+						            return {
+						                name: key.replace('.js', ''),
+						                value: themeJson[key]
+						            }
+						        })
+						    }]
+						}
+
+
+					myChart.setOption(option);
+					
+				}
+			  }
+			});	
+					
+			});
+			var nowYear=new Date;
+			var year=nowYear.getFullYear()+1;
+			var otr="";
+			for(var i=10;i>0;i--){
+				otr += '<option data-type="'+(year-i)+'">'+(year-i)+'</option>'
+			};
+			$("#country").html(otr);
+			$("#country option[data-type='"+ (year-1) +"']").prop("selected", true);
+			//获取信息数据
+			$.ajax({
+				type:"post",
+				url:href+"/api/back/reportServer/statistics",
+				data:{
+					season:$('#culture option:selected').data('type'),
+					type:$('#politics option:selected').data('type'),
+					year:year,
+					sessionId:sessionId
+				},
+				dataType:"json",
+				success:function(data){
+					if(data.resultCode==1){
+					alert(data.resultMsg);
+					return;
+					}else{
+					var name=data.data.charts;
+					var value=data.data.components;
+					var max1=data.data.max;
+					//绘制折线图
+					 var myChart = echarts.init(document.getElementById('main'));
+					var builderJson = {
+						  "all": max1,
+						  "charts": name,
+						  "components": value,
+						  "ie": max1
+						};
+						var downloadJson = name;
+						var themeJson = value;
+						
+						var waterMarkText = '';
+						
+						var canvas = document.createElement('canvas');
+						var ctx = canvas.getContext('2d');
+						canvas.width = canvas.height = 100;
+						ctx.textAlign = 'center';
+						ctx.textBaseline = 'middle';
+						ctx.globalAlpha = 0.08;
+						ctx.font = '20px Microsoft Yahei';
+						ctx.translate(50, 50);
+						ctx.rotate(-Math.PI / 4);
+						ctx.fillText(waterMarkText, 0, 0);
+						
+						option = {
+						    backgroundColor: {
+						        type: 'pattern',
+						        image: canvas,
+						        repeat: 'repeat'
+						    },
+						    tooltip: {},
+						    title: [{
+						        text: '服务报表统计',
+						        x: '25%',
+						        textAlign: 'center'
+						    }, {
+						        text: '受理',
+						        x: '75%',
+						        textAlign: 'center'
+						    }, {
+						        text: '办结',
+						        x: '75%',
+						        y: '50%',
+						        textAlign: 'center'
+						    }],
+						    grid: [{
+						        top: 50,
+						        width: '50%',
+						        bottom: '45%',
+						        left: 10,
+						        containLabel: true
+						    }, {
+						        top: '55%',
+						        width: '50%',
+						        bottom: 0,
+						        left: 10,
+						        containLabel: true
+						    }],
+						    xAxis: [{
+						        type: 'value',
+						        max: builderJson.all,
+						        splitLine: {
+						            show: false
+						        }
+						    }, {
+						        type: 'value',
+						        max: builderJson.all,
+						        gridIndex: 1,
+						        splitLine: {
+						            show: false
+						        }
+						    }],
+						    yAxis: [{
+						        type: 'category',
+						        data: Object.keys(builderJson.charts),
+						        axisLabel: {
+						            interval: 0,
+						            rotate: 30
+						        },
+						        splitLine: {
+						            show: false
+						        }
+						    }, {
+						        gridIndex: 1,
+						        type: 'category',
+						        data: Object.keys(builderJson.components),
+						        axisLabel: {
+						            interval: 0,
+						            rotate: 30
+						        },
+						        splitLine: {
+						            show: false
+						        }
+						    }],
+						    series: [{
+						        type: 'bar',
+						        stack: 'chart',
+						        z: 3,
+						        label: {
+						            normal: {
+						                position: 'right',
+						                show: true
+						            }
+						        },
+						        data: Object.keys(builderJson.charts).map(function (key) {
+						            return builderJson.charts[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'chart',
+						        silent: true,
+						        itemStyle: {
+						            normal: {
+						                color: '#eee'
+						            }
+						        },
+						        data: Object.keys(builderJson.charts).map(function (key) {
+						            return builderJson.all - builderJson.charts[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'component',
+						        xAxisIndex: 1,
+						        yAxisIndex: 1,
+						        z: 3,
+						        label: {
+						            normal: {
+						                position: 'right',
+						                show: true
+						            }
+						        },
+						        data: Object.keys(builderJson.components).map(function (key) {
+						            return builderJson.components[key];
+						        })
+						    }, {
+						        type: 'bar',
+						        stack: 'component',
+						        silent: true,
+						        xAxisIndex: 1,
+						        yAxisIndex: 1,
+						        itemStyle: {
+						            normal: {
+						                color: '#eee'
+						            }
+						        },
+						        data: Object.keys(builderJson.components).map(function (key) {
+						            return builderJson.all - builderJson.components[key];
+						        })
+						    }, {
+						        type: 'pie',
+						        radius: [0, '30%'],
+						        center: ['75%', '25%'],
+						        data: Object.keys(downloadJson).map(function (key) {
+						            return {
+						                name: key.replace('.js', ''),
+						                value: downloadJson[key]
+						            }
+						        })
+						    }, {
+						        type: 'pie',
+						        radius: [0, '30%'],
+						        center: ['75%', '75%'],
+						        data: Object.keys(themeJson).map(function (key) {
+						            return {
+						                name: key.replace('.js', ''),
+						                value: themeJson[key]
+						            }
+						        })
+						    }]
+						}
+
+
+					myChart.setOption(option);
+					
+				}
+			  }
+			});
+			
+		   </script>
+	</body>
+</html>
