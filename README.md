@@ -6,4 +6,5 @@
 代码方面涉及到了spring boot + mybatic的集成，spring boot 的过滤器，监听器，定时器，跨域等配置，已及mybatis的使用。
 使用注入得到数据源，通过构造方法赋值命名空间，传入方法ID得到完整名空间。
 # farmerHomeOa
-这个文件夹里面是静态文件，这个项目是前后端分离的。
+这个文件夹里面是静态文件，这个项目是前后端分离的。接口访问路径在这个文件修改FarmerHomeOA\farmerHomeOa\common\layui\layui.js
+项目访问地址为 FarmerHomeOA\farmerHomeOa\page\login.html
