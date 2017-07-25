@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.huike.app.archive.service.IResidentBookletService">
+	<resultMap id="BaseResultMap" type="com.huike.app.archive.model.TResidentBooklet">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="xiang_id" jdbcType="INTEGER" property="xiangId" />
+		<result column="cun_id" jdbcType="INTEGER" property="cunId" />
+		<result column="house_holder" jdbcType="VARCHAR" property="houseHolder" />
+		<result column="village_group" jdbcType="VARCHAR" property="villageGroup" />
+		<result column="contact_address" jdbcType="VARCHAR" property="contactAddress" />
+		<result column="breed_category" jdbcType="VARCHAR" property="breedCategory" />
+		<result column="breed_scale" jdbcType="VARCHAR" property="breedScale" />
+		<result column="bank_loan" jdbcType="VARCHAR" property="bankLoan" />
+		<result column="private_lending" jdbcType="VARCHAR" property="privateLending" />
+		<result column="loan_condition" jdbcType="VARCHAR" property="loanCondition" />
+		<result column="house_number" jdbcType="VARCHAR" property="houseNumber" />
+		<result column="house_space" jdbcType="VARCHAR" property="houseSpace" />
+		<result column="land_out" jdbcType="INTEGER" property="landOut" />
+		<result column="house_out" jdbcType="INTEGER" property="houseOut" />
+		<result column="land_out_space" jdbcType="VARCHAR" property="landOutSpace" />
+		<result column="location" jdbcType="VARCHAR" property="location" />
+		<result column="land_in_space" jdbcType="VARCHAR" property="landInSpace" />
+		<result column="house_floor_space" jdbcType="VARCHAR" property="houseFloorSpace" />
+		<result column="nature" jdbcType="INTEGER" property="nature" />
+		<result column="house_out_year" jdbcType="INTEGER" property="houseOutYear" />
+		<result column="house_run" jdbcType="INTEGER" property="houseRun" />
+		<result column="best_area" jdbcType="VARCHAR" property="bestArea" />
+		<result column="build_space" jdbcType="VARCHAR" property="buildSpace" />
+		<result column="rent_year" jdbcType="INTEGER" property="rentYear" />
+		<result column="train_hope" jdbcType="INTEGER" property="trainHope" />
+		<result column="agricultural_technique" jdbcType="VARCHAR"
+			property="agriculturalTechnique" />
+		<result column="home_manage" jdbcType="VARCHAR" property="homeManage" />
+		<result column="e_commerce" jdbcType="VARCHAR" property="eCommerce" />
+		<result column="employability" jdbcType="VARCHAR" property="employability" />
+		<result column="others" jdbcType="VARCHAR" property="others" />
+		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, ifnull(house_holder,"") houseHolder,
+		ifnull(village_group,"") villageGroup, ifnull(contact_address,"")
+		contactAddress,
+		ifnull(breed_category,"") breedCategory, ifnull(breed_scale,"") breedScale,
+		ifnull(bank_loan,"") bankLoan,
+		ifnull(private_lending,"") privateLending, ifnull(loan_condition,"") loanCondition,
+		ifnull(house_number,"") houseNumber, ifnull(house_space,"")
+		houseSpace,
+		ifnull(land_out,"") landOut, ifnull(house_out,"") houseOut, ifnull(land_out_space,"")
+		landOutSpace, ifnull(location,"") location, ifnull(land_in_space,"")
+		landInSpace,
+		ifnull(house_floor_space,"") houseFloorSpace, ifnull(nature,"") nature, ifnull(house_out_year,"")
+		houseOutYear,
+		ifnull(house_run,"") houseRun, ifnull(best_area,"") bestArea, ifnull(build_space,"")
+		buildSpace, ifnull(rent_year,"") rentYear, ifnull(train_hope,"")
+		trainHope,
+		ifnull(agricultural_technique,"") agriculturalTechnique,
+		ifnull(home_manage,"") homeManage, ifnull(e_commerce,"") eCommerce, ifnull(employability,"")
+		employability, ifnull(others,"") others,
+		create_time createTime, update_time updateTime, is_delete isDelete
+	</sql>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultType="hashmap">
+		select
+		<include refid="Base_Column_List" />
+		from t_resident_booklet
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		update
+		t_resident_booklet
+		set is_delete = 1
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insert" parameterType="com.huike.app.archive.model.TResidentBooklet">
+		insert into t_resident_booklet
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="xiangId != null and xiangId != ''">
+				xiang_id,
+			</if>
+			<if test="cunId != null and cunId != ''">
+				cun_id,
+			</if>
+			<if test="houseHolder != null">
+				house_holder,
+			</if>
+			<if test="villageGroup != null">
+				village_group,
+			</if>
+			<if test="contactAddress != null">
+				contact_address,
+			</if>
+			<if test="breedCategory != null">
+				breed_category,
+			</if>
+			<if test="breedScale != null">
+				breed_scale,
+			</if>
+			<if test="bankLoan != null">
+				bank_loan,
+			</if>
+			<if test="privateLending != null">
+				private_lending,
+			</if>
+			<if test="loanCondition != null">
+				loan_condition,
+			</if>
+			<if test="houseNumber != null">
+				house_number,
+			</if>
+			<if test="houseSpace != null">
+				house_space,
+			</if>
+			<if test="landOut != null and landOut != ''">
+				land_out,
+			</if>
+			<if test="houseOut != null and houseOut != ''">
+				house_out,
+			</if>
+			<if test="landOutSpace != null">
+				land_out_space,
+			</if>
+			<if test="location != null">
+				location,
+			</if>
+			<if test="landInSpace != null">
+				land_in_space,
+			</if>
+			<if test="houseFloorSpace != null">
+				house_floor_space,
+			</if>
+			<if test="nature != null and nature != ''">
+				nature,
+			</if>
+			<if test="houseOutYear != null and houseOutYear != ''">
+				house_out_year,
+			</if>
+			<if test="houseRun != null and houseRun != ''">
+				house_run,
+			</if>
+			<if test="bestArea != null">
+				best_area,
+			</if>
+			<if test="buildSpace != null">
+				build_space,
+			</if>
+			<if test="rentYear != null and rentYear != ''">
+				rent_year,
+			</if>
+			<if test="trainHope != null and trainHope != ''">
+				train_hope,
+			</if>
+			<if test="agriculturalTechnique != null">
+				agricultural_technique,
+			</if>
+			<if test="homeManage != null">
+				home_manage,
+			</if>
+			<if test="eCommerce != null">
+				e_commerce,
+			</if>
+			<if test="employability != null">
+				employability,
+			</if>
+			<if test="others != null">
+				others,
+			</if>
+			create_time,
+			update_time,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="xiangId != null and xiangId != ''">
+				#{xiangId,jdbcType=INTEGER},
+			</if>
+			<if test="cunId != null and cunId != ''">
+				#{cunId,jdbcType=INTEGER},
+			</if>
+			<if test="houseHolder != null">
+				#{houseHolder,jdbcType=VARCHAR},
+			</if>
+			<if test="villageGroup != null">
+				#{villageGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="contactAddress != null">
+				#{contactAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="breedCategory != null">
+				#{breedCategory,jdbcType=VARCHAR},
+			</if>
+			<if test="breedScale != null">
+				#{breedScale,jdbcType=VARCHAR},
+			</if>
+			<if test="bankLoan != null">
+				#{bankLoan,jdbcType=VARCHAR},
+			</if>
+			<if test="privateLending != null">
+				#{privateLending,jdbcType=VARCHAR},
+			</if>
+			<if test="loanCondition != null">
+				#{loanCondition,jdbcType=VARCHAR},
+			</if>
+			<if test="houseNumber != null">
+				#{houseNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="houseSpace != null">
+				#{houseSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="landOut != null and landOut != ''">
+				#{landOut,jdbcType=INTEGER},
+			</if>
+			<if test="houseOut != null and houseOut != ''">
+				#{houseOut,jdbcType=INTEGER},
+			</if>
+			<if test="landOutSpace != null">
+				#{landOutSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				#{location,jdbcType=VARCHAR},
+			</if>
+			<if test="landInSpace != null">
+				#{landInSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="houseFloorSpace != null">
+				#{houseFloorSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="nature != null and nature != ''">
+				#{nature,jdbcType=INTEGER},
+			</if>
+			<if test="houseOutYear != null and houseOutYear != ''">
+				#{houseOutYear,jdbcType=INTEGER},
+			</if>
+			<if test="houseRun != null and houseRun != ''">
+				#{houseRun,jdbcType=INTEGER},
+			</if>
+			<if test="bestArea != null">
+				#{bestArea,jdbcType=VARCHAR},
+			</if>
+			<if test="buildSpace != null">
+				#{buildSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="rentYear != null and rentYear != ''">
+				#{rentYear,jdbcType=INTEGER},
+			</if>
+			<if test="trainHope != null and trainHope != ''">
+				#{trainHope,jdbcType=INTEGER},
+			</if>
+			<if test="agriculturalTechnique != null">
+				#{agriculturalTechnique,jdbcType=VARCHAR},
+			</if>
+			<if test="homeManage != null">
+				#{homeManage,jdbcType=VARCHAR},
+			</if>
+			<if test="eCommerce != null">
+				#{eCommerce,jdbcType=VARCHAR},
+			</if>
+			<if test="employability != null">
+				#{employability,jdbcType=VARCHAR},
+			</if>
+			<if test="others != null">
+				#{others,jdbcType=VARCHAR},
+			</if>
+			now(),
+			now(),
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKey" parameterType="com.huike.app.archive.model.TResidentBooklet">
+		update t_resident_booklet
+		<set>
+			<if test="houseHolder != null">
+				house_holder = #{houseHolder,jdbcType=VARCHAR},
+			</if>
+			<if test="villageGroup != null">
+				village_group = #{villageGroup,jdbcType=VARCHAR},
+			</if>
+			<if test="contactAddress != null">
+				contact_address = #{contactAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="breedCategory != null">
+				breed_category = #{breedCategory,jdbcType=VARCHAR},
+			</if>
+			<if test="breedScale != null">
+				breed_scale = #{breedScale,jdbcType=VARCHAR},
+			</if>
+			<if test="bankLoan != null">
+				bank_loan = #{bankLoan,jdbcType=VARCHAR},
+			</if>
+			<if test="privateLending != null">
+				private_lending = #{privateLending,jdbcType=VARCHAR},
+			</if>
+			<if test="loanCondition != null">
+				loan_condition = #{loanCondition,jdbcType=VARCHAR},
+			</if>
+			<if test="houseNumber != null">
+				house_number = #{houseNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="houseSpace != null">
+				house_space = #{houseSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="landOut != null and landOut != ''">
+				land_out = #{landOut,jdbcType=INTEGER},
+			</if>
+			<if test="houseOut != null and houseOut != ''">
+				house_out = #{houseOut,jdbcType=INTEGER},
+			</if>
+			<if test="landOutSpace != null">
+				land_out_space = #{landOutSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="location != null">
+				location = #{location,jdbcType=VARCHAR},
+			</if>
+			<if test="landInSpace != null">
+				land_in_space = #{landInSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="houseFloorSpace != null">
+				house_floor_space = #{houseFloorSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="nature != null and nature != ''">
+				nature = #{nature,jdbcType=INTEGER},
+			</if>
+			<if test="houseOutYear != null and houseOutYear != ''">
+				house_out_year = #{houseOutYear,jdbcType=INTEGER},
+			</if>
+			<if test="houseRun != null and houseRun != ''">
+				house_run = #{houseRun,jdbcType=INTEGER},
+			</if>
+			<if test="bestArea != null">
+				best_area = #{bestArea,jdbcType=VARCHAR},
+			</if>
+			<if test="buildSpace != null">
+				build_space = #{buildSpace,jdbcType=VARCHAR},
+			</if>
+			<if test="rentYear != null and rentYear != ''">
+				rent_year = #{rentYear,jdbcType=INTEGER},
+			</if>
+			<if test="trainHope != null and trainHope != ''">
+				train_hope = #{trainHope,jdbcType=INTEGER},
+			</if>
+			<if test="agriculturalTechnique != null">
+				agricultural_technique = #{agriculturalTechnique,jdbcType=VARCHAR},
+			</if>
+			<if test="homeManage != null">
+				home_manage = #{homeManage,jdbcType=VARCHAR},
+			</if>
+			<if test="eCommerce != null">
+				e_commerce = #{eCommerce,jdbcType=VARCHAR},
+			</if>
+			<if test="employability != null">
+				employability = #{employability,jdbcType=VARCHAR},
+			</if>
+			<if test="others != null">
+				others = #{others,jdbcType=VARCHAR},
+			</if>
+			update_time = now(),
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectPageList" parameterType="java.util.Map"
+		resultType="hashmap">
+		select id, house_holder houseHolder, IFNULL(xiang_id,"")
+		xiangId,
+		IFNULL((select village_name from t_village where id = xiang_id),"") as
+		xiangName,
+		IFNULL(cun_id,"")
+		cunId, IFNULL((select village_name from
+		t_village
+		where id = cun_id),"") as
+		cunName,
+		village_group villageGroup,
+		(select count(1) from t_resident where t_resident.resident_booklet_id
+		= t_resident_booklet.id and t_resident.is_delete = 0) memberCount
+		from
+		t_resident_booklet where is_delete=0
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id = #{xiangId,jdbcType=INTEGER}
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id = #{cunId,jdbcType=INTEGER}
+		</if>
+		<if test="houseHolder != null and houseHolder != ''">
+			and house_holder like CONCAT('%',
+			#{houseHolder,jdbcType=VARCHAR},'%')
+		</if>
+		order by create_time desc limit #{offset}, #{show}
+	</select>
+
+	<select id="selectCountByMap" parameterType="hashmap"
+		resultType="int">
+		select count(1) from t_resident where is_delete=0
+		<if test="xiangId != null and xiangId != ''">
+			and xiang_id = #{xiangId,jdbcType=INTEGER}
+		</if>
+		<if test="cunId != null and cunId != ''">
+			and cun_id = #{cunId,jdbcType=INTEGER}
+		</if>
+		<if test="houseHolder != null and houseHolder != ''">
+			and house_holder like CONCAT('%',
+			#{houseHolder,jdbcType=VARCHAR},'%')
+		</if>
+	</select>
+
+</mapper>

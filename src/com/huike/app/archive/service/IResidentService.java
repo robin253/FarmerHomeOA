@@ -6,6 +6,9 @@ import java.util.Map;
 import com.huike.base.service.IBasicService;
 
 public interface IResidentService extends IBasicService{
+	
+	/** 根据外键删除农户 */
+	public <T> Integer removeByForId(T entityId);
 
 	/** 农户统计:按教育程度分组 */
 	public List<Map<String, Object>> statisticsGroupByEducation(Map<String, Object> params) throws Exception;

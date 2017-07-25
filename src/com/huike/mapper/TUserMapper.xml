@@ -184,7 +184,7 @@
 		<if test="departId != null and departId != ''">
 			and depart_id = #{departId}
 		</if>
-		<if test="departId == '' and cunId == null">
+		<if test="(departId == '' or departId == null) and (cunId == '' or cunId == null)">
 			and level = 1
 		</if>
 		order by create_time desc

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.huike.app.archive.service.IResidentService;
+import com.huike.base.except.DaoException;
 import com.huike.base.service.BasicServiceSupport;
 
 @Service("residentService")
@@ -14,6 +15,17 @@ public class ResidentService extends BasicServiceSupport implements IResidentSer
 
 	public ResidentService(){
 		super("com.huike.app.archive.service.IResidentService");
+	}
+	
+	
+	public <T> Integer removeByForId(T entityId) {
+		Integer result = 0;
+		try {
+			result = getBasicDao().delete(getAllSpaceName("deleteByForKey"), entityId);
+		} catch (DaoException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	/** 农户统计:按教育程度分组  */

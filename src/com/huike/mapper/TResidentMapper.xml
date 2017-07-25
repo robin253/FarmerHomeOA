@@ -3,10 +3,28 @@
 <mapper namespace="com.huike.app.archive.service.IResidentService">
 	<resultMap id="BaseResultMap" type="com.huike.app.archive.model.TResident">
 		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="resident_booklet_id" jdbcType="INTEGER"
+			property="residentBookletId" />
 		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="relation" jdbcType="VARCHAR" property="relation" />
 		<result column="sex" jdbcType="INTEGER" property="sex" />
+		<result column="native_place" jdbcType="VARCHAR" property="nativePlace" />
+		<result column="nation" jdbcType="VARCHAR" property="nation" />
+		<result column="id_card" jdbcType="VARCHAR" property="idCard" />
+		<result column="contact" jdbcType="VARCHAR" property="contact" />
+		<result column="marriage" jdbcType="INTEGER" property="marriage" />
 		<result column="education" jdbcType="INTEGER" property="education" />
 		<result column="politics" jdbcType="INTEGER" property="politics" />
+		<result column="religion" jdbcType="VARCHAR" property="religion" />
+		<result column="speciality" jdbcType="VARCHAR" property="speciality" />
+		<result column="certificate" jdbcType="VARCHAR" property="certificate" />
+		<result column="slack_season" jdbcType="VARCHAR" property="slackSeason" />
+		<result column="disadvantaged" jdbcType="INTEGER" property="disadvantaged" />
+		<result column="special" jdbcType="INTEGER" property="special" />
+		<result column="job_condition" jdbcType="VARCHAR" property="jobCondition" />
+		<result column="job_intention" jdbcType="VARCHAR" property="jobIntention" />
+		<result column="population_property" jdbcType="VARCHAR"
+			property="populationProperty" />
 		<result column="xiang_id" jdbcType="BIGINT" property="xiangId" />
 		<result column="cun_id" jdbcType="BIGINT" property="cunId" />
 		<result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -17,17 +35,20 @@
 	</resultMap>
 
 	<sql id="Base_Column_List">
-		id, name, sex, education, politics, xiang_id xiangId,
-		cun_id cunId,
-		create_time, update_time, is_delete,
-		by1, by2
+		id, IFNULL(resident_booklet_id,"") residentBooklet, IFNULL(name,"")name, IFNULL(relation,"")relation, IFNULL(sex,"")sex,
+		IFNULL(native_place,"") nativePlace, IFNULL(nation,"") nation, IFNULL(id_card,"") idCard, IFNULL(contact,"") contact,
+		IFNULL(marriage,"") marriage, IFNULL(education, "")education, IFNULL(politics,"") politics, IFNULL(religion,"") religion,
+		IFNULL(speciality,"") speciality, IFNULL(certificate,"") certificate, IFNULL(slack_season,"") slackSeason,
+		IFNULL(disadvantaged,"") disadvantaged,
+		IFNULL(special,"") special, IFNULL(job_condition,"") jobCondition, IFNULL(job_intention,"") jobIntention,
+		IFNULL(population_property,"") populationProperty, create_time createTime,
+		update_time updateTime, is_delete isDelete, by1, by2
 	</sql>
 
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long"
 		resultType="hashmap">
 		select
-		id, name, sex, education, politics, xiang_id xiangId,
-		cun_id cunId
+		<include refid="Base_Column_List" />
 		from t_resident
 		where id = #{id,jdbcType=BIGINT}
 	</select>
@@ -38,23 +59,78 @@
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 
+	<update id="deleteByForKey" parameterType="java.lang.Integer">
+		update t_resident
+		set
+		is_delete = 1
+		where resident_booklet_id = #{residentBookletId}
+	</update>
+
 	<insert id="insert" parameterType="com.huike.app.archive.model.TResident">
 		insert into t_resident
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
 			</if>
+			<if test="residentBookletId != null">
+				resident_booklet_id,
+			</if>
 			<if test="name != null">
 				name,
 			</if>
+			<if test="relation != null">
+				relation,
+			</if>
 			<if test="sex != null">
 				sex,
+			</if>
+			<if test="nativePlace != null">
+				native_place,
+			</if>
+			<if test="nation != null">
+				nation,
+			</if>
+			<if test="idCard != null">
+				id_card,
+			</if>
+			<if test="contact != null">
+				contact,
+			</if>
+			<if test="marriage != null">
+				marriage,
 			</if>
 			<if test="education != null">
 				education,
 			</if>
 			<if test="politics != null">
 				politics,
+			</if>
+			<if test="religion != null">
+				religion,
+			</if>
+			<if test="speciality != null">
+				speciality,
+			</if>
+			<if test="certificate != null">
+				certificate,
+			</if>
+			<if test="slackSeason != null">
+				slack_season,
+			</if>
+			<if test="disadvantaged != null">
+				disadvantaged,
+			</if>
+			<if test="special != null">
+				special,
+			</if>
+			<if test="jobCondition != null">
+				job_condition,
+			</if>
+			<if test="jobIntention != null">
+				job_intention,
+			</if>
+			<if test="populationProperty != null">
+				population_property,
 			</if>
 			<if test="xiangId != null">
 				xiang_id,
@@ -78,17 +154,65 @@
 			<if test="id != null">
 				#{id,jdbcType=BIGINT},
 			</if>
+			<if test="residentBookletId != null">
+				#{residentBookletId,jdbcType=INTEGER},
+			</if>
 			<if test="name != null">
 				#{name,jdbcType=VARCHAR},
 			</if>
+			<if test="relation != null">
+				#{relation,jdbcType=VARCHAR},
+			</if>
 			<if test="sex != null">
 				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="nativePlace != null">
+				#{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				#{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				#{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="contact != null">
+				#{contact,jdbcType=VARCHAR},
+			</if>
+			<if test="marriage != null">
+				#{marriage,jdbcType=INTEGER},
 			</if>
 			<if test="education != null">
 				#{education,jdbcType=INTEGER},
 			</if>
 			<if test="politics != null">
 				#{politics,jdbcType=INTEGER},
+			</if>
+			<if test="religion != null">
+				#{religion,jdbcType=VARCHAR},
+			</if>
+			<if test="speciality != null">
+				#{speciality,jdbcType=VARCHAR},
+			</if>
+			<if test="certificate != null">
+				#{certificate,jdbcType=VARCHAR},
+			</if>
+			<if test="slackSeason != null">
+				#{slackSeason,jdbcType=VARCHAR},
+			</if>
+			<if test="disadvantaged != null">
+				#{disadvantaged,jdbcType=INTEGER},
+			</if>
+			<if test="special != null">
+				#{special,jdbcType=INTEGER},
+			</if>
+			<if test="jobCondition != null">
+				#{jobCondition,jdbcType=VARCHAR},
+			</if>
+			<if test="jobIntention != null">
+				#{jobIntention,jdbcType=VARCHAR},
+			</if>
+			<if test="populationProperty != null">
+				#{populationProperty,jdbcType=VARCHAR},
 			</if>
 			<if test="xiangId != null">
 				#{xiangId,jdbcType=BIGINT},
@@ -113,17 +237,65 @@
 	<update id="updateByPrimaryKey" parameterType="com.huike.app.archive.model.TResident">
 		update t_resident
 		<set>
+			<if test="residentBookletId != null">
+				resident_booklet_id = #{residentBookletId,jdbcType=INTEGER},
+			</if>
 			<if test="name != null">
 				name = #{name,jdbcType=VARCHAR},
 			</if>
+			<if test="relation != null">
+				relation = #{relation,jdbcType=VARCHAR},
+			</if>
 			<if test="sex != null">
 				sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="nativePlace != null">
+				native_place = #{nativePlace,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				nation = #{nation,jdbcType=VARCHAR},
+			</if>
+			<if test="idCard != null">
+				id_card = #{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="contact != null">
+				contact = #{contact,jdbcType=VARCHAR},
+			</if>
+			<if test="marriage != null">
+				marriage = #{marriage,jdbcType=INTEGER},
 			</if>
 			<if test="education != null">
 				education = #{education,jdbcType=INTEGER},
 			</if>
 			<if test="politics != null">
 				politics = #{politics,jdbcType=INTEGER},
+			</if>
+			<if test="religion != null">
+				religion = #{religion,jdbcType=VARCHAR},
+			</if>
+			<if test="speciality != null">
+				speciality = #{speciality,jdbcType=VARCHAR},
+			</if>
+			<if test="certificate != null">
+				certificate = #{certificate,jdbcType=VARCHAR},
+			</if>
+			<if test="slackSeason != null">
+				slack_season = #{slackSeason,jdbcType=VARCHAR},
+			</if>
+			<if test="disadvantaged != null">
+				disadvantaged = #{disadvantaged,jdbcType=INTEGER},
+			</if>
+			<if test="special != null">
+				special = #{special,jdbcType=INTEGER},
+			</if>
+			<if test="jobCondition != null">
+				job_condition = #{jobCondition,jdbcType=VARCHAR},
+			</if>
+			<if test="jobIntention != null">
+				job_intention = #{jobIntention,jdbcType=VARCHAR},
+			</if>
+			<if test="populationProperty != null">
+				population_property = #{populationProperty,jdbcType=VARCHAR},
 			</if>
 			<if test="xiangId != null">
 				xiang_id = #{xiangId,jdbcType=BIGINT},
@@ -147,15 +319,23 @@
 
 	<select id="selectPageList" parameterType="java.util.Map"
 		resultType="hashmap">
-		select id, name, sex, education, politics, IFNULL(xiang_id,"")
+		select
+		<include refid="Base_Column_List" />,
+		IFNULL(xiang_id,"")
 		xiangId,
-		IFNULL((select village_name from t_village where id = xiang_id),"") as xiangName,
+		IFNULL((select village_name from t_village
+		where id = xiang_id),"") as xiangName,
 		IFNULL(cun_id,"")
-		cunId, IFNULL((select village_name from t_village
+		cunId,
+		IFNULL((select village_name from t_village
 		where id = cun_id),"") as
 		cunName from t_resident where is_delete=0
 		<if test="sex != null and sex != ''">
 			and sex = #{sex,jdbcType=INTEGER}
+		</if>
+		<if test="residentBookletId != null and residentBookletId != ''">
+			and resident_booklet_id =
+			#{residentBookletId,jdbcType=INTEGER}
 		</if>
 		<if test="education != null and education != ''">
 			and education = #{education,jdbcType=INTEGER}
@@ -180,6 +360,10 @@
 		select count(1) from t_resident where is_delete=0
 		<if test="sex != null and sex != ''">
 			and sex = #{sex,jdbcType=INTEGER}
+		</if>
+		<if test="residentBookletId != null and residentBookletId != ''">
+			and resident_booklet_id =
+			#{residentBookletId,jdbcType=INTEGER}
 		</if>
 		<if test="education != null and education != ''">
 			and education = #{education,jdbcType=INTEGER}
@@ -292,7 +476,8 @@
 		FROM
 		t_village
 		WHERE
-		id = a.xiang_id
+		id =
+		a.xiang_id
 		)AS name
 		FROM
 		(
@@ -330,7 +515,8 @@
 		FROM
 		t_village
 		WHERE
-		id = a.cun_id
+		id =
+		a.cun_id
 		)AS name
 		FROM
 		(
